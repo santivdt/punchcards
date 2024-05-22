@@ -3,21 +3,27 @@ import Item from "@/components/sidebar/item";
 import { useOptionalUser } from "@/utils/auth";
 import Link from "next/link";
 
-export const menuItems = [
+export const loggedInItems = [
   { href: "/clients", label: "Clients" },
   { href: "/cards", label: "Cards" },
   { href: "/hours", label: "Hours" },
 ];
 
+export const loggedOutItems = [{ href: "/login", label: "Login" }];
+
 export default async function Sidebar() {
   const user = await useOptionalUser();
 
   return (
-    <aside className="w-full max-w-[200px] py-8 flex flex-col">
+    <aside className="w-full max-w-[200px] p-4 flex flex-col border-r">
+      <h1 className="font-bold mb-4 px-4 text-lg h-10 flex items-center">
+        <Link href="/">Santi.tech</Link>
+      </h1>
+
       {user ? (
         <>
           <ul className="flex-1">
-            {menuItems.map((item) => (
+            {loggedInItems.map((item) => (
               <li key={item.href}>
                 <Item {...item} />
               </li>
@@ -28,10 +34,12 @@ export default async function Sidebar() {
           </form>
         </>
       ) : (
-        <ul>
-          <li>
-            <Link href="/login">Login</Link>
-          </li>
+        <ul className="flex-1">
+          {loggedOutItems.map((item) => (
+            <li key={item.href}>
+              <Item {...item} />
+            </li>
+          ))}
         </ul>
       )}
     </aside>

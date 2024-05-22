@@ -9,7 +9,7 @@ export default async function ClientsPage() {
   const { data: clients } = await getClientsFromUser(user.id);
 
   return (
-    <div className="w-full py-8">
+    <>
       <Header title="Clients">
         <CreateClientDialog>
           <Button>Add Client</Button>
@@ -26,6 +26,6 @@ export default async function ClientsPage() {
           ))}
         </ul>
       )}
-    </div>
+    </>
   );
 }

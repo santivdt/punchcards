@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className="bg-background text-foreground">
         <main className="mx-auto max-w-4xl flex gap-4 min-h-dvh">
           <Sidebar />
-          {children}
+          <div className="px-4 flex-1">{children}</div>
         </main>
       </body>
     </html>
