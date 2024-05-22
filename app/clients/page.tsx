@@ -1,5 +1,6 @@
 import { getClientsFromUser } from "@/app/clients/actions";
 import CreateClientDialog from "@/app/clients/create";
+import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { requireUser } from "@/utils/auth";
 
@@ -8,12 +9,12 @@ export default async function ClientsPage() {
   const { data: clients } = await getClientsFromUser(user.id);
 
   return (
-    <>
-      <h1>Clients</h1>
-
-      <CreateClientDialog>
-        <Button>Add Client</Button>
-      </CreateClientDialog>
+    <div className="w-full py-8">
+      <Header title="Clients">
+        <CreateClientDialog>
+          <Button>Add Client</Button>
+        </CreateClientDialog>
+      </Header>
 
       {clients && clients.length > 0 && (
         <ul className="mt-4 w-full max-w-2xl">
@@ -25,6 +26,6 @@ export default async function ClientsPage() {
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 }

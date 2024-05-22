@@ -1,4 +1,4 @@
-import AuthButton from "@/components/auth-button";
+import Sidebar from "@/components/sidebar";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
@@ -20,8 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
-        <main className="min-h-screen flex flex-col items-center">
-          <AuthButton />
+        <main className="mx-auto max-w-4xl flex gap-4 min-h-dvh">
+          <Sidebar />
           {children}
         </main>
       </body>
