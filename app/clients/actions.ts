@@ -1,14 +1,26 @@
 "use server";
 
-import { z } from "zod";
+import { Tables } from "@/types/supabase";
 import { createClient as createSupabaseClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 
 const createSchema = z.object({
   name: z.string(),
   email: z.string().email(),
 });
+
+export async function getClientsFromUser(userId: Tables<"users">["id"]) {
+  const supabase = createSupabaseClient();
+
+  return supabase
+    .from("clients")
+    .select("*")
+    .limit(10)
+    .order("created_at", { ascending: false })
+    .eq("user_id", userId);
+}
 
 export async function createClient(prevState: any, formData: FormData) {
   // Validate the form data

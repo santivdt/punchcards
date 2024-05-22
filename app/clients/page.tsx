@@ -1,25 +1,11 @@
+import { getClientsFromUser } from "@/app/clients/actions";
 import CreateClientDialog from "@/app/clients/create";
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+import { requireUser } from "@/utils/auth";
 
 export default async function ClientsPage() {
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/login");
-  }
-
-  const { data: clients } = await supabase
-    .from("clients")
-    .select("*")
-    .limit(10)
-    .order("created_at", { ascending: false })
-    .eq("user_id", user.id);
+  const user = await requireUser();
+  const { data: clients } = await getClientsFromUser(user.id);
 
   return (
     <>
