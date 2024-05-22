@@ -33,13 +33,24 @@ export default function CreateClientDialog({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <form ref={formRef} action={formAction}>
-          <div>
+          <div className="mb-4">
             <Label htmlFor="name">Name</Label>
-            <Input id="name" name="name" type="text" />
+            <Input id="name" name="name" type="text" placeholder="John Doe" />
+            {state?.errors?.name && (
+              <p className="text-xs text-red-500 py-2">{state.errors.name}</p>
+            )}
           </div>
-          <div>
+          <div className="mb-4">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="text" />
+            <Input
+              id="email"
+              name="email"
+              type="text"
+              placeholder="johndoe@example.com"
+            />
+            {state?.errors?.email && (
+              <p className="text-xs text-red-500 py-2">{state.errors.email}</p>
+            )}
           </div>
           <p aria-live="polite" className="sr-only">
             {state?.message}
