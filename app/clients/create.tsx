@@ -1,73 +1,73 @@
-"use client";
+'use client'
 
-import { createClient } from "@/app/clients/actions";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useEffect, useRef, useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { createClient } from '@/app/clients/actions'
+import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { useEffect, useRef, useState } from 'react'
+import { useFormState, useFormStatus } from 'react-dom'
 
 type CreateClientDialogProps = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
-const initialState = undefined;
+const initialState = undefined
 
 export default function CreateClientDialog({
   children,
 }: CreateClientDialogProps) {
-  const [open, setOpen] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
-  const [state, formAction] = useFormState(createClient, initialState);
+  const [open, setOpen] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
+  const [state, formAction] = useFormState(createClient, initialState)
 
   useEffect(() => {
-    if (state?.status === "success") {
-      setOpen(false);
-      formRef.current?.reset();
+    if (state?.status === 'success') {
+      setOpen(false)
+      formRef.current?.reset()
     }
-  }, [state]);
+  }, [state])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <form ref={formRef} action={formAction}>
-          <div className="mb-4">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" name="name" type="text" placeholder="John Doe" />
+          <div className='mb-4'>
+            <Label htmlFor='name'>Name</Label>
+            <Input id='name' name='name' type='text' placeholder='John Doe' />
             {state?.errors?.name && (
-              <p className="text-xs text-red-500 py-2">{state.errors.name}</p>
+              <p className='py-2 text-xs text-red-500'>{state.errors.name}</p>
             )}
           </div>
-          <div className="mb-4">
-            <Label htmlFor="email">Email</Label>
+          <div className='mb-4'>
+            <Label htmlFor='email'>Email</Label>
             <Input
-              id="email"
-              name="email"
-              type="text"
-              placeholder="johndoe@example.com"
+              id='email'
+              name='email'
+              type='text'
+              placeholder='johndoe@example.com'
             />
             {state?.errors?.email && (
-              <p className="text-xs text-red-500 py-2">{state.errors.email}</p>
+              <p className='py-2 text-xs text-red-500'>{state.errors.email}</p>
             )}
           </div>
-          <p aria-live="polite" className="sr-only">
+          <p aria-live='polite' className='sr-only'>
             {state?.message}
           </p>
           <SubmitButton />
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }
 
 function SubmitButton() {
-  const { pending } = useFormStatus();
+  const { pending } = useFormStatus()
 
   return (
-    <Button type="submit" disabled={pending}>
-      {pending ? "Creating..." : "Create"}
+    <Button type='submit' disabled={pending}>
+      {pending ? 'Creating...' : 'Create'}
     </Button>
-  );
+  )
 }
