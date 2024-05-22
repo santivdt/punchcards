@@ -1,5 +1,4 @@
 import CreateClientDialog from "@/app/clients/create";
-import AuthButton from "@/components/AuthButton";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
@@ -24,8 +23,6 @@ export default async function ClientsPage() {
 
   return (
     <>
-      <AuthButton />
-
       <h1>Clients</h1>
 
       <CreateClientDialog>
