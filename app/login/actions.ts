@@ -5,8 +5,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signIn(formData: FormData) {
-  "use server";
-
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const supabase = createClient();
@@ -24,8 +22,6 @@ export async function signIn(formData: FormData) {
 }
 
 export async function signUp(formData: FormData) {
-  "use server";
-
   const origin = headers().get("origin");
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
