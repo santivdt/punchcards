@@ -4,7 +4,6 @@ import { useOptionalUser } from "@/utils/auth";
 import Link from "next/link";
 
 export const menuItems = [
-  { href: "/", label: "Home" },
   { href: "/clients", label: "Clients" },
   { href: "/cards", label: "Cards" },
   { href: "/hours", label: "Hours" },
