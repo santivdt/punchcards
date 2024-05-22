@@ -16,8 +16,9 @@ export default function Item({ href, label }: ItemProps) {
     <Link
       href={href}
       className={cn(
-        "block py-2 px-4 rounded-xl hover:bg-neutral-100",
-        pathname === href && "bg-neutral-100"
+        "block py-2 px-4 rounded-xl hover:bg-neutral-100 text-neutral-500 transition-colors",
+        pathname === href &&
+          "bg-neutral-100 hover:bg-neutral-200 text-foreground"
       )}
     >
       {label}
