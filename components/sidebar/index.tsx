@@ -17,6 +17,7 @@ export default async function Sidebar() {
   return (
     <aside className='w-full max-w-[200px] p-4 flex flex-col border-r'>
       <h1 className='flex items-center h-10 px-4 mb-4 text-lg font-bold'>
+        {/* TODO add company name to user profile and show it here */}
         <Link href='/'>Santi.tech</Link>
       </h1>
 

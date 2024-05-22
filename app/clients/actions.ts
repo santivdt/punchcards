@@ -1,28 +1,27 @@
-"use server";
+"use server"
 
-import { Tables } from "@/types/supabase";
-import { createClient as createSupabaseClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { z } from "zod";
+import { Tables } from "@/types/supabase"
+import { createClient as createSupabaseClient } from "@/utils/supabase/server"
+import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
+import { z } from "zod"
 
 const createSchema = z.object({
   name: z.string(),
   email: z.string().email(),
 });
 
-export async function getClientsFromUser(userId: Tables<"users">["id"]) {
+export const getClientsFromUser = async (userId: Tables<"users">["id"]) => {
   const supabase = createSupabaseClient();
 
   return supabase
     .from("clients")
-    .select("*")
-    .limit(10)
+    .select(`id, name, email, user_id`)
     .order("created_at", { ascending: false })
     .eq("user_id", userId);
 }
 
-export async function createClient(prevState: any, formData: FormData) {
+export const createClient = async (prevState: any, formData: FormData) => {
   // Validate the form data
   const validatedFields = createSchema.safeParse({
     name: formData.get("name"),
@@ -74,3 +73,10 @@ export async function createClient(prevState: any, formData: FormData) {
     message: "Client created successfully",
   };
 }
+
+export  const deleteSingleClient = async (id: string) => {
+  console.log('deleteSingleClient', id)
+  const supabase = createSupabaseClient();
+  return supabase.from('clients').delete().eq('id', id).throwOnError()
+}
+  
