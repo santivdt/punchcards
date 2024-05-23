@@ -6,8 +6,6 @@ export default async function ClientsPage() {
   const user = await requireUser()
   const { data: cards } = await getCardsFromUser(user.id)
 
-  console.log(cards)
-
   return (
     <>
       <Header title='Cards' />

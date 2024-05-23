@@ -17,14 +17,20 @@ import {
 } from '@/components/ui/table'
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
+  columns: ColumnDef<TData>[]
   data: TData[]
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function DataTable<
+  TData extends TValue,
+  TValue extends {
+    id: string
+    name: string
+    email: string
+    user_id: string
+    created_at: string
+  }
+>({ columns, data }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,

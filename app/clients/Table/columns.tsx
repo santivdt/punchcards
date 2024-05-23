@@ -13,7 +13,7 @@ import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import DeleteForm from '../delete'
 
-export const columns: ColumnDef<Tables<'clients'>>[] = [
+export const columns: ColumnDef<Tables['clients']['Row']>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
@@ -21,6 +21,10 @@ export const columns: ColumnDef<Tables<'clients'>>[] = [
   {
     accessorKey: 'email',
     header: 'Email',
+  },
+  {
+    accessorKey: 'created_at',
+    header: 'Created At',
   },
   {
     id: 'actions',
