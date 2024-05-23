@@ -13,10 +13,11 @@ import {
 import { useEffect } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 import { deleteClient } from './actions'
+import { Tables } from '@/types/supabase'
 
 type DeleteFormProps = {
   open?: boolean
-  clientId: string
+  client: Tables<'clients'>
   children?: React.ReactNode
   onOpenChange?: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -25,7 +26,7 @@ const initialState = undefined
 
 const DeleteClientDialog = ({
   open,
-  clientId,
+  client,
   children,
   onOpenChange,
 }: DeleteFormProps) => {
@@ -42,14 +43,19 @@ const DeleteClientDialog = ({
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you sure ?</DialogTitle>
-          <DialogDescription> Hi </DialogDescription>
+          <DialogTitle>Are you sure?</DialogTitle>
+          <DialogDescription>
+            {' '}
+            You are deleting {client.name}{' '}
+          </DialogDescription>
         </DialogHeader>
         <form action={formAction}>
-          <input type='hidden' name='clientId' value={clientId} />
-          <div className='flex items-center gap-2'>
+          <input type='hidden' name='clientId' value={client.id} />
+          <div className='flex items-center justify-end gap-2'>
             <DialogClose asChild>
-              <Button type='button'>Cancel</Button>
+              <Button type='button' variant='outline'>
+                Cancel
+              </Button>
             </DialogClose>
             <SubmitButton />
           </div>

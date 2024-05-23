@@ -65,7 +65,7 @@ const Actions = (client: Tables<'clients'>) => {
 
       {dialog === 'delete' && (
         <DeleteClientDialog
-          clientId={client.id}
+          client={client}
           onOpenChange={setDialog}
           open={dialog === 'delete'}
         />
