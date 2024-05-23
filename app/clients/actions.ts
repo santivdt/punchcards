@@ -86,13 +86,7 @@ export const updateClient = async (prevState: any, formData: FormData) => {
 
   const supabase = createSupabaseClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    return redirect('/login')
-  }
+  const user = await requireUser()
 
   const { data, error } = await supabase
     .from('clients')

@@ -15,7 +15,7 @@ import DeleteClientDialog from '../delete'
 import { useState } from 'react'
 import UpdateClientDialog from '../update'
 
-export const columns: ColumnDef<Tables['clients']['Row']>[] = [
+export const columns: ColumnDef<Tables['clients']>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
@@ -74,8 +74,7 @@ const Actions = ({ id }: Tables<'clients'>) => {
       {dialog === 'update' && (
         <UpdateClientDialog
           open={dialog === 'update'}
-          clientId={id}
-          clientName={name}
+          client={client}
           onOpenChange={setDialog}
         />
       )}

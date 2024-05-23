@@ -15,12 +15,12 @@ import { Label } from '@/components/ui/label'
 import { useEffect, useRef } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 import { updateClient } from './actions'
+import { Tables } from '@/types/supabase'
 
 type UpdateClientDialogProps = {
   open?: boolean
   children?: React.ReactNode
-  clientId: string
-  clientName: string
+  client: Tables<'clients'>
   onOpenChange?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -29,16 +29,11 @@ const initialState = undefined
 const UpdateClientDialog = ({
   open,
   children,
-  clientId,
-  clientName,
+  client,
   onOpenChange,
 }: UpdateClientDialogProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(updateClient, initialState)
-
-  useEffect(() => {
-    initialState.name = clientName
-  }, [])
 
   useEffect(() => {
     if (state?.status === 'success') {
@@ -53,11 +48,11 @@ const UpdateClientDialog = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Update client</DialogTitle>
-          <DialogDescription>You are updating {clientName}</DialogDescription>
+          <DialogDescription>You are updating {client.name}</DialogDescription>
         </DialogHeader>
         <form ref={formRef} action={formAction}>
-          <input type='hidden' name='clientId' value={clientId} />
-          <input type='hidden' name='clientName' value={clientName} />
+          <input type='hidden' name='clientId' defaultValue={client.id} />
+          <input type='hidden' name='clientName' defaultValue={client.name} />
           <div className='mb-4'>
             <Label htmlFor='name'>Name</Label>
             <Input id='name' name='name' type='text' />
