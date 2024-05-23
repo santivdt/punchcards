@@ -1,5 +1,6 @@
 'use client'
 
+import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -10,10 +11,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { useEffect } from 'react'
-import { useFormState, useFormStatus } from 'react-dom'
-import { deleteClient } from './actions'
 import { Tables } from '@/types/supabase'
+import { useEffect } from 'react'
+import { useFormState } from 'react-dom'
+import { deleteClient } from './actions'
 
 type DeleteFormProps = {
   open?: boolean
@@ -57,7 +58,7 @@ const DeleteClientDialog = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton />
+            <SubmitButton normal='Delete' going='Deleting...' />
           </div>
         </form>
       </DialogContent>
@@ -66,13 +67,3 @@ const DeleteClientDialog = ({
 }
 
 export default DeleteClientDialog
-
-const SubmitButton = () => {
-  const { pending } = useFormStatus()
-
-  return (
-    <Button variant='destructive' disabled={pending}>
-      {pending ? 'Deleting...' : 'Delete'}
-    </Button>
-  )
-}

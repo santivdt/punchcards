@@ -1,6 +1,6 @@
 import { signIn, signUp } from '@/app/login/actions'
-import { SubmitButton } from './submit-button'
 import Header from '@/components/header'
+import { SubmitButton } from './submit-button'
 
 export default function Login({
   searchParams,

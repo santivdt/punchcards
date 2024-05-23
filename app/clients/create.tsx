@@ -1,12 +1,18 @@
 'use client'
 
 import { createClient } from '@/app/clients/actions'
+import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useEffect, useRef, useState } from 'react'
-import { useFormState, useFormStatus } from 'react-dom'
+import { useFormState } from 'react-dom'
 
 type CreateClientDialogProps = {
   children: React.ReactNode
@@ -55,19 +61,14 @@ export default function CreateClientDialog({
           <p aria-live='polite' className='sr-only'>
             {state?.message}
           </p>
-          <SubmitButton />
+          <DialogClose asChild>
+            <Button variant='outline' className='mr-2'>
+              Cancel
+            </Button>
+          </DialogClose>
+          <SubmitButton normal='Add client' going='Adding  client...' />
         </form>
       </DialogContent>
     </Dialog>
-  )
-}
-
-function SubmitButton() {
-  const { pending } = useFormStatus()
-
-  return (
-    <Button type='submit' disabled={pending}>
-      {pending ? 'Creating...' : 'Create'}
-    </Button>
   )
 }
