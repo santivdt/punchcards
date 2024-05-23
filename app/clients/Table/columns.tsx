@@ -34,7 +34,7 @@ export const columns: ColumnDef<Tables['clients']>[] = [
   },
 ]
 
-const Actions = ({ id }: Tables<'clients'>) => {
+const Actions = (client: Tables<'clients'>) => {
   const [dialog, setDialog] = useState(null)
 
   return (
@@ -51,7 +51,7 @@ const Actions = ({ id }: Tables<'clients'>) => {
             Edit
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href={`/clients/${id}`}>View cards</Link>
+            <Link href={`/clients/${client.id}`}>View cards</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>View hours</DropdownMenuItem>
           <DropdownMenuItem
@@ -65,7 +65,7 @@ const Actions = ({ id }: Tables<'clients'>) => {
 
       {dialog === 'delete' && (
         <DeleteClientDialog
-          clientId={id}
+          clientId={client.id}
           onOpenChange={setDialog}
           open={dialog === 'delete'}
         />
