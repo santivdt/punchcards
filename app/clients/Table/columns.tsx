@@ -13,6 +13,7 @@ import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import DeleteClientDialog from '../delete'
 import { useState } from 'react'
+import UpdateClientDialog from '../update'
 
 export const columns: ColumnDef<Tables['clients']['Row']>[] = [
   {
@@ -46,7 +47,9 @@ const Actions = ({ id }: Tables<'clients'>) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
-          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setDialog('update')}>
+            Edit
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <Link href={`/clients/${id}`}>View cards</Link>
           </DropdownMenuItem>
@@ -65,6 +68,15 @@ const Actions = ({ id }: Tables<'clients'>) => {
           clientId={id}
           onOpenChange={setDialog}
           open={dialog === 'delete'}
+        />
+      )}
+
+      {dialog === 'update' && (
+        <UpdateClientDialog
+          open={dialog === 'update'}
+          clientId={id}
+          clientName={name}
+          onOpenChange={setDialog}
         />
       )}
     </>

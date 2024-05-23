@@ -8,3 +8,9 @@ export const createSchema = z.object({
 export const deleteSchema = z.object({
   clientId: z.string(),
 })
+
+export const updateSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  clientId: z.string(),
+})
