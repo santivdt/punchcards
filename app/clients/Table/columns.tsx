@@ -25,10 +25,6 @@ export const columns: ColumnDef<Tables['clients']>[] = [
     header: 'Email',
   },
   {
-    accessorKey: 'created_at',
-    header: 'Created At',
-  },
-  {
     id: 'actions',
     cell: ({ row }) => <Actions {...row.original} />,
   },

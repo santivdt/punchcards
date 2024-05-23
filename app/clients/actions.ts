@@ -9,7 +9,7 @@ import { requireUser } from '@/utils/auth'
 
 export const getClientsFromUser = async (userId: Tables<'users'>['id']) => {
   const supabase = createSupabaseClient()
-
+  //TODO Giel hier checken we dus niet eerst of de user is ingelogd klopt dat of vergeten?
   return supabase
     .from('clients')
     .select(`id, name, email, user_id`)
@@ -108,7 +108,7 @@ export const updateClient = async (prevState: any, formData: FormData) => {
 
   return {
     status: 'success',
-    message: 'Client created successfully',
+    message: 'Client updated successfully',
   }
 }
 
