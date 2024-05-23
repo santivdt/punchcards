@@ -1,7 +1,9 @@
 import { signOut } from '@/app/login/actions'
+import { getProfile } from '@/app/profile/actions'
 import Item from '@/components/sidebar/item'
-import { useOptionalUser } from '@/utils/auth'
+import { requireUser, useOptionalUser } from '@/utils/auth'
 import Link from 'next/link'
+import CompanyName from './company-name'
 
 export const loggedInItems = [
   { href: '/clients', label: 'Clients' },
@@ -12,13 +14,13 @@ export const loggedInItems = [
 export const loggedOutItems = [{ href: '/login', label: 'Login' }]
 
 export default async function Sidebar() {
-  const user = await useOptionalUser()
+  const user = await requireUser()
+  const userProfile = await getProfile(user.id)
 
   return (
     <aside className='w-full max-w-[200px] p-4 flex flex-col border-r'>
       <h1 className='flex items-center h-10 px-4 mb-4 text-lg font-bold'>
-        {/* TODO add company name to user profile and show it here */}
-        <Link href='/'>Santi.tech</Link>
+        <CompanyName userProfile={userProfile}></CompanyName>
       </h1>
 
       {user ? (

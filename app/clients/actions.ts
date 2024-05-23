@@ -4,12 +4,12 @@ import { Tables } from '@/types/supabase'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { createSchema, deleteSchema } from './schema'
+import { createSchema, deleteSchema, updateSchema } from './schema'
 import { requireUser } from '@/utils/auth'
 
 export const getClientsFromUser = async (userId: Tables<'users'>['id']) => {
   const supabase = createSupabaseClient()
-
+  //TODO Giel hier checken we dus niet eerst of de user is ingelogd klopt dat of vergeten?
   return supabase
     .from('clients')
     .select(`id, name, email, user_id`)
@@ -67,6 +67,48 @@ export const createClient = async (prevState: any, formData: FormData) => {
   return {
     status: 'success',
     message: 'Client created successfully',
+  }
+}
+
+export const updateClient = async (prevState: any, formData: FormData) => {
+  const validatedFields = updateSchema.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    clientId: formData.get('clientId'),
+  })
+
+  if (!validatedFields.success) {
+    return {
+      status: 'error',
+      errors: validatedFields.error.flatten().fieldErrors,
+    }
+  }
+
+  const supabase = createSupabaseClient()
+
+  const user = await requireUser()
+
+  const { data, error } = await supabase
+    .from('clients')
+    .update({
+      name: validatedFields.data.name,
+      email: validatedFields.data.email,
+    })
+    .eq('id', validatedFields.data.clientId)
+    .eq('user_id', user.id)
+
+  if (error) {
+    return {
+      status: 'error',
+      message: 'An error occurred while updating the client',
+    }
+  }
+
+  revalidatePath('/clients')
+
+  return {
+    status: 'success',
+    message: 'Client updated successfully',
   }
 }
 
