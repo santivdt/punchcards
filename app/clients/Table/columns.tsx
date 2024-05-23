@@ -7,20 +7,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Tables } from '@/types/supabase'
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
-import { deleteSingleClient } from '../actions'
+import DeleteForm from '../delete'
 
-//TODO chane this to supabase database type client
-type Client = {
-  created_at?: string
-  name?: string
-  id?: string
-  email?: string
-}
-
-export const columns: ColumnDef<Client>[] = [
+export const columns: ColumnDef<Tables<'clients'>>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
@@ -48,11 +41,10 @@ export const columns: ColumnDef<Client>[] = [
               <Link href={`/clients/${client.id}`}>View cards</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>View hours</DropdownMenuItem>
-            <DropdownMenuItem
-              className='text-red-400'
-              onClick={() => deleteSingleClient(client.id)}
-            >
-              Delete
+            <DropdownMenuItem className='text-red-400'>
+              <DeleteForm clientId={client.id}>
+                <Button>Delete</Button>
+              </DeleteForm>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

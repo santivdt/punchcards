@@ -3,8 +3,8 @@ import CreateClientDialog from '@/app/clients/create'
 import Header from '@/components/header'
 import { Button } from '@/components/ui/button'
 import { requireUser } from '@/utils/auth'
-import { DataTable } from './Table/data-table'
-import { columns } from './Table/columns'
+import { DataTable } from './table'
+import { columns } from './table/columns'
 
 export default async function ClientsPage() {
   const user = await requireUser()

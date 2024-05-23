@@ -4,12 +4,8 @@ import { Tables } from '@/types/supabase'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { z } from 'zod'
-
-const createSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-})
+import { createSchema, deleteSchema } from './schema'
+import { requireUser } from '@/utils/auth'
 
 export const getClientsFromUser = async (userId: Tables<'users'>['id']) => {
   const supabase = createSupabaseClient()
@@ -74,8 +70,38 @@ export const createClient = async (prevState: any, formData: FormData) => {
   }
 }
 
-export const deleteSingleClient = async (id: string) => {
-  console.log('deleteSingleClient', id)
+export const deleteClient = async (prevState: any, formData: FormData) => {
+  const validatedFields = deleteSchema.safeParse({
+    clientId: formData.get('clientId'),
+  })
+
+  if (!validatedFields.success) {
+    return {
+      status: 'error',
+      errors: validatedFields.error.flatten().fieldErrors,
+    }
+  }
+
   const supabase = createSupabaseClient()
-  return supabase.from('clients').delete().eq('id', id).throwOnError()
+  const user = await requireUser()
+
+  const { data, error } = await supabase
+    .from('clients')
+    .delete()
+    .eq('id', validatedFields.data.clientId)
+    .eq('user_id', user.id)
+
+  if (error) {
+    return {
+      status: 'error',
+      message: 'An error occurred while deleting the client',
+    }
+  }
+
+  revalidatePath('/clients')
+
+  return {
+    status: 'success',
+    message: 'Client deleted successfully',
+  }
 }
