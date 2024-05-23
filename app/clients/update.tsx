@@ -52,17 +52,26 @@ const UpdateClientDialog = ({
         </DialogHeader>
         <form ref={formRef} action={formAction}>
           <input type='hidden' name='clientId' defaultValue={client.id} />
-          <input type='hidden' name='clientName' defaultValue={client.name} />
           <div className='mb-4'>
             <Label htmlFor='name'>Name</Label>
-            <Input id='name' name='name' type='text' />
+            <Input
+              id='name'
+              name='name'
+              type='text'
+              defaultValue={client.name}
+            />
             {state?.errors?.name && (
               <p className='py-2 text-xs text-red-500'>{state.errors.name}</p>
             )}
           </div>
           <div className='mb-4'>
             <Label htmlFor='email'>Email</Label>
-            <Input id='email' name='email' type='text' />
+            <Input
+              id='email'
+              name='email'
+              type='text'
+              defaultValue={client.email}
+            />
             {state?.errors?.email && (
               <p className='py-2 text-xs text-red-500'>{state.errors.email}</p>
             )}
