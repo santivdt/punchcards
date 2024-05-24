@@ -54,7 +54,7 @@ const UpdateProfileDialog = ({ children, user }: UpdateProfileDialog) => {
                 id='first_name'
                 name='first_name'
                 type='text'
-                defaultValue={user.first_name}
+                defaultValue={user.first_name ?? ''}
               />
               {state?.errors?.first_name && (
                 <p className='py-2 text-xs text-red-500'>
@@ -68,7 +68,7 @@ const UpdateProfileDialog = ({ children, user }: UpdateProfileDialog) => {
                 id='last_name'
                 name='last_name'
                 type='text'
-                defaultValue={user.last_name}
+                defaultValue={user.last_name ?? ''}
               />
               {state?.errors?.last_name && (
                 <p className='py-2 text-xs text-red-500'>
@@ -83,7 +83,7 @@ const UpdateProfileDialog = ({ children, user }: UpdateProfileDialog) => {
               id='company'
               name='company'
               type='text'
-              defaultValue={user.company}
+              defaultValue={user.company ?? ''}
             />
             {state?.errors?.company && (
               <p className='py-2 text-xs text-red-500'>

@@ -20,7 +20,7 @@ type DeleteFormProps = {
   open?: boolean
   client: Tables<'clients'>
   children?: React.ReactNode
-  onOpenChange?: React.Dispatch<React.SetStateAction<boolean>>
+  onOpenChange?: React.Dispatch<React.SetStateAction<boolean>> | (() => void)
 }
 
 const initialState = undefined
@@ -29,7 +29,7 @@ const DeleteClientDialog = ({
   open,
   client,
   children,
-  onOpenChange,
+  onOpenChange = () => {},
 }: DeleteFormProps) => {
   const [state, formAction] = useFormState(deleteClient, initialState)
 

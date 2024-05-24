@@ -22,7 +22,7 @@ type UpdateClientDialogProps = {
   open?: boolean
   children?: React.ReactNode
   client: Tables<'clients'>
-  onOpenChange?: React.Dispatch<React.SetStateAction<boolean>>
+  onOpenChange?: React.Dispatch<React.SetStateAction<boolean>> | (() => void)
 }
 
 const initialState = undefined
@@ -31,7 +31,7 @@ const UpdateClientDialog = ({
   open,
   children,
   client,
-  onOpenChange,
+  onOpenChange = () => {},
 }: UpdateClientDialogProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(updateClient, initialState)
@@ -59,7 +59,7 @@ const UpdateClientDialog = ({
               id='name'
               name='name'
               type='text'
-              defaultValue={client.name}
+              defaultValue={client.name ?? ''}
             />
             {state?.errors?.name && (
               <p className='py-2 text-xs text-red-500'>{state.errors.name}</p>
@@ -71,7 +71,7 @@ const UpdateClientDialog = ({
               id='email'
               name='email'
               type='text'
-              defaultValue={client.email}
+              defaultValue={client.email ?? ''}
             />
             {state?.errors?.email && (
               <p className='py-2 text-xs text-red-500'>{state.errors.email}</p>
