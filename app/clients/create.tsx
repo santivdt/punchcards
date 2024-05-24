@@ -20,9 +20,7 @@ type CreateClientDialogProps = {
 
 const initialState = undefined
 
-export default function CreateClientDialog({
-  children,
-}: CreateClientDialogProps) {
+const CreateClientDialog = ({ children }: CreateClientDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createClient, initialState)
@@ -72,3 +70,5 @@ export default function CreateClientDialog({
     </Dialog>
   )
 }
+
+export default CreateClientDialog

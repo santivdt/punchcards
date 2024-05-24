@@ -11,22 +11,37 @@ import { Tables } from '@/types/supabase'
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
-import DeleteClientDialog from '../delete'
+import { format } from 'date-fns'
+// import DeleteClientDialog from '../delete'
 import { useState } from 'react'
-import UpdateClientDialog from '../update'
+// import UpdateClientDialog from '../update'
 
-export const columns: ColumnDef<Tables['clients']>[] = [
+export const columns: ColumnDef<Tables['cards']>[] = [
   {
-    accessorKey: 'name',
-    header: 'Name',
+    accessorKey: 'readable_id',
+    header: '#',
+  },
+  {
+    accessorKey: 'clients.name',
+    header: 'Client',
+  },
+  {
+    accessorKey: 'hours_left',
+    header: 'Remaining',
     cell: ({ row }) => {
-      const client = row.original
-      return <Link href={`/clients/${client.id}`}>{client.name}</Link>
+      const hoursLeft = row.original.hours_left
+      const hours = row.original.hours
+      return `${hoursLeft}/${hours}`
     },
   },
   {
-    accessorKey: 'email',
-    header: 'Email',
+    accessorKey: 'ends_at',
+    header: 'Valid until',
+    cell: ({ getValue }) => {
+      const dateValue = getValue<string>()
+      const formattedDate = format(new Date(dateValue), 'dd/MM/yyyy')
+      return formattedDate
+    },
   },
   {
     id: 'actions',
@@ -34,7 +49,7 @@ export const columns: ColumnDef<Tables['clients']>[] = [
   },
 ]
 
-const Actions = (client: Tables<'clients'>) => {
+const Actions = (cards: Tables<'cards'>) => {
   const [dialog, setDialog] = useState(null)
 
   return (
@@ -47,23 +62,19 @@ const Actions = (client: Tables<'clients'>) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
-          <DropdownMenuItem onClick={() => setDialog('update')}>
-            Edit
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href={`/clients/${client.id}`}>View cards</Link>
-          </DropdownMenuItem>
+          {/* <DropdownMenuItem onClick={() => setDialog('update')}> */}
+          <DropdownMenuItem>Edit</DropdownMenuItem>
           <DropdownMenuItem>View hours</DropdownMenuItem>
           <DropdownMenuItem
             className='text-red-400'
-            onClick={() => setDialog('delete')}
+            // onClick={() => setDialog('delete')}
           >
             Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {dialog === 'delete' && (
+      {/* {dialog === 'delete' && (
         <DeleteClientDialog
           client={client}
           onOpenChange={setDialog}
@@ -77,7 +88,7 @@ const Actions = (client: Tables<'clients'>) => {
           client={client}
           onOpenChange={setDialog}
         />
-      )}
+      )} */}
     </>
   )
 }

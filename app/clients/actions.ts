@@ -18,13 +18,11 @@ export const getClientsFromUser = async (userId: Tables<'users'>['id']) => {
 }
 
 export const createClient = async (prevState: any, formData: FormData) => {
-  // Validate the form data
   const validatedFields = createSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
   })
 
-  // Return early if the form data is invalid
   if (!validatedFields.success) {
     return {
       status: 'error',
@@ -32,27 +30,22 @@ export const createClient = async (prevState: any, formData: FormData) => {
     }
   }
 
-  // Create the server client
   const supabase = createSupabaseClient()
 
-  // Get logged in user from database
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
   if (!user) {
-    // if user is not logged in, redirect to login page
     return redirect('/login')
   }
 
-  // User is logged in and has permission to create clients, so let do that
-  const { data, error } = await supabase.from('clients').insert({
+  const { error } = await supabase.from('clients').insert({
     user_id: user.id,
     name: validatedFields.data.name,
     email: validatedFields.data.email,
   })
 
-  // If there is an error, return an error message
   if (error) {
     return {
       status: 'error',
@@ -60,10 +53,8 @@ export const createClient = async (prevState: any, formData: FormData) => {
     }
   }
 
-  // If the client was created successfully, revalidate the clients page
   revalidatePath('/clients')
 
-  // Return a success message
   return {
     status: 'success',
     message: 'Client created successfully',
@@ -88,7 +79,7 @@ export const updateClient = async (prevState: any, formData: FormData) => {
 
   const user = await requireUser()
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('clients')
     .update({
       name: validatedFields.data.name,
@@ -127,7 +118,7 @@ export const deleteClient = async (prevState: any, formData: FormData) => {
   const supabase = createSupabaseClient()
   const user = await requireUser()
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('clients')
     .delete()
     .eq('id', validatedFields.data.clientId)
