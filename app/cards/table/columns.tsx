@@ -35,6 +35,17 @@ export const columns: ColumnDef<Tables['cards']>[] = [
     },
   },
   {
+    accessorKey: 'is_active',
+    header: 'Active',
+    cell: ({ getValue }) => {
+      let text = 'No'
+      if (getValue()) {
+        text = 'Yes'
+      }
+      return text
+    },
+  },
+  {
     accessorKey: 'ends_at',
     header: 'Valid until',
     cell: ({ getValue }) => {
