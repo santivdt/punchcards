@@ -131,29 +131,37 @@ export const deleteHour = async (prevState: any, formData: FormData) => {
     }
   }
 
-  const { data: card, error: getHoursLeftError } = await supabase
+  const { data: card, error: getCardInfoError } = await supabase
     .from('cards')
-    .select('hours_left')
+    .select('hours_left, ends_at')
     .eq('id', validatedFields.data.cardId)
     .eq('user_id', user.id)
     .single()
 
-  if (getHoursLeftError) {
+  if (getCardInfoError) {
     return {
       status: 'error',
       message: 'An error occurred while getting hours_left',
     }
   }
-  console.log('got the hoursleft!', card.hours_left)
+
+  const cardShouldBeActivated = new Date() < new Date(card.ends_at)
 
   const { error: updateCardError } = await supabase
     .from('cards')
     .update({
       hours_left: card.hours_left + validatedFields.data.duration,
-      is_active: true,
+      is_active: cardShouldBeActivated,
     })
     .eq('id', validatedFields.data.cardId)
     .eq('user_id', user.id)
+
+  if (updateCardError) {
+    return {
+      status: 'error',
+      message: 'An error occurred while updating the card',
+    }
+  }
 
   revalidatePath('/hours')
   revalidatePath('/cards')
