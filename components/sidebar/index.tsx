@@ -1,7 +1,6 @@
 import { signOut } from '@/app/login/actions'
-import { getProfile } from '@/app/u/profile/actions'
 import Item from '@/components/sidebar/item'
-import { useOptionalUser } from '@/utils/auth'
+import { Tables } from '@/types/supabase'
 import Link from 'next/link'
 
 export const loggedInItems = [
@@ -10,21 +9,22 @@ export const loggedInItems = [
   { href: '/u/cards', label: 'Cards' },
   { href: '/u/hours', label: 'Hours' },
 ]
-// TODO GIEL hoe kan ik hier user info krijgen? Dan krijg je dus die error die wij hadden
 export const loggedOutItems = [{ href: '/login', label: 'Login' }]
 
-const Sidebar = async () => {
+type SideBarProps = {
+  userProfile: Tables<'users'>
+}
+const Sidebar = async ({ userProfile }: SideBarProps) => {
   return (
     <aside className='w-full max-w-[200px] p-4 flex flex-col border-r'>
       <h1 className='flex items-center h-10 px-4 mb-4 text-lg font-bold'>
-        {/* {userProfile ? (
+        {userProfile ? (
           <Link href='/u/profile'>
             {userProfile.company.length > 0 ? userProfile.company : 'Hi there!'}
           </Link>
         ) : (
           ''
-        )} */}{' '}
-        Hi there
+        )}
       </h1>
 
       <>
