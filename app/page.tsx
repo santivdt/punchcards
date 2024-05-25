@@ -12,5 +12,5 @@ export default async function Index() {
     return redirect('/login')
   }
 
-  return redirect('/clients')
+  return redirect('/dashboard')
 }

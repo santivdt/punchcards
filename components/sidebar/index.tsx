@@ -5,6 +5,7 @@ import { useOptionalUser } from '@/utils/auth'
 import CompanyName from './company-name'
 
 export const loggedInItems = [
+  { href: '/dashboard', label: 'Dashboard' },
   { href: '/clients', label: 'Clients' },
   { href: '/cards', label: 'Cards' },
   { href: '/hours', label: 'Hours' },
@@ -30,7 +31,7 @@ export default async function Sidebar() {
         <>
           <ul className='flex-1'>
             {loggedInItems.map((item) => (
-              <li key={item.href}>
+              <li key={item.href} className='mb-2'>
                 <Item {...item} />
               </li>
             ))}
