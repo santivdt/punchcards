@@ -1,5 +1,6 @@
 'use client'
 
+import DeleteHourDialog from '@/app/u/hours/delete'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -12,73 +13,59 @@ import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import DeleteCardDialog from '../delete'
-import UpdateCardDialog from '../update'
-import clsx from 'clsx'
+import UpdateHourDialog from '../update'
 
 type DialogState = 'update' | 'delete' | null
-type CardWithClient = Tables<'cards'> & {
+type HourWithClient = Tables<'hours'> & {
   clients: Tables<'clients'>
 }
 
-export const columns: ColumnDef<Tables<'cards'>>[] = [
+export const columns: ColumnDef<Tables<'hours'>>[] = [
   {
-    accessorKey: 'readable_id',
-    header: '#',
+    accessorKey: 'created_at',
+    header: 'Date',
+    cell: ({ getValue }) => {
+      const dateValue = getValue<string>()
+      const formattedDate = format(new Date(dateValue), 'dd/MM/yyyy')
+      return formattedDate
+    },
+  },
+  {
+    accessorKey: 'description',
+    header: 'Description',
+  },
+  {
+    accessorKey: 'duration',
+    header: 'Duration',
+    cell: ({ getValue }) => {
+      const durationInHours = getValue<number>()
+      const hours = Math.floor(durationInHours)
+      const minutes = Math.round((durationInHours - hours) * 60)
+      return `${hours}h ${minutes}m`
+    },
   },
   {
     accessorKey: 'clients.name',
     header: 'Client',
     cell: ({ row }) => {
-      const card = row.original as CardWithClient
+      const hour = row.original as HourWithClient
       return (
-        <Link href={`/clients/${card.clients.id}`}>{card.clients.name}</Link>
+        <Link href={`/u/clients/${hour.client_id}`}>{hour.clients.name}</Link>
       )
     },
   },
-  {
-    accessorKey: 'hours_left',
-    header: 'Remaining',
-    cell: ({ row }) => {
-      const hoursLeft = row.original.hours_left
-      const hours = row.original.hours
-      return `${hoursLeft}/${hours}`
-    },
-  },
-  {
-    accessorKey: 'is_active',
-    header: 'Active',
-    cell: ({ getValue }) => {
-      let text = 'No'
-      if (getValue()) {
-        text = 'Yes'
-      }
-      return text
-    },
-  },
-  {
-    accessorKey: 'ends_at',
-    header: 'Valid until',
-    cell: ({ getValue }) => {
-      const endsAt = getValue()
-      const isBeforeEndDate = new Date() < new Date(endsAt)
-      const dateValue = getValue<string>()
-      const formattedDate = format(new Date(dateValue), 'dd/MM/yyyy')
-      const className = clsx({
-        'text-orange-500': !isBeforeEndDate,
-      })
-      return <span className={className}>{formattedDate}</span>
-    },
-  },
+
   {
     id: 'actions',
     cell: ({ row }) => <Actions {...row.original} />,
   },
 ]
 
-const Actions = (card: Tables<'cards'>) => {
+const Actions = (hour: Tables<'hours'>) => {
   const [dialog, setDialog] = useState<DialogState>(null)
+  const pathname = usePathname()
 
   return (
     <>
@@ -90,9 +77,12 @@ const Actions = (card: Tables<'cards'>) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
-          <DropdownMenuItem>
-            <Link href={`/cards/hours/${card.id}`}>View hours</Link>
-          </DropdownMenuItem>
+          {pathname != `/cards/hours/${hour.card_id}` && (
+            <DropdownMenuItem>
+              <Link href={`/u/cards/hours/${hour.card_id}`}>View card</Link>
+            </DropdownMenuItem>
+          )}
+
           <DropdownMenuItem onClick={() => setDialog('update')}>
             Edit
           </DropdownMenuItem>
@@ -106,18 +96,18 @@ const Actions = (card: Tables<'cards'>) => {
       </DropdownMenu>
 
       {dialog === 'delete' && (
-        <DeleteCardDialog
-          card={card}
+        <DeleteHourDialog
+          hour={hour}
           onOpenChange={() => setDialog(null)}
           open={dialog === 'delete'}
         />
       )}
 
       {dialog === 'update' && (
-        <UpdateCardDialog
-          open={dialog === 'update'}
-          card={card}
+        <UpdateHourDialog
+          hour={hour}
           onOpenChange={() => setDialog(null)}
+          open={dialog === 'update'}
         />
       )}
     </>

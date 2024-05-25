@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/server'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-export const signIn = async (prevData: any, formData: FormData) => {
+export async function signIn(formData: FormData) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
   const supabase = createClient()
@@ -18,10 +18,10 @@ export const signIn = async (prevData: any, formData: FormData) => {
     return redirect('/login?message=Could not authenticate user')
   }
 
-  return redirect('/dashboard')
+  return redirect('/u/dashboard')
 }
 
-export const signUp = async (prevData: any, formData: FormData) => {
+export async function signUp(formData: FormData) {
   const origin = headers().get('origin')
   const email = formData.get('email') as string
   const password = formData.get('password') as string
@@ -42,7 +42,7 @@ export const signUp = async (prevData: any, formData: FormData) => {
   return redirect('/login?message=Check email to continue sign in process')
 }
 
-export const signOut = async () => {
+export async function signOut() {
   const supabase = createClient()
   await supabase.auth.signOut()
   return redirect('/login')

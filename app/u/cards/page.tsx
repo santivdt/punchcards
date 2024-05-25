@@ -1,12 +1,12 @@
-import { getCardsFromUser } from '@/app/cards/actions'
+import { getCardsFromUser } from '@/app/u/cards/actions'
 import Header from '@/components/header'
 import { requireUser } from '@/utils/auth'
 import { DataTable } from './table'
 import { columns } from './table/columns'
 import { Button } from '@/components/ui/button'
 import CreateCardDialog from './create'
-import { getClientsFromUser } from '../clients/actions'
-import { getCardTypes } from '../profile/actions'
+import { getClientsFromUser } from '@/app/u/clients/actions'
+import { getCardTypes } from '@/app/u/profile/actions'
 
 const CardsPage = async () => {
   const user = await requireUser()

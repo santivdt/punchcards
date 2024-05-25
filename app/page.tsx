@@ -12,7 +12,7 @@ const Index = async () => {
     return redirect('/login')
   }
 
-  return redirect('/dashboard')
+  return redirect('/u/dashboard')
 }
 
 export default Index

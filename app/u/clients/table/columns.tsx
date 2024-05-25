@@ -23,7 +23,7 @@ export const columns: ColumnDef<Tables<'clients'>>[] = [
     header: 'Name',
     cell: ({ row }) => {
       const client = row.original
-      return <Link href={`/clients/${client.id}`}>{client.name}</Link>
+      return <Link href={`/u/clients/${client.id}`}>{client.name}</Link>
     },
   },
   {
@@ -53,10 +53,10 @@ const Actions = (client: Tables<'clients'>) => {
             Edit
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href={`/clients/cards/${client.id}`}>View cards</Link>
+            <Link href={`/u/clients/cards/${client.id}`}>View cards</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href={`/clients/hours/${client.id}`}>View hours</Link>
+            <Link href={`/u/clients/hours/${client.id}`}>View hours</Link>
           </DropdownMenuItem>
           <DropdownMenuItem
             className='text-red-400'

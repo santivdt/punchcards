@@ -1,6 +1,6 @@
 'use client'
 
-import { createCard } from '@/app/cards/actions'
+import { createCard } from '@/app/u/cards/actions'
 import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {

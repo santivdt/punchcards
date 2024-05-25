@@ -1,5 +1,5 @@
-import { DataTable } from '@/app/hours/table'
-import { columns } from '@/app/hours/table/columns'
+import { DataTable } from '@/app/u/hours/table'
+import { columns } from '@/app/u/hours/table/columns'
 import Header from '@/components/header'
 import { requireUser } from '@/utils/auth'
 import { getHoursFromClient } from './actions'

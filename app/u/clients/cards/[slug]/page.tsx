@@ -1,5 +1,5 @@
-import { DataTable } from '@/app/cards/table'
-import { columns } from '@/app/cards/table/columns'
+import { DataTable } from '@/app/u/cards/table'
+import { columns } from '@/app/u/cards/table/columns'
 import { getCardsFromClient } from './actions'
 import Header from '@/components/header'
 import { requireUser } from '@/utils/auth'

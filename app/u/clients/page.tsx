@@ -1,5 +1,5 @@
-import { getClientsFromUser } from '@/app/clients/actions'
-import CreateClientDialog from '@/app/clients/create'
+import { getClientsFromUser } from '@/app/u/clients/actions'
+import CreateClientDialog from '@/app/u/clients/create'
 import Header from '@/components/header'
 import { Button } from '@/components/ui/button'
 import { requireUser } from '@/utils/auth'
@@ -21,3 +21,5 @@ const ClientsPage = async () => {
     </>
   )
 }
+
+export default ClientsPage

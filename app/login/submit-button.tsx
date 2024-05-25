@@ -7,7 +7,7 @@ type Props = ComponentProps<'button'> & {
   pendingText?: string
 }
 
-const SubmitButton = ({ children, pendingText, ...props }: Props) => {
+export function SubmitButton({ children, pendingText, ...props }: Props) {
   const { pending, action } = useFormStatus()
 
   const isPending = pending && action === props.formAction

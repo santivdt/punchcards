@@ -16,10 +16,10 @@ const Page = async ({ params: { slug } }: { params: PageProps }) => {
       <div>{client.email}</div>
       <div className='my-4 space-x-2'>
         <Button variant='outline' asChild>
-          <Link href={`/clients/cards/${slug}`}>View cards</Link>
+          <Link href={`/u/clients/cards/${slug}`}>View cards</Link>
         </Button>
         <Button variant='outline' asChild>
-          <Link href={`/clients/hours/${slug}`}>View hours</Link>
+          <Link href={`/u/clients/hours/${slug}`}>View hours</Link>
         </Button>
       </div>
     </>
