@@ -3,17 +3,17 @@
 import { updateSchema } from './schema'
 
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
-import { Tables } from '@/types/supabase'
 import { requireUser } from '@/utils/auth'
 import { revalidatePath } from 'next/cache'
 
-export const getProfile = async (userId: Tables<'users'>['id']) => {
+export const getProfile = async () => {
   const supabase = createSupabaseClient()
+  const user = await requireUser()
 
-  return supabase.from('users').select('*').eq('id', userId)
+  return supabase.from('users').select('*').eq('id', user.id).single()
 }
 
-export const updateProfile = async (prevState: any, formData: FormData) => {
+export const updateProfile = async (formData: FormData) => {
   const validatedFields = updateSchema.safeParse({
     first_name: formData.get('first_name'),
     last_name: formData.get('last_name'),
@@ -54,4 +54,11 @@ export const updateProfile = async (prevState: any, formData: FormData) => {
     status: 'success',
     message: 'Profile updated successfully',
   }
+}
+
+export const getCardTypes = async () => {
+  const supabase = createSupabaseClient()
+  const user = await requireUser()
+
+  return supabase.from('card_types').select('*').eq('user_id', user.id).single()
 }

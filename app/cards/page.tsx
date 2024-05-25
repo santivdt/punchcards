@@ -6,16 +6,18 @@ import { columns } from './table/columns'
 import { Button } from '@/components/ui/button'
 import CreateCardDialog from './create'
 import { getClientsFromUser } from '../clients/actions'
+import { getCardTypes } from '../profile/actions'
 
 const CardsPage = async () => {
   const user = await requireUser()
   const { data: cards } = await getCardsFromUser(user.id)
   const { data: clients } = await getClientsFromUser(user.id)
+  const { data: cardTypes } = await getCardTypes()
 
   return (
     <>
       <Header title='Cards'>
-        <CreateCardDialog clients={clients}>
+        <CreateCardDialog clients={clients} cardTypes={cardTypes}>
           <Button>Add card</Button>
         </CreateCardDialog>
       </Header>

@@ -17,7 +17,7 @@ export const getClientsFromUser = async (userId: Tables<'users'>['id']) => {
     .eq('user_id', userId)
 }
 
-export const createClient = async (prevState: any, formData: FormData) => {
+export const createClient = async (formData: FormData) => {
   const validatedFields = createSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
@@ -55,7 +55,7 @@ export const createClient = async (prevState: any, formData: FormData) => {
   }
 }
 
-export const updateClient = async (prevState: any, formData: FormData) => {
+export const updateClient = async (formData: FormData) => {
   const validatedFields = updateSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
@@ -97,7 +97,7 @@ export const updateClient = async (prevState: any, formData: FormData) => {
   }
 }
 
-export const deleteClient = async (prevState: any, formData: FormData) => {
+export const deleteClient = async (formData: FormData) => {
   const validatedFields = deleteSchema.safeParse({
     clientId: formData.get('clientId'),
   })

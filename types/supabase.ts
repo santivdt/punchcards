@@ -9,6 +9,47 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      card_types: {
+        Row: {
+          hours_1: number
+          hours_2: number
+          hours_3: number
+          id: number
+          price_1: number
+          price_2: number | null
+          price_3: number
+          user_id: string | null
+        }
+        Insert: {
+          hours_1?: number
+          hours_2?: number
+          hours_3?: number
+          id?: number
+          price_1?: number
+          price_2?: number | null
+          price_3?: number
+          user_id?: string | null
+        }
+        Update: {
+          hours_1?: number
+          hours_2?: number
+          hours_3?: number
+          id?: number
+          price_1?: number
+          price_2?: number | null
+          price_3?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "card_types_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cards: {
         Row: {
           client_id: string
@@ -18,6 +59,7 @@ export type Database = {
           hours_left: number
           id: string
           is_active: boolean
+          price: number
           readable_id: number
           user_id: string
         }
@@ -29,6 +71,7 @@ export type Database = {
           hours_left: number
           id?: string
           is_active: boolean
+          price: number
           readable_id?: number
           user_id: string
         }
@@ -40,6 +83,7 @@ export type Database = {
           hours_left?: number
           id?: string
           is_active?: boolean
+          price?: number
           readable_id?: number
           user_id?: string
         }

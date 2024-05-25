@@ -2,7 +2,7 @@ import { signOut } from '@/app/login/actions'
 import { getProfile } from '@/app/profile/actions'
 import Item from '@/components/sidebar/item'
 import { useOptionalUser } from '@/utils/auth'
-import CompanyName from './company-name'
+import Link from 'next/link'
 
 export const loggedInItems = [
   { href: '/dashboard', label: 'Dashboard' },
@@ -13,18 +13,21 @@ export const loggedInItems = [
 
 export const loggedOutItems = [{ href: '/login', label: 'Login' }]
 
-export default async function Sidebar() {
-  let userProfile = undefined
+const Sidebar = async () => {
   const user = await useOptionalUser()
 
-  if (user) {
-    userProfile = await getProfile(user.id)
-  }
+  const { data: userProfile } = await getProfile()
 
   return (
     <aside className='w-full max-w-[200px] p-4 flex flex-col border-r'>
       <h1 className='flex items-center h-10 px-4 mb-4 text-lg font-bold'>
-        {userProfile ? <CompanyName userProfile={userProfile} /> : ''}
+        {userProfile ? (
+          <Link href='/profile'>
+            {userProfile.company.length > 0 ? userProfile.company : 'Hi there!'}
+          </Link>
+        ) : (
+          ''
+        )}
       </h1>
 
       {user && (
@@ -44,3 +47,5 @@ export default async function Sidebar() {
     </aside>
   )
 }
+
+export default Sidebar

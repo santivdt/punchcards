@@ -42,6 +42,16 @@ export const createCard = async (prevState: any, formData: FormData) => {
   const supabase = createSupabaseClient()
 
   const user = await requireUser()
+  // TODO really no idea how to get the price of the card that was picked
+
+  let price = 0
+  if (hoursNumber == 10) {
+    price = 950
+  } else if (hoursNumber == 20) {
+    price = 1800
+  } else {
+    price = 2250
+  }
 
   const { error } = await supabase.from('cards').insert({
     user_id: user.id,
@@ -50,6 +60,7 @@ export const createCard = async (prevState: any, formData: FormData) => {
     ends_at: endsAtString,
     hours_left: validatedFields.data.hours_left,
     is_active: true,
+    price: price,
   })
 
   if (error) {

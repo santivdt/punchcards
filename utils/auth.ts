@@ -3,7 +3,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
-export async function requireUser() {
+export const requireUser = async () => {
   const supabase = createClient()
 
   const {
@@ -17,7 +17,7 @@ export async function requireUser() {
   return user
 }
 
-export async function useOptionalUser() {
+export const useOptionalUser = async () => {
   const supabase = createClient()
 
   const {

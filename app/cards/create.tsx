@@ -9,7 +9,6 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tables } from '@/types/supabase'
 import { useEffect, useRef, useState } from 'react'
@@ -25,11 +24,16 @@ import {
 type CreateClientDialogProps = {
   children: React.ReactNode
   clients: Tables<'clients'>[]
+  cardTypes: Tables<'card_types'>
 }
 
 const initialState = undefined
 
-const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
+const CreateCardDialog = ({
+  children,
+  clients,
+  cardTypes,
+}: CreateClientDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createCard, initialState)
@@ -40,7 +44,7 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
       formRef.current?.reset()
     }
   }, [state])
-
+  // TODO make sure that it is required to fill in a client and hours
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -77,9 +81,15 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
                 <SelectValue placeholder='Select size' />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='10'>10</SelectItem>
-                <SelectItem value='20'>20</SelectItem>
-                <SelectItem value='30'>30</SelectItem>
+                <SelectItem value={cardTypes.hours_1.toString()}>
+                  {cardTypes.hours_1}
+                </SelectItem>
+                <SelectItem value={cardTypes.hours_2.toString()}>
+                  {cardTypes.hours_2}
+                </SelectItem>
+                <SelectItem value={cardTypes.hours_3.toString()}>
+                  {cardTypes.hours_3}
+                </SelectItem>
               </SelectContent>
             </Select>
             {state?.errors?.hours && (
