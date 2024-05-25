@@ -9,13 +9,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Tables } from '@/types/supabase'
 import { ColumnDef } from '@tanstack/react-table'
+import { format } from 'date-fns'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
-import { format } from 'date-fns'
 import { useState } from 'react'
-import UpdateCardDialog from '../update'
 import DeleteCardDialog from '../delete'
-import { Row } from 'react-day-picker'
+import UpdateCardDialog from '../update'
+import clsx from 'clsx'
 
 type DialogState = 'update' | 'delete' | null
 type CardWithClient = Tables<'cards'> & {
@@ -61,9 +61,14 @@ export const columns: ColumnDef<Tables<'cards'>>[] = [
     accessorKey: 'ends_at',
     header: 'Valid until',
     cell: ({ getValue }) => {
+      const endsAt = getValue()
+      const isBeforeEndDate = new Date() < new Date(endsAt)
       const dateValue = getValue<string>()
       const formattedDate = format(new Date(dateValue), 'dd/MM/yyyy')
-      return formattedDate
+      const className = clsx({
+        'text-orange-500': !isBeforeEndDate,
+      })
+      return <span className={className}>{formattedDate}</span>
     },
   },
   {
