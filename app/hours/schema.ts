@@ -13,6 +13,8 @@ export const createSchema = z.object({
 
 export const deleteSchema = z.object({
   hourId: z.string(),
+  duration: z.number(),
+  cardId: z.string(),
 })
 
 export const updateSchema = z.object({

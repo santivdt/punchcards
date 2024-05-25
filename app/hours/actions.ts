@@ -104,6 +104,8 @@ export const createHour = async (prevState: any, formData: FormData) => {
 export const deleteHour = async (prevState: any, formData: FormData) => {
   const validatedFields = deleteSchema.safeParse({
     hourId: formData.get('hourId'),
+    duration: Number(formData.get('duration')),
+    cardId: formData.get('cardId'),
   })
 
   if (!validatedFields.success) {
@@ -116,20 +118,45 @@ export const deleteHour = async (prevState: any, formData: FormData) => {
   const supabase = createSupabaseClient()
   const user = await requireUser()
 
-  const { error } = await supabase
+  const { error: deleteError } = await supabase
     .from('hours')
     .delete()
     .eq('id', validatedFields.data.hourId)
     .eq('user_id', user.id)
 
-  if (error) {
+  if (deleteError) {
     return {
       status: 'error',
       message: 'An error occurred while deleting the hour',
     }
   }
 
+  const { data: card, error: getHoursLeftError } = await supabase
+    .from('cards')
+    .select('hours_left')
+    .eq('id', validatedFields.data.cardId)
+    .eq('user_id', user.id)
+    .single()
+
+  if (getHoursLeftError) {
+    return {
+      status: 'error',
+      message: 'An error occurred while getting hours_left',
+    }
+  }
+  console.log('got the hoursleft!', card.hours_left)
+
+  const { error: updateCardError } = await supabase
+    .from('cards')
+    .update({
+      hours_left: card.hours_left + validatedFields.data.duration,
+      is_active: true,
+    })
+    .eq('id', validatedFields.data.cardId)
+    .eq('user_id', user.id)
+
   revalidatePath('/hours')
+  revalidatePath('/cards')
 
   return {
     status: 'success',

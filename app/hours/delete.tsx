@@ -32,7 +32,6 @@ const DeleteHourDialog = ({
   onOpenChange = () => {},
 }: DeleteFormProps) => {
   const [state, formAction] = useFormState(deleteHour, initialState)
-
   useEffect(() => {
     if (state?.status === 'success') {
       onOpenChange(false)
@@ -48,7 +47,17 @@ const DeleteHourDialog = ({
           <DialogDescription>This action cannot be undone</DialogDescription>
         </DialogHeader>
         <form action={formAction}>
-          <input type='hidden' name='hourId' value={hour.id} />
+          <input type='hidden' name='hourId' defaultValue={hour.id} />
+          <input
+            type='hidden'
+            name='duration'
+            defaultValue={hour.duration ?? ''}
+          />
+          <input
+            type='hidden'
+            name='cardId'
+            defaultValue={hour.card_id ?? ''}
+          />
           <div className='flex items-center justify-end gap-2'>
             <DialogClose asChild>
               <Button type='button' variant='outline'>
