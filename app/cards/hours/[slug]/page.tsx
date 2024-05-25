@@ -7,12 +7,12 @@ import { requireUser } from '@/utils/auth'
 type PageProps = { slug: string }
 
 const Page = async ({ params: { slug } }: { params: PageProps }) => {
-  const user = await requireUser()
+  requireUser()
   const { data: hours } = await getHoursFromCard(slug)
 
   return (
     <>
-      {hours && (
+      {hours && hours.length > 0 && (
         <Header title={`Hours for card #${hours[0].cards.readable_id}`} />
       )}
       <DataTable columns={columns} data={hours} />

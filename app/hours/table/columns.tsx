@@ -13,9 +13,9 @@ import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import UpdateHourDialog from '../update'
-import { usePathname } from 'next/navigation'
 
 type DialogState = 'update' | 'delete' | null
 type HourWithClient = Tables<'hours'> & {

@@ -4,5 +4,9 @@
   "semi": false,
   "singleQuote": true,
   "jsxSingleQuote": true,
-  "proseWrap": "always"
+  "proseWrap": "always",
+  "sortKeys": true,
+  "importOrder": ["<THIRD_PARTY_MODULES>", "^@/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
