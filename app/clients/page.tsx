@@ -6,7 +6,7 @@ import { requireUser } from '@/utils/auth'
 import { DataTable } from './table'
 import { columns } from './table/columns'
 
-export default async function ClientsPage() {
+const ClientsPage = async () => {
   const user = await requireUser()
   const { data: clients } = await getClientsFromUser(user.id)
 

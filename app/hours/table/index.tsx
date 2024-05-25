@@ -21,7 +21,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
 }
 
-export function DataTable<
+export const DataTable = <
   TData extends TValue,
   TValue extends {
     id: string
@@ -29,8 +29,11 @@ export function DataTable<
     email: string
     user_id: string
     created_at: string
-  }
->({ columns, data }: DataTableProps<TData, TValue>) {
+  },
+>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) => {
   const table = useReactTable({
     data,
     columns,

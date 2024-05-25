@@ -2,11 +2,7 @@ import { signIn, signUp } from '@/app/login/actions'
 import Header from '@/components/header'
 import { SubmitButton } from './submit-button'
 
-export default function Login({
-  searchParams,
-}: {
-  searchParams: { message: string }
-}) {
+const Login = ({ searchParams }: { searchParams: { message: string } }) => {
   return (
     <>
       <Header title='Login' />
@@ -53,3 +49,5 @@ export default function Login({
     </>
   )
 }
+
+export default Login

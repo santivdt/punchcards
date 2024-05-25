@@ -12,11 +12,7 @@ export const metadata = {
   description: 'Manage your clients and their prepaid hours',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en' className={GeistSans.className}>
       <body>
@@ -28,3 +24,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+export default RootLayout

@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
-export default async function Index() {
+const Index = async () => {
   const supabase = createClient()
 
   const {
@@ -14,3 +14,5 @@ export default async function Index() {
 
   return redirect('/dashboard')
 }
+
+export default Index

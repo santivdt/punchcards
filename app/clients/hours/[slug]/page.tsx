@@ -1,13 +1,13 @@
 import { DataTable } from '@/app/hours/table'
 import { columns } from '@/app/hours/table/columns'
-import { getHoursFromClient } from './actions'
 import Header from '@/components/header'
 import { requireUser } from '@/utils/auth'
+import { getHoursFromClient } from './actions'
 
 type PageProps = { slug: string }
 
 const Page = async ({ params: { slug } }: { params: PageProps }) => {
-  const user = await requireUser()
+  await requireUser()
   const { data: hours } = await getHoursFromClient(slug)
   // TODO hier gaat iets mis met ophalen data en laten zien van no results found in the table
   return (

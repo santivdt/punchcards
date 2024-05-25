@@ -10,7 +10,7 @@ export type ItemProps = {
   href: LinkProps['href']
 }
 
-export default function Item({ href, label }: ItemProps) {
+const Item = ({ href, label }: ItemProps) => {
   const pathname = usePathname()
 
   const RenderIcon = () => {
@@ -41,3 +41,5 @@ export default function Item({ href, label }: ItemProps) {
     </div>
   )
 }
+
+export default Item

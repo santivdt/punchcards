@@ -20,10 +20,10 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
 }
 
-export function DataTable<TData extends TValue, TValue>({
+export const DataTable = <TData extends TValue, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData, TValue>) => {
   const table = useReactTable({
     data,
     columns,
