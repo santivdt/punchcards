@@ -37,38 +37,63 @@ export const createHour = async (prevState: any, formData: FormData) => {
 
   const user = await requireUser()
 
-  const cards = await supabase
+  const { data: card, error: cardError } = await supabase
     .from('cards')
-    .select('id')
+    .select('id, hours_left')
     .eq('client_id', validatedFields.data.client_id)
     .eq('is_active', true)
     .single()
 
-  if (!cards.data) {
+  if (cardError) {
     return {
       status: 'error',
       message: 'No active card found for this client',
     }
   }
-
   const durationNumber = Number(validatedFields.data.duration)
 
-  const { error } = await supabase.from('hours').insert({
+  if (durationNumber > card.hours_left) {
+    return {
+      status: 'error',
+      message: `There are not engough hours left in the card to create this task. Hours left: ${card.hours_left}`,
+    }
+  }
+
+  const { error: hourError } = await supabase.from('hours').insert({
     user_id: user.id,
     description: validatedFields.data.description,
     client_id: validatedFields.data.client_id,
     duration: durationNumber,
-    card_id: cards.data.id,
+    card_id: card.id,
   })
 
-  if (error) {
+  if (hourError) {
+    console.log(hourError, 'hourError')
     return {
       status: 'error',
       message: 'An error occurred while creating the hour',
     }
   }
 
+  const { error: cardUpdateError } = await supabase
+    .from('cards')
+    .update({ hours_left: card.hours_left - durationNumber })
+    .eq('id', card.id)
+
+  if (cardUpdateError) {
+    console.log(cardUpdateError, 'cardUpdateError')
+    return {
+      status: 'error',
+      message: 'An error occurred while updating hours on the card',
+    }
+  }
+
+  if (card.hours_left === durationNumber) {
+    await supabase.from('cards').update({ is_active: false }).eq('id', card.id)
+  }
+
   revalidatePath('/hours')
+  revalidatePath('/cards')
 
   return {
     status: 'success',

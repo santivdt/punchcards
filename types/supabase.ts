@@ -15,7 +15,7 @@ export type Database = {
           created_at: string
           ends_at: string
           hours: number | null
-          hours_left: number | null
+          hours_left: number
           id: string
           is_active: boolean
           readable_id: number
@@ -26,7 +26,7 @@ export type Database = {
           created_at?: string
           ends_at: string
           hours?: number | null
-          hours_left?: number | null
+          hours_left: number
           id?: string
           is_active: boolean
           readable_id?: number
@@ -37,7 +37,7 @@ export type Database = {
           created_at?: string
           ends_at?: string
           hours?: number | null
-          hours_left?: number | null
+          hours_left?: number
           id?: string
           is_active?: boolean
           readable_id?: number
