@@ -19,7 +19,7 @@ export const getCardsFromUser = async (userId: Tables<'users'>['id']) => {
     .eq('user_id', userId)
 }
 
-export const createCard = async (formData: FormData) => {
+export const createCard = async (prevData: any, formData: FormData) => {
   let dateOneYearFromNow = new Date()
   dateOneYearFromNow.setFullYear(dateOneYearFromNow.getFullYear() + 1)
   const endsAtString = dateOneYearFromNow.toISOString()
@@ -78,7 +78,7 @@ export const createCard = async (formData: FormData) => {
   }
 }
 
-export const deleteCard = async (formData: FormData) => {
+export const deleteCard = async (prevData: any, formData: FormData) => {
   const validatedFields = deleteSchema.safeParse({
     card_id: formData.get('cardId'),
   })
@@ -114,7 +114,7 @@ export const deleteCard = async (formData: FormData) => {
   }
 }
 
-export const updateCard = async (formData: FormData) => {
+export const updateCard = async (prevData: any, formData: FormData) => {
   const validatedFields = updateSchema.safeParse({
     hours: Number(formData.get('hours')),
     hours_left: Number(formData.get('hours_left')),

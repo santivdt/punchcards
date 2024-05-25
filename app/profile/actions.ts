@@ -13,7 +13,7 @@ export const getProfile = async () => {
   return supabase.from('users').select('*').eq('id', user.id).single()
 }
 
-export const updateProfile = async (formData: FormData) => {
+export const updateProfile = async (prevData: any, formData: FormData) => {
   const validatedFields = updateSchema.safeParse({
     first_name: formData.get('first_name'),
     last_name: formData.get('last_name'),

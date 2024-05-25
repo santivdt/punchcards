@@ -19,7 +19,7 @@ export const getHoursFromUser = async (userId: Tables<'users'>['id']) => {
     .eq('user_id', userId)
 }
 
-export const createHour = async (formData: FormData) => {
+export const createHour = async (prevData: any, formData: FormData) => {
   const validatedFields = createSchema.safeParse({
     description: formData.get('description'),
     duration: Number(formData.get('duration')),
@@ -101,7 +101,7 @@ export const createHour = async (formData: FormData) => {
   }
 }
 
-export const deleteHour = async (formData: FormData) => {
+export const deleteHour = async (prevData: any, formData: FormData) => {
   const validatedFields = deleteSchema.safeParse({
     hourId: formData.get('hourId'),
     duration: Number(formData.get('duration')),
@@ -172,7 +172,7 @@ export const deleteHour = async (formData: FormData) => {
   }
 }
 
-export const updateHour = async (formData: FormData) => {
+export const updateHour = async (prevData: any, formData: FormData) => {
   const validatedFields = updateSchema.safeParse({
     description: formData.get('description'),
     duration: Number(formData.get('duration')),

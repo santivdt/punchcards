@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/server'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-export const signIn = async (formData: FormData) => {
+export const signIn = async (prevData: any, formData: FormData) => {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
   const supabase = createClient()
@@ -21,7 +21,7 @@ export const signIn = async (formData: FormData) => {
   return redirect('/dashboard')
 }
 
-export const signUp = async (formData: FormData) => {
+export const signUp = async (prevData: any, formData: FormData) => {
   const origin = headers().get('origin')
   const email = formData.get('email') as string
   const password = formData.get('password') as string
