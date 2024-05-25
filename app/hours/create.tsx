@@ -27,13 +27,15 @@ type CreateHourDialogProps = {
   clients: Tables<'clients'>[]
 }
 
+type ErrorState = string | undefined
+
 const initialState = undefined
 
 const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createHour, initialState)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState<ErrorState>(undefined)
 
   useEffect(() => {
     if (state?.status === 'success') {

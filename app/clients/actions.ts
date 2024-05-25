@@ -1,15 +1,15 @@
 'use server'
 
 import { Tables } from '@/types/supabase'
+import { requireUser } from '@/utils/auth'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 import { createSchema, deleteSchema, updateSchema } from './schema'
-import { requireUser } from '@/utils/auth'
 
 export const getClientsFromUser = async (userId: Tables<'users'>['id']) => {
   const supabase = createSupabaseClient()
-  //TODO Giel hier checken we dus niet eerst of de user is ingelogd klopt dat of vergeten?
+  requireUser()
+
   return supabase
     .from('clients')
     .select(`id, name, email, user_id`)
@@ -32,13 +32,7 @@ export const createClient = async (prevState: any, formData: FormData) => {
 
   const supabase = createSupabaseClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    return redirect('/login')
-  }
+  const user = await requireUser()
 
   const { error } = await supabase.from('clients').insert({
     user_id: user.id,

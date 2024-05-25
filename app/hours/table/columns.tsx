@@ -15,6 +15,7 @@ import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import UpdateHourDialog from '../update'
+import { usePathname } from 'next/navigation'
 
 type DialogState = 'update' | 'delete' | null
 type HourWithClient = Tables<'hours'> & {
@@ -64,8 +65,7 @@ export const columns: ColumnDef<Tables<'hours'>>[] = [
 
 const Actions = (hour: Tables<'hours'>) => {
   const [dialog, setDialog] = useState<DialogState>(null)
-
-  console.log('hour', hour)
+  const pathname = usePathname()
 
   return (
     <>
@@ -77,11 +77,14 @@ const Actions = (hour: Tables<'hours'>) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
+          {pathname != `/cards/hours/${hour.card_id}` && (
+            <DropdownMenuItem>
+              <Link href={`/cards/hours/${hour.card_id}`}>View card</Link>
+            </DropdownMenuItem>
+          )}
+
           <DropdownMenuItem onClick={() => setDialog('update')}>
             Edit
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href={`/cards/${hour.card_id}`}>View card</Link>
           </DropdownMenuItem>
           <DropdownMenuItem
             className='text-red-400'

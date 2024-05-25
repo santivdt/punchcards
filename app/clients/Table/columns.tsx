@@ -15,7 +15,9 @@ import DeleteClientDialog from '../delete'
 import { useState } from 'react'
 import UpdateClientDialog from '../update'
 
-export const columns: ColumnDef<Tables['clients']>[] = [
+type DialogState = 'update' | 'delete' | null
+
+export const columns: ColumnDef<Tables<'clients'>>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
@@ -35,7 +37,7 @@ export const columns: ColumnDef<Tables['clients']>[] = [
 ]
 
 const Actions = (client: Tables<'clients'>) => {
-  const [dialog, setDialog] = useState(null)
+  const [dialog, setDialog] = useState<DialogState>(null)
 
   return (
     <>
@@ -51,9 +53,11 @@ const Actions = (client: Tables<'clients'>) => {
             Edit
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href={`/clients/${client.id}`}>View cards</Link>
+            <Link href={`/clients/cards/${client.id}`}>View cards</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>View hours</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={`/clients/hours/${client.id}`}>View hours</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem
             className='text-red-400'
             onClick={() => setDialog('delete')}
@@ -66,7 +70,7 @@ const Actions = (client: Tables<'clients'>) => {
       {dialog === 'delete' && (
         <DeleteClientDialog
           client={client}
-          onOpenChange={setDialog}
+          onOpenChange={() => setDialog(null)}
           open={dialog === 'delete'}
         />
       )}
@@ -75,7 +79,7 @@ const Actions = (client: Tables<'clients'>) => {
         <UpdateClientDialog
           open={dialog === 'update'}
           client={client}
-          onOpenChange={setDialog}
+          onOpenChange={() => setDialog(null)}
         />
       )}
     </>

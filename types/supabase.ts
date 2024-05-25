@@ -13,33 +13,33 @@ export type Database = {
         Row: {
           client_id: string
           created_at: string
-          ends_at: string | null
+          ends_at: string
           hours: number | null
           hours_left: number | null
           id: string
-          is_active: boolean | null
+          is_active: boolean
           readable_id: number
           user_id: string
         }
         Insert: {
           client_id: string
           created_at?: string
-          ends_at?: string | null
+          ends_at: string
           hours?: number | null
           hours_left?: number | null
           id?: string
-          is_active?: boolean | null
+          is_active: boolean
           readable_id?: number
           user_id: string
         }
         Update: {
           client_id?: string
           created_at?: string
-          ends_at?: string | null
+          ends_at?: string
           hours?: number | null
           hours_left?: number | null
           id?: string
-          is_active?: boolean | null
+          is_active?: boolean
           readable_id?: number
           user_id?: string
         }
