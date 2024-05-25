@@ -1,7 +1,5 @@
 import Header from '@/components/header'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -17,22 +15,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {
-  Activity,
-  ArrowUpRight,
-  CreditCard,
-  DollarSign,
-  Users,
-  FileClock,
-} from 'lucide-react'
-import Link from 'next/link'
-import { getActiveCards, getOpenHours } from './actions'
 import { requireUser } from '@/utils/auth'
+import { Banknote, FileClock } from 'lucide-react'
+import { getActiveCards, getTotalEarnings, getOpenHours } from './actions'
 
 const Page = async () => {
-  const user = await requireUser()
-  const { data: cards } = await getActiveCards(user.id)
-  const openHours = await getOpenHours(user.id)
+  requireUser()
+  const { data: cards } = await getActiveCards()
+  const openHours = await getOpenHours()
+  const totalEarnings = await getTotalEarnings()
 
   return (
     <div>
@@ -61,6 +52,17 @@ const Page = async () => {
               </CardHeader>
               <CardContent>
                 <div className='text-2xl font-bold'>{openHours} hours</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                <CardTitle className='text-sm font-medium'>
+                  Total earnings
+                </CardTitle>
+                <Banknote className='h-4 w-4 text-muted-foreground' />
+              </CardHeader>
+              <CardContent>
+                <div className='text-2xl font-bold'>€{totalEarnings}</div>
               </CardContent>
             </Card>
           </div>

@@ -61,6 +61,11 @@ export default function Login({
             >
               Sign Up
             </SubmitButton>
+            {searchParams?.message && (
+              <p className='p-4 mt-4 text-center bg-foreground/10'>
+                {searchParams.message}
+              </p>
+            )}
 
             {/* <div className='mt-4 text-center text-sm'>
               Don&apos;t have an account?

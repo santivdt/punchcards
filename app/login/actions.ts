@@ -27,7 +27,7 @@ export async function signUp(formData: FormData) {
   const password = formData.get('password') as string
   const supabase = createClient()
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -35,8 +35,11 @@ export async function signUp(formData: FormData) {
     },
   })
 
+  console.log('Supabase signUp data:', data)
+  console.log('Supabase signUp error:', error)
+
   if (error) {
-    return redirect('/login?message=Could not authenticate user')
+    return redirect('/login?message=Could not complete sign-up of user')
   }
 
   return redirect('/login?message=Check email to continue sign in process')

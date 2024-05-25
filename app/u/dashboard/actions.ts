@@ -4,7 +4,7 @@ import { Tables } from '@/types/supabase'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { requireUser } from '@/utils/auth'
 
-export const getActiveCards = async (userId: Tables<'users'>['id']) => {
+export const getActiveCards = async () => {
   const supabase = createSupabaseClient()
   const user = await requireUser()
 
@@ -12,11 +12,31 @@ export const getActiveCards = async (userId: Tables<'users'>['id']) => {
     .from('cards')
     .select(`id`)
     .eq('is_active', true)
-    .eq('user_id', userId)
+    .eq('user_id', user.id)
 }
 
-export const getOpenHours = async (userId: Tables<'users'>['id']) => {
-  //TODO de vraag is of ik hier userId uit page moet halen of uit hier
+export const getTotalEarnings = async () => {
+  const supabase = createSupabaseClient()
+  const user = await requireUser()
+
+  const { data: allCards, error: allCardsError } = await supabase
+    .from('cards')
+    .select(`id, price`)
+    .eq('user_id', user.id)
+
+  if (allCardsError) {
+    return {
+      status: 'error',
+      message: 'An error occurred while getting the cards',
+    }
+  }
+
+  const totalEarnings = allCards.reduce((sum, item) => sum + item.price, 0)
+
+  return totalEarnings
+}
+
+export const getOpenHours = async () => {
   const supabase = createSupabaseClient()
   const user = await requireUser()
 
@@ -24,7 +44,7 @@ export const getOpenHours = async (userId: Tables<'users'>['id']) => {
     .from('cards')
     .select(`id`)
     .eq('is_active', true)
-    .eq('user_id', userId)
+    .eq('user_id', user.id)
 
   // TODO i do wonder where you will ever see this message?
   if (cardsError) {
@@ -39,7 +59,6 @@ export const getOpenHours = async (userId: Tables<'users'>['id']) => {
   }
 
   const cardIds = cards.map((card) => card.id)
-  console.log('cardIds', cardIds)
 
   const { data: hoursData, error: hoursError } = await supabase
     .from('cards')
