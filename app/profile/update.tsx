@@ -1,12 +1,7 @@
 'use client'
 
+import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { useFormState, useFormStatus } from 'react-dom'
-import { updateProfile } from './actions'
-import { Tables } from '@/types/supabase'
-import { useEffect, useRef, useState } from 'react'
 import {
   Dialog,
   DialogClose,
@@ -16,6 +11,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Tables } from '@/types/supabase'
+import { useEffect, useRef, useState } from 'react'
+import { useFormState } from 'react-dom'
+import { updateProfile } from './actions'
 
 type UpdateProfileDialog = {
   children?: React.ReactNode
@@ -94,7 +95,7 @@ const UpdateProfileDialog = ({ children, user }: UpdateProfileDialog) => {
             {state?.message}
           </p>
           <div className='flex items-center gap-2 mt-4'>
-            <SubmitButton />
+            <SubmitButton normal='Update' going='Updating...' />
             <DialogClose asChild>
               <Button type='button' variant='outline'>
                 Cancel
@@ -107,13 +108,3 @@ const UpdateProfileDialog = ({ children, user }: UpdateProfileDialog) => {
   )
 }
 export default UpdateProfileDialog
-
-const SubmitButton = () => {
-  const { pending } = useFormStatus()
-
-  return (
-    <Button type='submit' disabled={pending}>
-      {pending ? 'Updating...' : 'Update'}
-    </Button>
-  )
-}

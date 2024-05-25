@@ -1,5 +1,6 @@
 'use client'
 
+import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,10 +13,10 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useEffect, useRef } from 'react'
-import { useFormState, useFormStatus } from 'react-dom'
-import { updateClient } from './actions'
 import { Tables } from '@/types/supabase'
+import { useEffect, useRef } from 'react'
+import { useFormState } from 'react-dom'
+import { updateClient } from './actions'
 
 type UpdateClientDialogProps = {
   open?: boolean
@@ -85,21 +86,11 @@ const UpdateClientDialog = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton />
+            <SubmitButton normal='Update' going='Updating...' />
           </div>
         </form>
       </DialogContent>
     </Dialog>
-  )
-}
-
-const SubmitButton = () => {
-  const { pending } = useFormStatus()
-
-  return (
-    <Button type='submit' disabled={pending}>
-      {pending ? 'Updating...' : 'Update'}
-    </Button>
   )
 }
 
