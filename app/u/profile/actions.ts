@@ -10,7 +10,7 @@ export const getProfile = async () => {
   const supabase = createSupabaseClient()
   const user = await requireUser()
 
-  return supabase.from('users').select('*').eq('id', user.id).single()
+  return supabase.from('profiles').select('*').eq('id', user.id).single()
 }
 
 export const updateProfile = async (prevData: any, formData: FormData) => {
@@ -33,7 +33,7 @@ export const updateProfile = async (prevData: any, formData: FormData) => {
   const user = await requireUser()
 
   const { data, error } = await supabase
-    .from('users')
+    .from('profiles')
     .update({
       first_name: validatedFields.data.first_name,
       last_name: validatedFields.data.last_name,

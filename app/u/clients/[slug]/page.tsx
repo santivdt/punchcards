@@ -1,6 +1,6 @@
 import Header from '@/components/header'
 import { requireUser } from '@/utils/auth'
-import { getClient } from './actions'
+import { getClient } from '@/app/u/clients/actions'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 

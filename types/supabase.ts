@@ -110,21 +110,21 @@ export type Database = {
           email: string | null
           id: string
           name: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
           email?: string | null
           id?: string
           name?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string
           email?: string | null
           id?: string
           name?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -139,30 +139,30 @@ export type Database = {
       hours: {
         Row: {
           card_id: string
-          client_id: string | null
+          client_id: string
           created_at: string
-          description: string | null
-          duration: number | null
+          description: string
+          duration: number
           id: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           card_id: string
-          client_id?: string | null
+          client_id: string
           created_at?: string
-          description?: string | null
-          duration?: number | null
+          description: string
+          duration: number
           id?: string
-          user_id?: string | null
+          user_id?: string
         }
         Update: {
           card_id?: string
-          client_id?: string | null
+          client_id?: string
           created_at?: string
-          description?: string | null
-          duration?: number | null
+          description?: string
+          duration?: number
           id?: string
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -183,6 +183,38 @@ export type Database = {
             foreignKeyName: "hours_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          company: string | null
+          created_at: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey1"
+            columns: ["id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           },

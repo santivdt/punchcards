@@ -131,3 +131,27 @@ export const deleteClient = async (prevData: any, formData: FormData) => {
     message: 'Client deleted successfully',
   }
 }
+
+export const getClient = async (clientId: Tables<'clients'>['id']) => {
+  const supabase = createSupabaseClient()
+  const user = await requireUser()
+
+  return supabase
+    .from('clients')
+    .select(`name, email`)
+    .eq('id', clientId)
+    .eq('user_id', user.id)
+    .single()
+}
+
+export const getClientFromSlug = async (slug: string) => {
+  const supabase = createSupabaseClient()
+  const user = await requireUser()
+
+  return supabase
+    .from('clients')
+    .select(`id, name, email`)
+    .eq('id', slug)
+    .eq('user_id', user.id)
+    .single()
+}

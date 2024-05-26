@@ -21,7 +21,7 @@ const Sidebar = async ({ userProfile }: SideBarProps) => {
         {userProfile ? (
           <Link href='/u/profile'>{userProfile.company ?? 'Hi there!'}</Link>
         ) : (
-          ''
+          <Link href='/u/profile'>Edit profile</Link>
         )}
       </h1>
 

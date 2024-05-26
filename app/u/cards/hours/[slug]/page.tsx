@@ -1,6 +1,7 @@
 import { DataTable } from '@/app/u/hours/table'
 import { columns } from '@/app/u/hours/table/columns'
-import { getCardFromSlug, getHoursFromCard } from './actions'
+import { getCardFromSlug } from '@/app/u/cards/actions'
+import { getHoursFromCard } from '@/app/u/hours/actions'
 import Header from '@/components/header'
 import { requireUser } from '@/utils/auth'
 

@@ -213,3 +213,31 @@ export const updateHour = async (prevData: any, formData: FormData) => {
     message: 'Task updated successfully',
   }
 }
+
+export const getHoursFromClient = async (clientId: Tables<'clients'>['id']) => {
+  const supabase = createSupabaseClient()
+  const user = await requireUser()
+
+  return supabase
+    .from('hours')
+    .select(`*, clients (id, name)`)
+    .eq('client_id', clientId)
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+}
+
+export const getHoursFromCard = async (cardId: Tables<'cards'>['id']) => {
+  const supabase = createSupabaseClient()
+  const user = await requireUser()
+
+  return supabase
+    .from('hours')
+    .select(
+      `*, 
+      clients (id, name),
+      cards(readable_id)`
+    )
+    .order('created_at', { ascending: false })
+    .eq('card_id', cardId)
+    .eq('user_id', user.id)
+}

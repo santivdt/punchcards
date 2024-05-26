@@ -1,25 +1,21 @@
 import { DataTable } from '@/app/u/cards/table'
 import { columns } from '@/app/u/cards/table/columns'
-import { getCardsFromClient } from './actions'
+import { getCardsFromClient } from '@/app/u/cards/actions'
 import Header from '@/components/header'
 import { requireUser } from '@/utils/auth'
+import { getClientFromSlug } from '@/app/u/clients/actions'
 
 type PageProps = { slug: string }
 
 const Page = async ({ params: { slug } }: { params: PageProps }) => {
   await requireUser()
   const { data: cards } = await getCardsFromClient(slug)
-  // TODO hier gaat iets mis met ophalen data en laten zien van no results found in the table
+  const { data: client } = await getClientFromSlug(slug)
+
   return (
     <>
-      {cards && cards.length > 0 ? (
-        <>
-          <Header title={`Cards from ${cards[0].clients.name}`} />
-          <DataTable columns={columns} data={cards} />
-        </>
-      ) : (
-        <p>No results found</p>
-      )}
+      <Header title={`Cards from ${client?.name}`} />
+      <DataTable columns={columns} data={cards} />
     </>
   )
 }
