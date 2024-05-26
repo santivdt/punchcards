@@ -19,9 +19,7 @@ const Sidebar = async ({ userProfile }: SideBarProps) => {
     <aside className='w-full max-w-[200px] p-4 flex flex-col border-r'>
       <h1 className='flex items-center h-10 px-4 mb-4 text-lg font-bold'>
         {userProfile ? (
-          <Link href='/u/profile'>
-            {userProfile.company.length > 0 ? userProfile.company : 'Hi there!'}
-          </Link>
+          <Link href='/u/profile'>{userProfile.company ?? 'Hi there!'}</Link>
         ) : (
           ''
         )}

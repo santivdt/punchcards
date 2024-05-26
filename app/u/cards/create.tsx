@@ -23,8 +23,8 @@ import {
 
 type CreateClientDialogProps = {
   children: React.ReactNode
-  clients: Tables<'clients'>[]
-  cardTypes: Tables<'card_types'>
+  clients: Tables<'clients'>[] | null
+  cardTypes: Tables<'card_types'> | null
 }
 
 const initialState = undefined
@@ -59,7 +59,7 @@ const CreateCardDialog = ({
                 <SelectValue placeholder='Select client' />
               </SelectTrigger>
               <SelectContent>
-                {clients.map((client) => (
+                {clients?.map((client) => (
                   <SelectItem key={client.id} value={client.id}>
                     {client.name}
                   </SelectItem>
@@ -80,17 +80,19 @@ const CreateCardDialog = ({
               <SelectTrigger className='w-[240px]'>
                 <SelectValue placeholder='Select size' />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={cardTypes.hours_1.toString()}>
-                  {cardTypes.hours_1}
-                </SelectItem>
-                <SelectItem value={cardTypes.hours_2.toString()}>
-                  {cardTypes.hours_2}
-                </SelectItem>
-                <SelectItem value={cardTypes.hours_3.toString()}>
-                  {cardTypes.hours_3}
-                </SelectItem>
-              </SelectContent>
+              {cardTypes && (
+                <SelectContent>
+                  <SelectItem value={cardTypes.hours_1.toString()}>
+                    {cardTypes.hours_1}
+                  </SelectItem>
+                  <SelectItem value={cardTypes.hours_2.toString()}>
+                    {cardTypes.hours_2}
+                  </SelectItem>
+                  <SelectItem value={cardTypes.hours_3.toString()}>
+                    {cardTypes.hours_3}
+                  </SelectItem>
+                </SelectContent>
+              )}
             </Select>
             {state?.errors?.hours && (
               <p className='py-2 text-xs text-red-500'>{state.errors.hours}</p>

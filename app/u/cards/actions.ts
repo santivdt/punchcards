@@ -5,14 +5,27 @@ import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 import { revalidatePath } from 'next/cache'
 import { requireUser } from '@/utils/auth'
+import { PostgrestSingleResponse } from '@supabase/supabase-js'
+import { PostgrestResponseSuccess } from '@supabase/postgrest-js'
 
 export const getCardsFromUser = async (userId: Tables<'users'>['id']) => {
   const supabase = createSupabaseClient()
   return supabase
     .from('cards')
     .select(
-      `created_at, ends_at, hours, hours_left, readable_id, id, is_active, 
-      clients:client_id(id, name)`
+      `
+      created_at,
+      ends_at,
+      hours,
+      hours_left,
+      readable_id,
+      id,
+      is_active,
+      client_id,
+      clients (id,name),
+      price,
+      user_id
+    `
     )
     .limit(10)
     .order('created_at', { ascending: false })

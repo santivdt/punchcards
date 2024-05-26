@@ -16,8 +16,8 @@ import {
 } from '@/components/ui/table'
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData>[]
-  data: TData[]
+  columns: ColumnDef<TData>[] | null
+  data: TData[] | null
 }
 
 export const DataTable = <TData extends TValue, TValue>({
@@ -25,8 +25,8 @@ export const DataTable = <TData extends TValue, TValue>({
   data,
 }: DataTableProps<TData, TValue>) => {
   const table = useReactTable({
-    data,
-    columns,
+    data: data ?? [],
+    columns: columns ?? [],
     getCoreRowModel: getCoreRowModel(),
   })
 
@@ -67,7 +67,7 @@ export const DataTable = <TData extends TValue, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className='h-24 text-center'>
+              <TableCell colSpan={columns?.length} className='h-24 text-center'>
                 No results.
               </TableCell>
             </TableRow>

@@ -61,7 +61,7 @@ export const columns: ColumnDef<Tables<'cards'>>[] = [
     accessorKey: 'ends_at',
     header: 'Valid until',
     cell: ({ getValue }) => {
-      const endsAt = getValue()
+      const endsAt = getValue<string | number>()
       const isBeforeEndDate = new Date() < new Date(endsAt)
       const dateValue = getValue<string>()
       const formattedDate = format(new Date(dateValue), 'dd/MM/yyyy')

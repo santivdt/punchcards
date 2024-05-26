@@ -1,13 +1,18 @@
 'use server'
 
-import { createClient } from '@/utils/supabase/server'
+// import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@supabase/supabase-js'
+import { createServerClient } from '@supabase/ssr'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 export async function signIn(formData: FormData) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
-  const supabase = createClient()
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
@@ -25,14 +30,16 @@ export async function signUp(formData: FormData) {
   const origin = headers().get('origin')
   const email = formData.get('email') as string
   const password = formData.get('password') as string
-  const supabase = createClient()
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+
+  const res = await supabase.auth.initialize()
 
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: {
-      emailRedirectTo: `${origin}/auth/callback`,
-    },
   })
 
   console.log('Supabase signUp data:', data)
@@ -46,7 +53,10 @@ export async function signUp(formData: FormData) {
 }
 
 export async function signOut() {
-  const supabase = createClient()
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
   await supabase.auth.signOut()
   return redirect('/login')
 }
