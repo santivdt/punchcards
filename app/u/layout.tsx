@@ -3,7 +3,6 @@ import { getProfile } from './profile/actions'
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const { data: userProfile } = await getProfile()
-  console.log(userProfile)
 
   return (
     <div className='flex max-w-4xl gap-4 mx-auto min-h-dvh'>

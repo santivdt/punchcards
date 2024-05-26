@@ -33,7 +33,7 @@ export const getTotalEarnings = async () => {
 
   const totalEarnings = allCards.reduce((sum, item) => sum + item.price, 0)
 
-  return totalEarnings
+  return { data: totalEarnings }
 }
 
 export const getOpenHours = async () => {
@@ -55,7 +55,7 @@ export const getOpenHours = async () => {
   }
 
   if (cards.length === 0) {
-    return 0
+    return { data: 0 }
   }
 
   const cardIds = cards.map((card) => card.id)
@@ -77,5 +77,5 @@ export const getOpenHours = async () => {
     0
   )
 
-  return totalHoursLeft
+  return { data: totalHoursLeft }
 }

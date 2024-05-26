@@ -8,7 +8,6 @@ import { createSchema, deleteSchema, updateSchema } from './schema'
 
 export const getClientsFromUser = async (userId: Tables<'users'>['id']) => {
   const supabase = createSupabaseClient()
-  requireUser()
 
   return supabase
     .from('clients')
