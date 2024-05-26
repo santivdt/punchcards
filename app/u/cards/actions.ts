@@ -1,12 +1,10 @@
 'use server'
 
 import { Tables } from '@/types/supabase'
-import { createClient as createSupabaseClient } from '@/utils/supabase/server'
-import { createSchema, deleteSchema, updateSchema } from './schema'
-import { revalidatePath } from 'next/cache'
 import { requireUser } from '@/utils/auth'
-import { PostgrestSingleResponse } from '@supabase/supabase-js'
-import { PostgrestResponseSuccess } from '@supabase/postgrest-js'
+import { createClient as createSupabaseClient } from '@/utils/supabase/server'
+import { revalidatePath } from 'next/cache'
+import { createSchema, deleteSchema, updateSchema } from './schema'
 
 export const getCardsFromUser = async (userId: Tables<'users'>['id']) => {
   const supabase = createSupabaseClient()

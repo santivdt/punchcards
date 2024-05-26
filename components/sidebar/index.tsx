@@ -12,7 +12,7 @@ export const loggedInItems = [
 export const loggedOutItems = [{ href: '/login', label: 'Login' }]
 
 type SideBarProps = {
-  userProfile: Tables<'users'>
+  userProfile: Tables<'users'> | null
 }
 const Sidebar = async ({ userProfile }: SideBarProps) => {
   return (

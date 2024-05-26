@@ -11,8 +11,8 @@ export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
   return supabase
     .from('cards')
     .select(
-      `created_at, ends_at, hours, hours_left, readable_id, id, is_active, 
-      clients:client_id(id, name)`
+      `created_at, ends_at, hours, hours_left, readable_id, id, is_active, client_id, price, user_id, 
+      clients (id, name)`
     )
     .order('created_at', { ascending: false })
     .eq('client_id', clientId)

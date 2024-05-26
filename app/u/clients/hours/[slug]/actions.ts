@@ -9,7 +9,7 @@ export const getHoursFromClient = async (clientId: Tables<'clients'>['id']) => {
 
   return supabase
     .from('hours')
-    .select(`*, clients:client_id(id, name)`)
+    .select(`*, clients (id, name)`)
     .eq('client_id', clientId)
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })

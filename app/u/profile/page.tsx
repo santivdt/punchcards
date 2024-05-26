@@ -12,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Tables } from '@/types/supabase'
 
 const ProfilePage = async () => {
   requireUser()
@@ -28,10 +27,16 @@ const ProfilePage = async () => {
         </UpdateProfileDialog>
       </Header>
       <h3 className='mt-4'>
-        Welcome {userProfile.first_name} {userProfile.last_name},
+        {userProfile?.first_name && (
+          <>
+            Welcome {userProfile.first_name} {userProfile.last_name},
+          </>
+        )}
+        {/* //TODO here je auth email */}
       </h3>
       <p>
-        Manage clients and prepaid hours of {userProfile.company} with ease!
+        {/* //TODO beter managen als het er nogn iet si */}
+        Manage clients and prepaid hours of {userProfile?.company} with ease!
       </p>
       <Table className='mt-8'>
         <TableCaption>A list of prepaid cards you sell.</TableCaption>

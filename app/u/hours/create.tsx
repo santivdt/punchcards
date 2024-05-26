@@ -25,7 +25,7 @@ import { useEffect, useRef, useState } from 'react'
 
 type CreateHourDialogProps = {
   children: React.ReactNode
-  clients: Tables<'clients'>[]
+  clients: Tables<'clients'>[] | null
 }
 
 type ErrorState = string | undefined
@@ -62,7 +62,7 @@ const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
                 <SelectValue placeholder='Select client' />
               </SelectTrigger>
               <SelectContent>
-                {clients.map((client) => (
+                {clients?.map((client) => (
                   <SelectItem key={client.id} value={client.id}>
                     {client.name}
                   </SelectItem>

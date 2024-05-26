@@ -7,7 +7,7 @@ import { requireUser } from '@/utils/auth'
 type PageProps = { slug: string }
 
 const Page = async ({ params: { slug } }: { params: PageProps }) => {
-  const user = await requireUser()
+  await requireUser()
   const { data: cards } = await getCardsFromClient(slug)
   // TODO hier gaat iets mis met ophalen data en laten zien van no results found in the table
   return (

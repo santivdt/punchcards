@@ -11,7 +11,7 @@ export const getClientsFromUser = async (userId: Tables<'users'>['id']) => {
 
   return supabase
     .from('clients')
-    .select(`id, name, email, user_id, created_at`)
+    .select(`name, email, created_at, user_id, id`)
     .order('created_at', { ascending: false })
     .eq('user_id', userId)
 }

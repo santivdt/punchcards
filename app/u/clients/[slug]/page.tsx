@@ -9,11 +9,10 @@ type PageProps = { slug: string }
 const Page = async ({ params: { slug } }: { params: PageProps }) => {
   const user = await requireUser()
   const { data: client } = await getClient(slug)
-  // TODO snap niet wat ik met deze type error moet
   return (
     <>
-      <Header title={`Detail page of ${client.name}`} />
-      <div>{client.email}</div>
+      <Header title={`Detail page of ${client?.name}`} />
+      <div>{client?.email}</div>
       <div className='my-4 space-x-2'>
         <Button variant='outline' asChild>
           <Link href={`/u/clients/cards/${slug}`}>View cards</Link>

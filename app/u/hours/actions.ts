@@ -11,9 +11,9 @@ export const getHoursFromUser = async (userId: Tables<'users'>['id']) => {
   return supabase
     .from('hours')
     .select(
-      `id, created_at,description, duration, client_id, card_id,
-      clients:client_id(id, name),
-      cards:card_id(id, readable_id)`
+      `id, created_at,description, duration, client_id, card_id, user_id,
+      clients(id, name),
+      cards(id, readable_id)`
     )
     .order('created_at', { ascending: false })
     .eq('user_id', userId)
