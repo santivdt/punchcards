@@ -11,41 +11,29 @@ export type Database = {
     Tables: {
       card_types: {
         Row: {
-          hours_1: number
-          hours_2: number
-          hours_3: number
-          id: number
-          price_1: number
-          price_2: number | null
-          price_3: number
-          user_id: string | null
+          hours: number
+          id: string
+          price: number
+          user_id: string
         }
         Insert: {
-          hours_1?: number
-          hours_2?: number
-          hours_3?: number
-          id?: number
-          price_1?: number
-          price_2?: number | null
-          price_3?: number
-          user_id?: string | null
+          hours: number
+          id?: string
+          price: number
+          user_id: string
         }
         Update: {
-          hours_1?: number
-          hours_2?: number
-          hours_3?: number
-          id?: number
-          price_1?: number
-          price_2?: number | null
-          price_3?: number
-          user_id?: string | null
+          hours?: number
+          id?: string
+          price?: number
+          user_id?: string
         }
         Relationships: [
           {
             foreignKeyName: "card_types_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
+            isOneToOne: true
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -93,13 +81,6 @@ export type Database = {
             columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "clients"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cards_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -179,13 +160,6 @@ export type Database = {
             referencedRelation: "clients"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "hours_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       profiles: {
@@ -213,35 +187,6 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "profiles_id_fkey1"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      users: {
-        Row: {
-          company: string | null
-          first_name: string | null
-          id: string
-          last_name: string | null
-        }
-        Insert: {
-          company?: string | null
-          first_name?: string | null
-          id: string
-          last_name?: string | null
-        }
-        Update: {
-          company?: string | null
-          first_name?: string | null
-          id?: string
-          last_name?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey"
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"

@@ -20,7 +20,7 @@ import { updateProfile } from './actions'
 
 type UpdateProfileDialog = {
   children?: React.ReactNode
-  user: Tables<'users'> | null
+  user: Tables<'profiles'> | null
 }
 
 const initialState = undefined

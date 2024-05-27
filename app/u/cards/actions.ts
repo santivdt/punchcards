@@ -6,7 +6,7 @@ import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 
-export const getCardsFromUser = async (userId: Tables<'users'>['id']) => {
+export const getCardsFromUser = async (userId: Tables<'profiles'>['id']) => {
   const supabase = createSupabaseClient()
   return supabase
     .from('cards')
@@ -171,7 +171,7 @@ export const updateCard = async (prevData: any, formData: FormData) => {
 
 export const getCardsFromClient = async (
   clientId: Tables<'clients'>['id'],
-  userId: Tables<'users'>['id']
+  userId: Tables<'profiles'>['id']
 ) => {
   const supabase = createSupabaseClient()
 
@@ -188,7 +188,7 @@ export const getCardsFromClient = async (
 
 export const getCardFromSlug = async (
   slug: string,
-  userId: Tables<'users'>['id']
+  userId: Tables<'profiles'>['id']
 ) => {
   const supabase = createSupabaseClient()
 

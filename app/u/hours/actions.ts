@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 import { requireUser } from '@/utils/auth'
 
-export const getHoursFromUser = async (userId: Tables<'users'>['id']) => {
+export const getHoursFromUser = async (userId: Tables<'profiles'>['id']) => {
   const supabase = createSupabaseClient()
   return supabase
     .from('hours')
@@ -216,7 +216,7 @@ export const updateHour = async (prevData: any, formData: FormData) => {
 
 export const getHoursFromClient = async (
   clientId: Tables<'clients'>['id'],
-  userId: Tables<'users'>['id']
+  userId: Tables<'profiles'>['id']
 ) => {
   const supabase = createSupabaseClient()
 
@@ -230,7 +230,7 @@ export const getHoursFromClient = async (
 
 export const getHoursFromCard = async (
   cardId: Tables<'cards'>['id'],
-  userId: Tables<'users'>['id']
+  userId: Tables<'profiles'>['id']
 ) => {
   const supabase = createSupabaseClient()
 

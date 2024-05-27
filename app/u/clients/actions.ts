@@ -6,7 +6,7 @@ import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 
-export const getClientsFromUser = async (userId: Tables<'users'>['id']) => {
+export const getClientsFromUser = async (userId: Tables<'profiles'>['id']) => {
   const supabase = createSupabaseClient()
 
   return supabase
@@ -146,7 +146,7 @@ export const getClient = async (clientId: Tables<'clients'>['id']) => {
 
 export const getClientFromSlug = async (
   slug: string,
-  userId: Tables<'users'>['id']
+  userId: Tables<'profiles'>['id']
 ) => {
   const supabase = createSupabaseClient()
 
