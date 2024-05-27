@@ -8,9 +8,9 @@ import { requireUser } from '@/utils/auth'
 type PageProps = { slug: string }
 
 const Page = async ({ params: { slug } }: { params: PageProps }) => {
-  requireUser()
-  const readable_id = await getCardFromSlug(slug)
-  const hours = (await getHoursFromCard(slug)).data
+  const user = await requireUser()
+  const readable_id = await getCardFromSlug(slug, user.id)
+  const { data: hours } = await getHoursFromCard(slug, user.id)
 
   return (
     <>

@@ -214,21 +214,25 @@ export const updateHour = async (prevData: any, formData: FormData) => {
   }
 }
 
-export const getHoursFromClient = async (clientId: Tables<'clients'>['id']) => {
+export const getHoursFromClient = async (
+  clientId: Tables<'clients'>['id'],
+  userId: Tables<'users'>['id']
+) => {
   const supabase = createSupabaseClient()
-  const user = await requireUser()
 
   return supabase
     .from('hours')
     .select(`*, clients (id, name)`)
     .eq('client_id', clientId)
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .order('created_at', { ascending: false })
 }
 
-export const getHoursFromCard = async (cardId: Tables<'cards'>['id']) => {
+export const getHoursFromCard = async (
+  cardId: Tables<'cards'>['id'],
+  userId: Tables<'users'>['id']
+) => {
   const supabase = createSupabaseClient()
-  const user = await requireUser()
 
   return supabase
     .from('hours')
@@ -239,5 +243,5 @@ export const getHoursFromCard = async (cardId: Tables<'cards'>['id']) => {
     )
     .order('created_at', { ascending: false })
     .eq('card_id', cardId)
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
 }

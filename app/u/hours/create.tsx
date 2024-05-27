@@ -106,6 +106,7 @@ const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
               name='duration'
               type='number'
               placeholder='0.5'
+              step='0.5'
             />
             {state?.errors?.duration && (
               <p className='py-2 text-xs text-red-500'>

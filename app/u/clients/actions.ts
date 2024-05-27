@@ -144,14 +144,16 @@ export const getClient = async (clientId: Tables<'clients'>['id']) => {
     .single()
 }
 
-export const getClientFromSlug = async (slug: string) => {
+export const getClientFromSlug = async (
+  slug: string,
+  userId: Tables<'users'>['id']
+) => {
   const supabase = createSupabaseClient()
-  const user = await requireUser()
 
   return supabase
     .from('clients')
     .select(`id, name, email`)
     .eq('id', slug)
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .single()
 }

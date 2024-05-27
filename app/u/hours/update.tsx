@@ -72,6 +72,7 @@ const UpdateHourDialog = ({
               placeholder='0.5'
               defaultValue={hour.duration ?? ''}
               required
+              step='0.5'
             />
             {state?.errors?.duration && (
               <p className='py-2 text-xs text-red-500'>

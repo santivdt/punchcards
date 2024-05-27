@@ -169,9 +169,11 @@ export const updateCard = async (prevData: any, formData: FormData) => {
   }
 }
 
-export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
+export const getCardsFromClient = async (
+  clientId: Tables<'clients'>['id'],
+  userId: Tables<'users'>['id']
+) => {
   const supabase = createSupabaseClient()
-  const user = await requireUser()
 
   return supabase
     .from('cards')
@@ -181,18 +183,20 @@ export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
     )
     .order('created_at', { ascending: false })
     .eq('client_id', clientId)
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
 }
 
-export const getCardFromSlug = async (slug: string) => {
+export const getCardFromSlug = async (
+  slug: string,
+  userId: Tables<'users'>['id']
+) => {
   const supabase = createSupabaseClient()
-  const user = await requireUser()
 
   const { data: cards, error: cardsError } = await supabase
     .from('cards')
     .select(`readable_id, id`)
     .eq('id', slug)
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
 
   if (cardsError) {
     return {
