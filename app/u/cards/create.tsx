@@ -50,7 +50,7 @@ const CreateCardDialog = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
-        {cardTypes && cardTypes.length > 0 ? (
+        {cardTypes && cardTypes.length > 0 && clients && clients.length > 0 ? (
           <form ref={formRef} action={formAction}>
             <div className='mb-4'>
               <Label htmlFor='client_id' className='mb-2'>
@@ -84,7 +84,7 @@ const CreateCardDialog = ({
                 </SelectTrigger>
                 <SelectContent>
                   {cardTypes?.map((card) => (
-                    <SelectItem key={card.id} value={card.id}>
+                    <SelectItem key={card.id} value={String(card.hours)}>
                       {card.hours}
                     </SelectItem>
                   ))}
@@ -108,10 +108,23 @@ const CreateCardDialog = ({
           </form>
         ) : (
           <p>
-            Please add the kind of prepaid cards you sell first at your{' '}
-            <Link href='/u/profile' className='border-b border-b-black'>
-              profile page
-            </Link>
+            {cardTypes && cardTypes.length === 0 && (
+              <div>
+                Please add the kind of prepaid cards you sell first at your{' '}
+                <Link href='/u/profile' className='border-b border-b-black'>
+                  profile page
+                </Link>
+              </div>
+            )}
+            {clients && clients.length === 0 && (
+              <div>
+                Please add{' '}
+                <Link href='/u/clients' className='border-b border-b-black'>
+                  clients
+                </Link>{' '}
+                first before you add a card.
+              </div>
+            )}
           </p>
         )}
       </DialogContent>
