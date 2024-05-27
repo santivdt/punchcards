@@ -102,9 +102,9 @@ export const getTopClients = async (): Promise<TopClient[]> => {
   const clientTotals: { [key: string]: TopClient } = {}
 
   data.forEach((item) => {
-    const clientId = item.clients?.id
-    const clientName = item.clients?.name
-    const clientEmail = item.clients?.email
+    const clientId = item.clients?.id ?? ''
+    const clientName = item.clients?.name ?? ''
+    const clientEmail = item.clients?.email ?? ''
     const price = item.price
 
     if (!clientTotals[clientId]) {
