@@ -21,6 +21,7 @@ const ProfilePage = async () => {
 
   return (
     <>
+      {/* TODO can only click edit profile once */}
       <Header title='Profile'>
         <UpdateProfileDialog user={userProfile}>
           <Button>Edit profile</Button>
@@ -47,15 +48,15 @@ const ProfilePage = async () => {
           </TableRow>
           <TableRow>
             <TableCell>{cardTypes?.hours_1}</TableCell>
-            <TableCell>{cardTypes?.price_1}</TableCell>
+            <TableCell>€{cardTypes?.price_1}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>{cardTypes?.hours_2}</TableCell>
-            <TableCell>{cardTypes?.price_2}</TableCell>
+            <TableCell>€{cardTypes?.price_2}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>{cardTypes?.hours_3}</TableCell>
-            <TableCell>{cardTypes?.price_3}</TableCell>
+            <TableCell>€{cardTypes?.price_3}</TableCell>
           </TableRow>
         </TableHeader>
         <TableBody></TableBody>
