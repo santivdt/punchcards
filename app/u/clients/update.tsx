@@ -59,6 +59,7 @@ const UpdateClientDialog = ({
               id='name'
               name='name'
               type='text'
+              required
               defaultValue={client.name ?? ''}
             />
             {state?.errors?.name && (
@@ -71,6 +72,7 @@ const UpdateClientDialog = ({
               id='email'
               name='email'
               type='text'
+              required
               defaultValue={client.email ?? ''}
             />
             {state?.errors?.email && (

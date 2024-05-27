@@ -55,6 +55,7 @@ const UpdateHourDialog = ({
               type='text'
               placeholder='Built an app'
               defaultValue={hour.description ?? ''}
+              required
             />
             {state?.errors?.description && (
               <p className='py-2 text-xs text-red-500'>
@@ -70,6 +71,7 @@ const UpdateHourDialog = ({
               type='number'
               placeholder='0.5'
               defaultValue={hour.duration ?? ''}
+              required
             />
             {state?.errors?.duration && (
               <p className='py-2 text-xs text-red-500'>

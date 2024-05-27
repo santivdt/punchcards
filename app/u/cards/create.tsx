@@ -44,7 +44,7 @@ const CreateCardDialog = ({
       formRef.current?.reset()
     }
   }, [state])
-  // TODO make sure that it is required to fill in a client and hours
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -54,7 +54,7 @@ const CreateCardDialog = ({
             <Label htmlFor='client_id' className='mb-2'>
               Client
             </Label>
-            <Select name='client_id'>
+            <Select name='client_id' required>
               <SelectTrigger className='w-[240px]'>
                 <SelectValue placeholder='Select client' />
               </SelectTrigger>
@@ -76,7 +76,7 @@ const CreateCardDialog = ({
             <Label htmlFor='hours' className='mb-2'>
               Hours
             </Label>
-            <Select name='hours'>
+            <Select name='hours' required>
               <SelectTrigger className='w-[240px]'>
                 <SelectValue placeholder='Select size' />
               </SelectTrigger>

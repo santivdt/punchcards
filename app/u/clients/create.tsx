@@ -39,7 +39,13 @@ const CreateClientDialog = ({ children }: CreateClientDialogProps) => {
         <form ref={formRef} action={formAction}>
           <div className='mb-4'>
             <Label htmlFor='name'>Name</Label>
-            <Input id='name' name='name' type='text' placeholder='John Doe' />
+            <Input
+              id='name'
+              name='name'
+              type='text'
+              placeholder='John Doe'
+              required
+            />
             {state?.errors?.name && (
               <p className='py-2 text-xs text-red-500'>{state.errors.name}</p>
             )}
@@ -51,6 +57,7 @@ const CreateClientDialog = ({ children }: CreateClientDialogProps) => {
               name='email'
               type='text'
               placeholder='johndoe@example.com'
+              required
             />
             {state?.errors?.email && (
               <p className='py-2 text-xs text-red-500'>{state.errors.email}</p>

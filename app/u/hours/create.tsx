@@ -32,6 +32,8 @@ type ErrorState = string | undefined
 
 const initialState = undefined
 
+//TODO when i add hour and make an error (for example duratoin = 0) then cancel the dialog and open it again the error message is still there.
+
 const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
@@ -48,6 +50,13 @@ const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
     }
   }, [state])
 
+  useEffect(() => {
+    setErrorMessage('')
+    if (state?.errors?.duration) {
+      state.errors.duration = undefined
+    }
+  }, [open])
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -57,7 +66,7 @@ const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
             <Label htmlFor='client_id' className='mb-2'>
               Client
             </Label>
-            <Select name='client_id'>
+            <Select name='client_id' required>
               <SelectTrigger className='w-[240px]'>
                 <SelectValue placeholder='Select client' />
               </SelectTrigger>
@@ -82,6 +91,7 @@ const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
               name='description'
               type='text'
               placeholder='Built an app'
+              required
             />
             {state?.errors?.description && (
               <p className='py-2 text-xs text-red-500'>

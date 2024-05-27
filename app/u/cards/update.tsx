@@ -59,7 +59,11 @@ const UpdateCardDialog = ({
             <Label htmlFor='hours' className='mb-2'>
               Hours on card
             </Label>
-            <Select name='hours' defaultValue={card.hours?.toString() ?? ''}>
+            <Select
+              name='hours'
+              defaultValue={card.hours?.toString() ?? ''}
+              required
+            >
               <SelectTrigger className='w-[240px]'>
                 <SelectValue placeholder='Select size' />
               </SelectTrigger>
@@ -83,6 +87,7 @@ const UpdateCardDialog = ({
               defaultValue={card.hours_left?.toString() ?? ''}
               type='number'
               className='w-[240px]'
+              required
             />
 
             {state?.errors?.hours_left && (

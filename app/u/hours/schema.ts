@@ -6,7 +6,7 @@ export const createSchema = z.object({
     .number()
     .min(0.5)
     .refine((val) => val % 0.5 === 0, {
-      message: 'Number bust me greater than 0.5 and divisible by 0.5',
+      message: 'Duration must me greater than 0.5 and divisible by 0.5',
     }),
   client_id: z.string(),
 })
@@ -23,7 +23,7 @@ export const updateSchema = z.object({
     .number()
     .min(0.5)
     .refine((val) => val % 0.5 === 0, {
-      message: 'Number bust me greater than 0.5 and divisible by 0.5',
+      message: 'Duration bust me greater than 0.5 and divisible by 0.5',
     }),
   hourId: z.string(),
 })
