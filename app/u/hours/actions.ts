@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 import { requireUser } from '@/utils/auth'
 
-export const getHoursFromUser = async (userId: Tables<'profiles'>['id']) => {
+export const getHoursFromUser = async () => {
   const supabase = createSupabaseClient()
   return supabase
     .from('hours')
@@ -16,7 +16,6 @@ export const getHoursFromUser = async (userId: Tables<'profiles'>['id']) => {
       cards(id, readable_id)`
     )
     .order('created_at', { ascending: false })
-    .eq('user_id', userId)
 }
 
 export const createHour = async (prevData: any, formData: FormData) => {
@@ -25,6 +24,10 @@ export const createHour = async (prevData: any, formData: FormData) => {
     duration: Number(formData.get('duration')),
     client_id: formData.get('client_id'),
   })
+
+  if (validatedFields.error) {
+    console.log(validatedFields.error, 'Error')
+  }
 
   if (!validatedFields.success) {
     return {
@@ -42,6 +45,7 @@ export const createHour = async (prevData: any, formData: FormData) => {
     .select('id, hours_left')
     .eq('client_id', validatedFields.data.client_id)
     .eq('is_active', true)
+    .eq('user_id', user.id)
     .single()
 
   if (cardError) {
@@ -214,24 +218,17 @@ export const updateHour = async (prevData: any, formData: FormData) => {
   }
 }
 
-export const getHoursFromClient = async (
-  clientId: Tables<'clients'>['id'],
-  userId: Tables<'profiles'>['id']
-) => {
+export const getHoursFromClient = async (clientId: Tables<'clients'>['id']) => {
   const supabase = createSupabaseClient()
 
   return supabase
     .from('hours')
     .select(`*, clients (id, name)`)
     .eq('client_id', clientId)
-    .eq('user_id', userId)
     .order('created_at', { ascending: false })
 }
 
-export const getHoursFromCard = async (
-  cardId: Tables<'cards'>['id'],
-  userId: Tables<'profiles'>['id']
-) => {
+export const getHoursFromCard = async (cardId: Tables<'cards'>['id']) => {
   const supabase = createSupabaseClient()
 
   return supabase
@@ -243,5 +240,4 @@ export const getHoursFromCard = async (
     )
     .order('created_at', { ascending: false })
     .eq('card_id', cardId)
-    .eq('user_id', userId)
 }

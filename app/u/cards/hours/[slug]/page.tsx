@@ -9,8 +9,8 @@ type PageProps = { slug: string }
 
 const Page = async ({ params: { slug } }: { params: PageProps }) => {
   const user = await requireUser()
-  const readable_id = await getCardFromSlug(slug, user.id)
-  const { data: hours } = await getHoursFromCard(slug, user.id)
+  const readable_id = await getCardFromSlug(slug)
+  const { data: hours } = await getHoursFromCard(slug)
 
   return (
     <>

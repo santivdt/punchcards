@@ -6,7 +6,7 @@ import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 
-export const getCardsFromUser = async (userId: Tables<'profiles'>['id']) => {
+export const getCardsFromUser = async () => {
   const supabase = createSupabaseClient()
   return supabase
     .from('cards')
@@ -27,7 +27,6 @@ export const getCardsFromUser = async (userId: Tables<'profiles'>['id']) => {
     )
     .limit(10)
     .order('created_at', { ascending: false })
-    .eq('user_id', userId)
 }
 
 export const createCard = async (prevData: any, formData: FormData) => {
@@ -169,10 +168,7 @@ export const updateCard = async (prevData: any, formData: FormData) => {
   }
 }
 
-export const getCardsFromClient = async (
-  clientId: Tables<'clients'>['id'],
-  userId: Tables<'profiles'>['id']
-) => {
+export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
   const supabase = createSupabaseClient()
 
   return supabase
@@ -183,20 +179,15 @@ export const getCardsFromClient = async (
     )
     .order('created_at', { ascending: false })
     .eq('client_id', clientId)
-    .eq('user_id', userId)
 }
 
-export const getCardFromSlug = async (
-  slug: string,
-  userId: Tables<'profiles'>['id']
-) => {
+export const getCardFromSlug = async (slug: string) => {
   const supabase = createSupabaseClient()
 
   const { data: cards, error: cardsError } = await supabase
     .from('cards')
     .select(`readable_id, id`)
     .eq('id', slug)
-    .eq('user_id', userId)
 
   if (cardsError) {
     return {

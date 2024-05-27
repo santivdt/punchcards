@@ -8,7 +8,7 @@ import { columns } from './table/columns'
 
 const ClientsPage = async () => {
   const user = await requireUser()
-  const { data: clients } = await getClientsFromUser(user.id)
+  const { data: clients } = await getClientsFromUser()
 
   return (
     <>

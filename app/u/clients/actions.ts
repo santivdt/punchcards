@@ -6,14 +6,13 @@ import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 
-export const getClientsFromUser = async (userId: Tables<'profiles'>['id']) => {
+export const getClientsFromUser = async () => {
   const supabase = createSupabaseClient()
 
   return supabase
     .from('clients')
     .select(`name, email, created_at, user_id, id`)
     .order('created_at', { ascending: false })
-    .eq('user_id', userId)
 }
 
 export const createClient = async (prevData: any, formData: FormData) => {
@@ -144,16 +143,12 @@ export const getClient = async (clientId: Tables<'clients'>['id']) => {
     .single()
 }
 
-export const getClientFromSlug = async (
-  slug: string,
-  userId: Tables<'profiles'>['id']
-) => {
+export const getClientFromSlug = async (slug: string) => {
   const supabase = createSupabaseClient()
 
   return supabase
     .from('clients')
     .select(`id, name, email`)
     .eq('id', slug)
-    .eq('user_id', userId)
     .single()
 }

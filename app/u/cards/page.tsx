@@ -10,8 +10,8 @@ import { getCardTypes } from '@/app/u/profile/actions'
 
 const CardsPage = async () => {
   const user = await requireUser()
-  const { data: cards } = await getCardsFromUser(user.id)
-  const { data: clients } = await getClientsFromUser(user.id)
+  const { data: cards } = await getCardsFromUser()
+  const { data: clients } = await getClientsFromUser()
   const { data: cardTypes } = await getCardTypes()
 
   return (

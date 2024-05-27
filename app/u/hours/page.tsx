@@ -9,8 +9,8 @@ import { getHoursFromUser } from './actions'
 
 const HourPage = async () => {
   const user = await requireUser()
-  const { data: hours } = await getHoursFromUser(user.id)
-  const { data: clients } = await getClientsFromUser(user.id)
+  const { data: hours } = await getHoursFromUser()
+  const { data: clients } = await getClientsFromUser()
 
   return (
     <>
