@@ -81,29 +81,33 @@ const Page = async () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Customer</TableHead>
-                      <TableHead className='text-right'>Amount</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {topClients.map((topClient) => (
-                      <TableRow key={topClient.id}>
-                        <TableCell>
-                          <div className='font-medium'>{topClient.name}</div>
-                          <div className='hidden text-sm text-muted-foreground md:inline'>
-                            {topClient.email}
-                          </div>
-                        </TableCell>
-                        <TableCell className='text-right'>
-                          €{topClient.totalPrice}
-                        </TableCell>
+                {topClients && topClients.length > 0 ? (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Customer</TableHead>
+                        <TableHead className='text-right'>Amount</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {topClients.map((topClient) => (
+                        <TableRow key={topClient.id}>
+                          <TableCell>
+                            <div className='font-medium'>{topClient.name}</div>
+                            <div className='hidden text-sm text-muted-foreground md:inline'>
+                              {topClient.email}
+                            </div>
+                          </TableCell>
+                          <TableCell className='text-right'>
+                            €{topClient.totalPrice}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                ) : (
+                  <p>Your topclients will appear here.</p>
+                )}
               </CardContent>
             </Card>
           </div>
