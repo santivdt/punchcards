@@ -1,8 +1,8 @@
 'use server'
 
-import { Tables } from '@/types/supabase'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { requireUser } from '@/utils/auth'
+import { Tables } from '@/types/supabase'
 
 export const getActiveCards = async () => {
   const supabase = createSupabaseClient()
@@ -78,4 +78,52 @@ export const getOpenHours = async () => {
   )
 
   return { data: totalHoursLeft }
+}
+
+export type TopClient = {
+  id: Tables<'clients'>['id']
+  name: Tables<'clients'>['name']
+  email: Tables<'clients'>['email']
+  totalPrice: number
+}
+
+export const getTopClients = async (): Promise<TopClient[]> => {
+  const supabase = createSupabaseClient()
+
+  const { data, error } = await supabase.from('cards').select(
+    `price, 
+      clients (id, name, email)`
+  )
+
+  if (error) {
+    throw new Error(error.message)
+  }
+  // MAARTJE HELP TYPESCRIPT MANIA
+  const clientTotals: { [key: string]: TopClient } = {}
+
+  data.forEach((item) => {
+    const clientId = item.clients?.id
+    const clientName = item.clients?.name
+    const clientEmail = item.clients?.email
+    const price = item.price
+
+    if (!clientTotals[clientId]) {
+      clientTotals[clientId] = {
+        id: clientId,
+        name: clientName,
+        email: clientEmail,
+        totalPrice: 0,
+      }
+    }
+
+    clientTotals[clientId].totalPrice += price
+  })
+
+  let result = Object.values(clientTotals)
+
+  result.sort((a, b) => b.totalPrice - a.totalPrice)
+
+  result = result.slice(0, 5)
+
+  return result
 }

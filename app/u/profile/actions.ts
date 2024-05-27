@@ -59,7 +59,10 @@ export const updateProfile = async (prevData: any, formData: FormData) => {
 export const getCardTypes = async () => {
   const supabase = createSupabaseClient()
 
-  return supabase.from('card_types').select('*')
+  return supabase
+    .from('card_types')
+    .select('*')
+    .order('hours', { ascending: true })
 }
 
 export const createCardType = async (prevData: any, formData: FormData) => {
