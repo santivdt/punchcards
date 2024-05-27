@@ -3,7 +3,7 @@ type HeaderProps = {
   children?: React.ReactNode
 }
 
-export default function Header({ title, children }: HeaderProps) {
+const Header = ({ title, children }: HeaderProps) => {
   return (
     <header className='flex items-center py-4 mb-8 border-b'>
       <div className='flex items-center flex-1'>
@@ -15,3 +15,5 @@ export default function Header({ title, children }: HeaderProps) {
     </header>
   )
 }
+
+export default Header

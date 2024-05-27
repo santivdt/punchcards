@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
-export default async function AuthButton() {
+const AuthButton = async () => {
   const supabase = createClient()
 
   const {
@@ -35,3 +35,5 @@ export default async function AuthButton() {
     </Link>
   )
 }
+
+export default AuthButton

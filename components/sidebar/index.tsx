@@ -1,45 +1,44 @@
 import { signOut } from '@/app/login/actions'
-import { getProfile } from '@/app/profile/actions'
 import Item from '@/components/sidebar/item'
-import { useOptionalUser } from '@/utils/auth'
-import CompanyName from './company-name'
+import { Tables } from '@/types/supabase'
+import Link from 'next/link'
 
 export const loggedInItems = [
-  { href: '/clients', label: 'Clients' },
-  { href: '/cards', label: 'Cards' },
-  { href: '/hours', label: 'Hours' },
+  { href: '/u/dashboard', label: 'Dashboard' },
+  { href: '/u/clients', label: 'Clients' },
+  { href: '/u/cards', label: 'Cards' },
+  { href: '/u/hours', label: 'Hours' },
 ]
-
 export const loggedOutItems = [{ href: '/login', label: 'Login' }]
 
-export default async function Sidebar() {
-  let userProfile = undefined
-  const user = await useOptionalUser()
-
-  if (user) {
-    userProfile = await getProfile(user.id)
-  }
-
+type SideBarProps = {
+  userProfile: Tables<'users'> | null
+}
+const Sidebar = async ({ userProfile }: SideBarProps) => {
   return (
     <aside className='w-full max-w-[200px] p-4 flex flex-col border-r'>
       <h1 className='flex items-center h-10 px-4 mb-4 text-lg font-bold'>
-        {userProfile ? <CompanyName userProfile={userProfile} /> : ''}
+        {userProfile ? (
+          <Link href='/u/profile'>{userProfile.company ?? 'Hi there!'}</Link>
+        ) : (
+          <Link href='/u/profile'>Edit profile</Link>
+        )}
       </h1>
 
-      {user && (
-        <>
-          <ul className='flex-1'>
-            {loggedInItems.map((item) => (
-              <li key={item.href}>
-                <Item {...item} />
-              </li>
-            ))}
-          </ul>
-          <form action={signOut}>
-            <button>Logout</button>
-          </form>
-        </>
-      )}
+      <>
+        <ul className='flex-1'>
+          {loggedInItems.map((item) => (
+            <li key={item.href} className='mb-2'>
+              <Item {...item} />
+            </li>
+          ))}
+        </ul>
+        <form action={signOut}>
+          <button>Logout</button>
+        </form>
+      </>
     </aside>
   )
 }
+
+export default Sidebar

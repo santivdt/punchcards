@@ -1,7 +1,12 @@
 import { useFormStatus } from 'react-dom'
 import { Button } from './ui/button'
 
-const SubmitButton = ({ normal, going }) => {
+type SubmitButtonProps = {
+  normal: string
+  going: string
+}
+
+const SubmitButton: React.FC<SubmitButtonProps> = ({ normal, going }) => {
   const { pending } = useFormStatus()
 
   return (

@@ -9,37 +9,81 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      card_types: {
+        Row: {
+          hours_1: number
+          hours_2: number
+          hours_3: number
+          id: number
+          price_1: number
+          price_2: number | null
+          price_3: number
+          user_id: string | null
+        }
+        Insert: {
+          hours_1?: number
+          hours_2?: number
+          hours_3?: number
+          id?: number
+          price_1?: number
+          price_2?: number | null
+          price_3?: number
+          user_id?: string | null
+        }
+        Update: {
+          hours_1?: number
+          hours_2?: number
+          hours_3?: number
+          id?: number
+          price_1?: number
+          price_2?: number | null
+          price_3?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "card_types_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cards: {
         Row: {
           client_id: string
           created_at: string
-          ends_at: string | null
+          ends_at: string
           hours: number | null
-          hours_left: number | null
+          hours_left: number
           id: string
-          is_active: boolean | null
+          is_active: boolean
+          price: number
           readable_id: number
           user_id: string
         }
         Insert: {
           client_id: string
           created_at?: string
-          ends_at?: string | null
+          ends_at: string
           hours?: number | null
-          hours_left?: number | null
+          hours_left: number
           id?: string
-          is_active?: boolean | null
+          is_active: boolean
+          price: number
           readable_id?: number
           user_id: string
         }
         Update: {
           client_id?: string
           created_at?: string
-          ends_at?: string | null
+          ends_at?: string
           hours?: number | null
-          hours_left?: number | null
+          hours_left?: number
           id?: string
-          is_active?: boolean | null
+          is_active?: boolean
+          price?: number
           readable_id?: number
           user_id?: string
         }
@@ -66,21 +110,21 @@ export type Database = {
           email: string | null
           id: string
           name: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
           email?: string | null
           id?: string
           name?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string
           email?: string | null
           id?: string
           name?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -95,30 +139,30 @@ export type Database = {
       hours: {
         Row: {
           card_id: string
-          client_id: string | null
+          client_id: string
           created_at: string
-          description: string | null
-          duration: number | null
+          description: string
+          duration: number
           id: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           card_id: string
-          client_id?: string | null
+          client_id: string
           created_at?: string
-          description?: string | null
-          duration?: number | null
+          description: string
+          duration: number
           id?: string
-          user_id?: string | null
+          user_id?: string
         }
         Update: {
           card_id?: string
-          client_id?: string | null
+          client_id?: string
           created_at?: string
-          description?: string | null
-          duration?: number | null
+          description?: string
+          duration?: number
           id?: string
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -139,6 +183,38 @@ export type Database = {
             foreignKeyName: "hours_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          company: string | null
+          created_at: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey1"
+            columns: ["id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
