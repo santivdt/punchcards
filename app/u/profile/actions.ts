@@ -1,11 +1,12 @@
 'use server'
 
-import { updateSchema } from './schema'
-import { createCardTypeSchema } from './card-types/schema'
+import { deleteSchema, updateProfileSchema } from './schema'
+import { createCardTypeSchema } from './schema'
 
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { requireUser } from '@/utils/auth'
 import { revalidatePath } from 'next/cache'
+import { Tables } from '@/types/supabase'
 
 export const getProfile = async () => {
   const supabase = createSupabaseClient()
@@ -15,7 +16,7 @@ export const getProfile = async () => {
 }
 
 export const updateProfile = async (prevData: any, formData: FormData) => {
-  const validatedFields = updateSchema.safeParse({
+  const validatedFields = updateProfileSchema.safeParse({
     first_name: formData.get('first_name'),
     last_name: formData.get('last_name'),
     company: formData.get('company'),
@@ -68,6 +69,7 @@ export const createCardType = async (prevData: any, formData: FormData) => {
   })
 
   if (!validatedFields.success) {
+    console.log(validatedFields)
     return {
       status: 'error',
       errors: validatedFields.error.flatten().fieldErrors,
@@ -85,6 +87,7 @@ export const createCardType = async (prevData: any, formData: FormData) => {
   })
 
   if (error) {
+    console.log(error)
     return {
       status: 'error',
       message: 'An error occurred while creating the client',
@@ -96,5 +99,38 @@ export const createCardType = async (prevData: any, formData: FormData) => {
   return {
     status: 'success',
     message: 'Client created successfully',
+  }
+}
+
+export const deleteCardType = async (prevData: any, formData: FormData) => {
+  const validatedFields = deleteSchema.safeParse({
+    id: formData.get('cardTypeId'),
+  })
+
+  if (!validatedFields.success) {
+    return {
+      status: 'error',
+      errors: validatedFields.error.flatten().fieldErrors,
+    }
+  }
+  const supabase = createSupabaseClient()
+
+  const { error } = await supabase
+    .from('card_types')
+    .delete()
+    .eq('id', validatedFields.data.id)
+
+  if (error) {
+    return {
+      status: 'error',
+      message: 'An error occurred while deleting the card type',
+    }
+  }
+
+  revalidatePath('/profile')
+
+  return {
+    status: 'success',
+    message: 'Card type deleted successfully',
   }
 }
