@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import CreateCardTypeDialog from './card-types/create'
 
 const ProfilePage = async () => {
   requireUser()
@@ -27,6 +28,7 @@ const ProfilePage = async () => {
           <Button>Edit profile</Button>
         </UpdateProfileDialog>
       </Header>
+
       <h3 className='mt-4'>
         {userProfile?.first_name ? (
           <>
@@ -42,25 +44,21 @@ const ProfilePage = async () => {
         )}
         {/* //TODO here je auth email */}
       </h3>
+      <CreateCardTypeDialog>
+        <Button>Add card type </Button>
+      </CreateCardTypeDialog>
       <Table className='mt-8'>
-        <TableCaption>A list of prepaid cards you sell.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className='w-[100px]'>Hours</TableHead>
             <TableHead>Price</TableHead>
           </TableRow>
-          <TableRow>
-            <TableCell>{cardTypes?.hours_1}</TableCell>
-            <TableCell>€{cardTypes?.price_1}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>{cardTypes?.hours_2}</TableCell>
-            <TableCell>€{cardTypes?.price_2}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>{cardTypes?.hours_3}</TableCell>
-            <TableCell>€{cardTypes?.price_3}</TableCell>
-          </TableRow>
+          {cardTypes?.map((card) => (
+            <TableRow key={card.id}>
+              <TableCell>{card.hours}</TableCell>
+              <TableCell>€{card.price}</TableCell>
+            </TableRow>
+          ))}
         </TableHeader>
         <TableBody></TableBody>
       </Table>

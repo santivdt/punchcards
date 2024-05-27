@@ -50,13 +50,6 @@ const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
     }
   }, [state])
 
-  useEffect(() => {
-    setErrorMessage('')
-    if (state?.errors?.duration) {
-      state.errors.duration = undefined
-    }
-  }, [open])
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
