@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button'
 const initialState = undefined
 
 type CardTypeFormProps = {
-  cardTypes: Tables<'card_types'>[]
+  cardTypes: Tables<'card_types'>[] | null
 }
 
 const CardTypeForm = ({ cardTypes }: CardTypeFormProps) => {
@@ -27,7 +27,7 @@ const CardTypeForm = ({ cardTypes }: CardTypeFormProps) => {
 
   return (
     <div className='mt-4'>
-      <DataTable columns={columns} data={cardTypes} />
+      {cardTypes && <DataTable columns={columns} data={cardTypes} />}{' '}
       <CreateCardTypeDialog>
         <Button className='mt-4' variant='secondary'>
           Create card type
