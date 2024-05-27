@@ -19,6 +19,7 @@
     "@radix-ui/react-switch": "^1.0.3",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "@tanstack/match-sorter-utils": "^8.15.1",
     "@tanstack/react-table": "^8.17.3",
     "autoprefixer": "10.4.17",
     "class-variance-authority": "^0.7.0",
