@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { useFormState } from 'react-dom'
 
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -19,10 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Label } from '@/components/ui/label'
 import { Tables } from '@/types/supabase'
-import { use, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { useEffect, useRef, useState } from 'react'
 
 type CreateHourDialogProps = {
   children: React.ReactNode
@@ -33,13 +33,12 @@ type ErrorState = string | undefined
 
 const initialState = undefined
 
-//TODO when i add hour and make an error (for example duratoin = 0) then cancel the dialog and open it again the error message is still there.
-
 const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createHour, initialState)
   const [errorMessage, setErrorMessage] = useState<ErrorState>(undefined)
+
   useEffect(() => {
     if (state?.status === 'success') {
       setOpen(false)
