@@ -1,7 +1,7 @@
-import Header from '@/components/header'
-import { requireUser } from '@/utils/auth'
 import { getClient } from '@/app/u/clients/actions'
+import Header from '@/components/header'
 import { Button } from '@/components/ui/button'
+import { requireUser } from '@/utils/auth'
 import Link from 'next/link'
 
 type PageProps = { slug: string }

@@ -9,13 +9,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Tables } from '@/types/supabase'
 import { ColumnDef } from '@tanstack/react-table'
+import clsx from 'clsx'
 import { format } from 'date-fns'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import DeleteCardDialog from '../delete'
 import UpdateCardDialog from '../update'
-import clsx from 'clsx'
 
 type DialogState = 'update' | 'delete' | null
 type CardWithClient = Tables<'cards'> & {

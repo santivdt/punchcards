@@ -1,8 +1,8 @@
 'use server'
 
-import { createClient as createSupabaseClient } from '@/utils/supabase/server'
-import { requireUser } from '@/utils/auth'
 import { Tables } from '@/types/supabase'
+import { requireUser } from '@/utils/auth'
+import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 
 export const getActiveCards = async () => {
   const supabase = createSupabaseClient()

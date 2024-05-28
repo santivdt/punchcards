@@ -44,7 +44,6 @@ export default function Login({
                   className='px-4 py-2 mb-6 border rounded-md bg-inherit'
                   type='password'
                   name='password'
-                  placeholder='••••••••'
                   required
                 />
               </div>

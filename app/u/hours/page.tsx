@@ -1,11 +1,11 @@
 import Header from '@/components/header'
 import { Button } from '@/components/ui/button'
 import { requireUser } from '@/utils/auth'
-import CreateHourDialog from './create'
 import { getClientsFromUser } from '../clients/actions'
+import { getHoursFromUser } from './actions'
+import CreateHourDialog from './create'
 import { DataTable } from './table'
 import { columns } from './table/columns'
-import { getHoursFromUser } from './actions'
 
 const HourPage = async () => {
   const user = await requireUser()

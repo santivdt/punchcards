@@ -1,5 +1,4 @@
 import Header from '@/components/header'
-import { Badge } from '@/components/ui/badge'
 import {
   Card,
   CardContent,
@@ -17,11 +16,12 @@ import {
 } from '@/components/ui/table'
 import { requireUser } from '@/utils/auth'
 import { Banknote, FileClock } from 'lucide-react'
+import { Link } from 'nextjs13-progress'
 import {
   getActiveCards,
-  getTotalEarnings,
   getOpenHours,
   getTopClients,
+  getTotalEarnings,
 } from './actions'
 
 const Page = async () => {
@@ -37,18 +37,20 @@ const Page = async () => {
       <div className='flex w-full flex-col'>
         <main className='flex flex-1 flex-col gap-4 md:gap-8'>
           <div className='grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-2'>
-            <Card>
-              <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                <CardTitle className='text-sm font-medium'>
-                  Active cards
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className='text-2xl font-bold'>
-                  {cards && cards.length > 0 ? cards.length : 'No cards'}
-                </div>
-              </CardContent>
-            </Card>
+            <Link href='/u/cards'>
+              <Card>
+                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                  <CardTitle className='text-sm font-medium'>
+                    Active cards
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className='text-2xl font-bold'>
+                    {cards && cards.length > 0 ? cards.length : 'No cards'}
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
             <Card>
               <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                 <CardTitle className='text-sm font-medium'>
@@ -91,13 +93,20 @@ const Page = async () => {
                     </TableHeader>
                     <TableBody>
                       {topClients.map((topClient) => (
-                        <TableRow key={topClient.id}>
-                          <TableCell>
-                            <div className='font-medium'>{topClient.name}</div>
-                            <div className='hidden text-sm text-muted-foreground md:inline'>
-                              {topClient.email}
-                            </div>
-                          </TableCell>
+                        <TableRow>
+                          <Link
+                            key={topClient.id}
+                            href={`/u/clients/${topClient.id}`}
+                          >
+                            <TableCell>
+                              <div className='font-medium'>
+                                {topClient.name}
+                              </div>
+                              <div className='hidden text-sm text-muted-foreground md:inline'>
+                                {topClient.email}
+                              </div>
+                            </TableCell>
+                          </Link>
                           <TableCell className='text-right'>
                             €{topClient.totalPrice}
                           </TableCell>

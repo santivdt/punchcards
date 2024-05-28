@@ -1,8 +1,8 @@
+import { getHoursFromClient } from '@/app/u/hours/actions'
 import { DataTable } from '@/app/u/hours/table'
 import { columns } from '@/app/u/hours/table/columns'
 import Header from '@/components/header'
 import { requireUser } from '@/utils/auth'
-import { getHoursFromClient } from '@/app/u/hours/actions'
 import { getClientFromSlug } from '../../actions'
 
 type PageProps = { slug: string }

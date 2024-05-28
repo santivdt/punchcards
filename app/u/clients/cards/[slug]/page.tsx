@@ -1,9 +1,9 @@
+import { getCardsFromClient } from '@/app/u/cards/actions'
 import { DataTable } from '@/app/u/cards/table'
 import { columns } from '@/app/u/cards/table/columns'
-import { getCardsFromClient } from '@/app/u/cards/actions'
+import { getClientFromSlug } from '@/app/u/clients/actions'
 import Header from '@/components/header'
 import { requireUser } from '@/utils/auth'
-import { getClientFromSlug } from '@/app/u/clients/actions'
 
 type PageProps = { slug: string }
 

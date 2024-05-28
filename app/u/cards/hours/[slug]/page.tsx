@@ -1,7 +1,7 @@
-import { DataTable } from '@/app/u/hours/table'
-import { columns } from '@/app/u/hours/table/columns'
 import { getCardFromSlug } from '@/app/u/cards/actions'
 import { getHoursFromCard } from '@/app/u/hours/actions'
+import { DataTable } from '@/app/u/hours/table'
+import { columns } from '@/app/u/hours/table/columns'
 import Header from '@/components/header'
 import { requireUser } from '@/utils/auth'
 

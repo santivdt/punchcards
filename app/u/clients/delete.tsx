@@ -15,7 +15,6 @@ import { Tables } from '@/types/supabase'
 import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { deleteClient } from './actions'
-import { error } from 'console'
 
 type DeleteFormProps = {
   open?: boolean

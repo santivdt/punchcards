@@ -1,10 +1,10 @@
 'use server'
 
 import { Tables } from '@/types/supabase'
+import { requireUser } from '@/utils/auth'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
-import { requireUser } from '@/utils/auth'
 
 export const getHoursFromUser = async () => {
   const supabase = createSupabaseClient()

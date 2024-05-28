@@ -37,7 +37,7 @@ export const createCard = async (prevData: any, formData: FormData) => {
   const validatedFields = createSchema.safeParse({
     client_id: formData.get('client_id'),
     hours: Number(formData.get('hours')),
-    hours_left: Number(formData.get('hours_left')),
+    hours_left: Number(formData.get('hours')),
     price: Number(formData.get('price')),
   })
 
@@ -81,6 +81,7 @@ export const createCard = async (prevData: any, formData: FormData) => {
   })
 
   if (error) {
+    console.log(error)
     return {
       status: 'error',
       message: 'An error occurred while creating the client',

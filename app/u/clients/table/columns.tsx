@@ -11,8 +11,8 @@ import { Tables } from '@/types/supabase'
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
-import DeleteClientDialog from '../delete'
 import { useState } from 'react'
+import DeleteClientDialog from '../delete'
 import UpdateClientDialog from '../update'
 
 type DialogState = 'update' | 'delete' | null
