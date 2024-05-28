@@ -11,9 +11,6 @@ export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: 'Freelance front-end developer',
   description: 'Portfolio project of Santi van den Toorn',
-  icons: {
-    icon: '/icon.png',
-  },
 }
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
