@@ -59,21 +59,21 @@ export type Database = {
       clients: {
         Row: {
           created_at: string
-          email: string | null
+          email: string
           id: string
           name: string | null
           user_id: string
         }
         Insert: {
           created_at?: string
-          email?: string | null
+          email: string
           id?: string
           name?: string | null
           user_id: string
         }
         Update: {
           created_at?: string
-          email?: string | null
+          email?: string
           id?: string
           name?: string | null
           user_id?: string

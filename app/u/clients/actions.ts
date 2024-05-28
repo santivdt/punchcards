@@ -30,6 +30,20 @@ export const createClient = async (prevData: any, formData: FormData) => {
 
   const supabase = createSupabaseClient()
 
+  const { data: currentClients } = await supabase
+    .from('clients')
+    .select(`email`)
+
+  if (
+    currentClients != null &&
+    currentClients.some((item) => item.email === validatedFields.data.email)
+  ) {
+    return {
+      status: 'error',
+      message: 'Client with this e-mail already exists',
+    }
+  }
+
   const user = await requireUser()
 
   const { error } = await supabase.from('clients').insert({
@@ -168,4 +182,25 @@ export const getClientFromSlug = async (slug: string) => {
     .select(`id, name, email`)
     .eq('id', slug)
     .single()
+}
+
+// TODO: doesnt get to the form status
+export const checkEmail = async (email: string) => {
+  const supabase = createSupabaseClient()
+
+  const { data: currentClients } = await supabase
+    .from('clients')
+    .select(`email`)
+
+  if (
+    currentClients != null &&
+    currentClients.some((item) => item.email === email)
+  ) {
+    return {
+      status: 'error',
+      message: 'Client with this e-mail already exists',
+    }
+  }
+
+  return { status: 'success' }
 }

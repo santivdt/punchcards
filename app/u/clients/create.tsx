@@ -1,6 +1,6 @@
 'use client'
 
-import { createClient } from '@/app/u/clients/actions'
+import { checkEmail, createClient } from '@/app/u/clients/actions'
 import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
@@ -24,11 +24,17 @@ const CreateClientDialog = ({ children }: CreateClientDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createClient, initialState)
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined
+  )
 
   useEffect(() => {
     if (state?.status === 'success') {
       setOpen(false)
+      setErrorMessage('')
       formRef.current?.reset()
+    } else if (state?.status === 'error') {
+      setErrorMessage(state.message)
     }
   }, [state])
 
@@ -50,7 +56,7 @@ const CreateClientDialog = ({ children }: CreateClientDialogProps) => {
               <p className='py-2 text-xs text-red-500'>{state.errors.name}</p>
             )}
           </div>
-          <div className='mb-4'>
+          <div>
             <Label htmlFor='email'>Email</Label>
             <Input
               id='email'
@@ -58,20 +64,28 @@ const CreateClientDialog = ({ children }: CreateClientDialogProps) => {
               type='text'
               placeholder='johndoe@example.com'
               required
+              onBlur={(e) => {
+                checkEmail(e.target.value)
+              }}
             />
             {state?.errors?.email && (
               <p className='py-2 text-xs text-red-500'>{state.errors.email}</p>
             )}
           </div>
+          {errorMessage && (
+            <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
+          )}
           <p aria-live='polite' className='sr-only'>
             {state?.message}
           </p>
-          <DialogClose asChild>
-            <Button variant='outline' className='mr-2'>
-              Cancel
-            </Button>
-          </DialogClose>
-          <SubmitButton normal='Add client' going='Adding  client...' />
+          <div className='mt-4'>
+            <DialogClose asChild>
+              <Button variant='outline' className='mr-2'>
+                Cancel
+              </Button>
+            </DialogClose>
+            <SubmitButton normal='Add client' going='Adding  client...' />
+          </div>
         </form>
       </DialogContent>
     </Dialog>
