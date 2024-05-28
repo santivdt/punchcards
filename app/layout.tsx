@@ -1,4 +1,5 @@
 import { GeistSans } from 'geist/font/sans'
+import { ThemeProvider } from 'next-themes'
 import { Next13NProgress } from 'nextjs13-progress'
 import './globals.css'
 
@@ -18,17 +19,20 @@ export const metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en' className={GeistSans.className}>
-      <body>
-        <main className='hidden lg:block'>{children}</main>
-        <main className='flex justify-center mx-10 lg:hidden'>
-          <p className='mt-6'>
-            For now this app only works on desktop. You can visit my website at{' '}
-            <a className='underline' href='https://santi.tech'>
-              santi.tech.
-            </a>
-          </p>
-        </main>
-        <Next13NProgress color='#6D49FF' height={3} />
+      <body className='antialiased'>
+        <ThemeProvider attribute='class'>
+          <main className='hidden lg:block'>{children}</main>
+          <main className='flex justify-center mx-10 lg:hidden'>
+            <p className='mt-6'>
+              For now this app only works on desktop. You can visit my website
+              at{' '}
+              <a className='underline' href='https://santi.tech'>
+                santi.tech.
+              </a>
+            </p>
+          </main>
+          <Next13NProgress color='#6D49FF' height={3} />
+        </ThemeProvider>
       </body>
     </html>
   )

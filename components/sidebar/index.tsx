@@ -11,6 +11,7 @@ import {
 import { Tables } from '@/types/supabase'
 import { Settings } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
+import ThemeSwitcher from '../theme-switcher'
 
 export const loggedInItems = [
   { href: '/u/dashboard', label: 'Dashboard' },
@@ -48,6 +49,9 @@ const Sidebar = async ({ userProfile }: SideBarProps) => {
               <form action={signOut}>
                 <button>Logout</button>
               </form>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <ThemeSwitcher children='Switch mode' />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
