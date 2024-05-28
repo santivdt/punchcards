@@ -81,6 +81,26 @@ export const createCardType = async (prevData: any, formData: FormData) => {
 
   const user = await requireUser()
 
+  const { data: currentCardTypes, error: currentCardTypesError } =
+    await getCardTypes()
+
+  const checkForDuplicates = (arr: any, hours: Number, price: Number) => {
+    return arr.some((item: any) => item.hours === hours && item.price === price)
+  }
+
+  if (
+    checkForDuplicates(
+      currentCardTypes,
+      validatedFields.data.hours,
+      validatedFields.data.price
+    )
+  ) {
+    return {
+      status: 'error',
+      message: 'Card type already exists',
+    }
+  }
+
   const { error } = await supabase.from('card_types').insert({
     user_id: user.id,
     hours: validatedFields.data.hours,

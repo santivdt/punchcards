@@ -18,17 +18,23 @@ type CreateCardTypeDialogProps = {
   children: React.ReactNode
 }
 
+type ErrorState = string | undefined
+
 const initialState = undefined
 
 const CreateCardTypeDialog = ({ children }: CreateCardTypeDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createCardType, initialState)
+  const [errorMessage, setErrorMessage] = useState<ErrorState>(undefined)
 
   useEffect(() => {
     if (state?.status === 'success') {
       setOpen(false)
       formRef.current?.reset()
+      setErrorMessage('')
+    } else if (state?.status === 'error') {
+      setErrorMessage(state.message)
     }
   }, [state])
 
@@ -44,7 +50,7 @@ const CreateCardTypeDialog = ({ children }: CreateCardTypeDialogProps) => {
               <p className='py-2 text-xs text-red-500'>{state.errors.hours}</p>
             )}
           </div>
-          <div className='mb-4'>
+          <div>
             <Label htmlFor='price'>Price</Label>
             <Input id='price' name='price' type='number' required />
             {state?.errors?.price && (
@@ -54,6 +60,11 @@ const CreateCardTypeDialog = ({ children }: CreateCardTypeDialogProps) => {
           <p aria-live='polite' className='sr-only'>
             {state?.message}
           </p>
+          <div>
+            {errorMessage && (
+              <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
+            )}
+          </div>
           <DialogClose asChild>
             <Button variant='outline' className='mr-2'>
               Cancel
