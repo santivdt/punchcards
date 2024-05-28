@@ -57,7 +57,7 @@ export default function Signup() {
           </form>
         </div>
       </div>
-      <div className=' bg-black h-screen flex flex-col justify-center py-12 px-32 text-white leading-relaxed'>
+      <div className=' bg-black lg:h-screen flex flex-col justify-center py-12 px-8 lg:px-32 text-white leading-relaxed'>
         <PromoText />
       </div>
     </div>

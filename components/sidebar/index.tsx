@@ -26,7 +26,7 @@ type SideBarProps = {
 }
 const Sidebar = async ({ userProfile }: SideBarProps) => {
   return (
-    <aside className='w-full max-w-[200px] p-4 flex flex-col border-r'>
+    <aside className='hidden lg:flex w-full max-w-[200px] p-4 flex-col border-r dark:border-neutral-800'>
       <div className='flex items-center mb-4 pl-4'>
         <h1 className='flex flex-1 items-center h-10 text-lg font-bold'>
           {userProfile ? (
