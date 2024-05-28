@@ -14,6 +14,7 @@ import { Tables } from '@/types/supabase'
 import { useEffect, useRef } from 'react'
 import { useFormState } from 'react-dom'
 
+import { Euro } from 'lucide-react'
 import { updateCard } from './actions'
 
 type UpdateCardDialogProps = {
@@ -86,16 +87,22 @@ const UpdateCardDialog = ({
             <Label htmlFor='price' className='mb-2'>
               Price
             </Label>
-            <Input
-              type='number'
-              name='price'
-              id='price'
-              required
-              defaultValue={card.price?.toString() ?? ''}
-            />
-            {state?.errors?.price && (
-              <p className='py-2 text-xs text-red-500'>{state.errors.hours}</p>
-            )}
+            <div className='relative flex items-center max-w-2xl '>
+              <Euro className='absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform' />
+              <Input
+                type='number'
+                name='price'
+                id='price'
+                required
+                className='pl-6'
+                defaultValue={card.price?.toString() ?? ''}
+              />
+              {state?.errors?.hours && (
+                <p className='py-2 text-xs text-red-500'>
+                  {state.errors.price}
+                </p>
+              )}
+            </div>
           </div>
 
           <p aria-live='polite' className='sr-only'>

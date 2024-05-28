@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Tables } from '@/types/supabase'
+import { Euro } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
@@ -103,12 +104,21 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
                 <Label htmlFor='price' className='mb-2'>
                   Price
                 </Label>
-                <Input type='number' name='price' id='price' required />
-                {state?.errors?.hours && (
-                  <p className='py-2 text-xs text-red-500'>
-                    {state.errors.price}
-                  </p>
-                )}
+                <div className='relative flex items-center max-w-2xl '>
+                  <Euro className='absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform' />
+                  <Input
+                    type='number'
+                    name='price'
+                    id='price'
+                    required
+                    className='pl-6'
+                  />
+                  {state?.errors?.hours && (
+                    <p className='py-2 text-xs text-red-500'>
+                      {state.errors.price}
+                    </p>
+                  )}
+                </div>
               </div>
               <p aria-live='polite' className='sr-only'>
                 {state?.message}

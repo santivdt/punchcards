@@ -34,14 +34,11 @@ export const createCard = async (prevData: any, formData: FormData) => {
   dateOneYearFromNow.setFullYear(dateOneYearFromNow.getFullYear() + 1)
   const endsAtString = dateOneYearFromNow.toISOString()
 
-  const hoursNumber = Number(formData.get('hours'))
-  const priceNumber = Number(formData.get('price'))
-
   const validatedFields = createSchema.safeParse({
     client_id: formData.get('client_id'),
-    hours: hoursNumber,
-    hours_left: hoursNumber,
-    price: priceNumber,
+    hours: Number(formData.get('hours')),
+    hours_left: Number(formData.get('hours_left')),
+    price: Number(formData.get('price')),
   })
 
   if (!validatedFields.success) {
@@ -152,6 +149,7 @@ export const updateCard = async (prevData: any, formData: FormData) => {
     hours: Number(formData.get('hours')),
     hours_left: Number(formData.get('hours_left')),
     card_id: formData.get('card_id'),
+    price: Number(formData.get('price')),
   })
 
   if (!validatedFields.success) {
@@ -161,20 +159,16 @@ export const updateCard = async (prevData: any, formData: FormData) => {
     }
   }
 
-  console.log(validatedFields.data, 'is it')
-
   const supabase = createSupabaseClient()
-
-  const user = await requireUser()
 
   const { error } = await supabase
     .from('cards')
     .update({
       hours: validatedFields.data.hours,
       hours_left: validatedFields.data.hours_left,
+      price: validatedFields.data.price,
     })
     .eq('id', validatedFields.data.card_id)
-    .eq('user_id', user.id)
 
   if (error) {
     return {
