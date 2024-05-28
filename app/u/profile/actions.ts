@@ -2,11 +2,9 @@
 
 import { deleteSchema, updateProfileSchema } from './schema'
 import { createCardTypeSchema } from './schema'
-
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { requireUser } from '@/utils/auth'
 import { revalidatePath } from 'next/cache'
-import { Tables } from '@/types/supabase'
 
 export const getProfile = async () => {
   const supabase = createSupabaseClient()
@@ -135,5 +133,37 @@ export const deleteCardType = async (prevData: any, formData: FormData) => {
   return {
     status: 'success',
     message: 'Card type deleted successfully',
+  }
+}
+
+export const deleteUser = async (prevData: any, formData: FormData) => {
+  const validatedFields = deleteSchema.safeParse({
+    id: formData.get('id'),
+  })
+
+  if (!validatedFields.success) {
+    console.log(validatedFields)
+    return {
+      status: 'error',
+      errors: validatedFields.error.flatten().fieldErrors,
+    }
+  }
+  const supabase = createSupabaseClient()
+  const { error } = await supabase.auth.admin.deleteUser(
+    validatedFields.data.id
+  )
+
+  if (error) {
+    console.log(error)
+    return {
+      status: 'error',
+      message: 'An error occurred while deleting the user',
+    }
+  }
+  revalidatePath('/u/profile')
+
+  return {
+    status: 'success',
+    message: 'User deleted successfully',
   }
 }

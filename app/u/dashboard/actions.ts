@@ -98,7 +98,6 @@ export const getTopClients = async (): Promise<TopClient[]> => {
   if (error) {
     throw new Error(error.message)
   }
-  // MAARTJE HELP TYPESCRIPT MANIA
   const clientTotals: { [key: string]: TopClient } = {}
 
   data.forEach((item) => {
