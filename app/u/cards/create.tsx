@@ -30,6 +30,8 @@ type CreateClientDialogProps = {
 
 const initialState = undefined
 
+type ErrorType = string | undefined
+
 const CreateCardDialog = ({
   children,
   clients,
@@ -38,11 +40,15 @@ const CreateCardDialog = ({
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createCard, initialState)
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
 
   useEffect(() => {
     if (state?.status === 'success') {
       setOpen(false)
       formRef.current?.reset()
+      setErrorMessage('')
+    } else if (state?.status === 'error') {
+      setErrorMessage(state.message)
     }
   }, [state])
 
@@ -74,7 +80,7 @@ const CreateCardDialog = ({
                 </p>
               )}
             </div>
-            <div className='mb-4'>
+            <div>
               <Label htmlFor='hours' className='mb-2'>
                 Hours
               </Label>
@@ -99,6 +105,11 @@ const CreateCardDialog = ({
             <p aria-live='polite' className='sr-only'>
               {state?.message}
             </p>
+            <div className='mb-4'>
+              {errorMessage && (
+                <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
+              )}
+            </div>
             <DialogClose asChild>
               <Button variant='outline' className='mr-2'>
                 Cancel

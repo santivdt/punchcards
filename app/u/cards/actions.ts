@@ -30,6 +30,8 @@ export const getCardsFromUser = async () => {
 }
 
 export const createCard = async (prevData: any, formData: FormData) => {
+  const supabase = createSupabaseClient()
+
   let dateOneYearFromNow = new Date()
   dateOneYearFromNow.setFullYear(dateOneYearFromNow.getFullYear() + 1)
   const endsAtString = dateOneYearFromNow.toISOString()
@@ -49,7 +51,23 @@ export const createCard = async (prevData: any, formData: FormData) => {
     }
   }
 
-  const supabase = createSupabaseClient()
+  const { data: activeCards, error: activeCardsError } = await supabase
+    .from('cards')
+    .select('id')
+    .eq('client_id', validatedFields.data.client_id)
+    .eq('is_active', true)
+
+  if (activeCardsError) {
+    console.error('Error getting active card:', activeCardsError)
+  }
+
+  if (activeCards && activeCards.length > 0) {
+    return {
+      status: 'error',
+      message:
+        'Client already has an active card. Finish it first before adding a new one.',
+    }
+  }
 
   const user = await requireUser()
   // TODO really no idea how to get the price of the card that was picked
