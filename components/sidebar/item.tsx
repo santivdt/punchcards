@@ -32,7 +32,7 @@ const Item = ({ href, label }: ItemProps) => {
   return (
     <div
       className={cn(
-        'flex py-2 px-4 rounded-xl items-center hover:bg-neutral-100  text-neutral-500 transition-colors',
+        'flex py-2 px-4 rounded-xl items-center text-neutral-500 hover:bg-neutral-100 dark:text-white  dark:hover:text-black transition-colors',
         pathname === href &&
           'bg-neutral-100 hover:bg-neutral-200 text-foreground dark:text-black'
       )}
