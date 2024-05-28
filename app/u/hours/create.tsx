@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { Tables } from '@/types/supabase'
-import { useEffect, useRef, useState } from 'react'
+import { use, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 
 type CreateHourDialogProps = {
@@ -40,16 +40,18 @@ const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createHour, initialState)
   const [errorMessage, setErrorMessage] = useState<ErrorState>(undefined)
-
   useEffect(() => {
     if (state?.status === 'success') {
       setOpen(false)
-      formRef.current?.reset()
-      setErrorMessage('')
-    } else if (state?.status === 'error') {
+      setErrorMessage(undefined)
+    } else if (state?.status === 'error' && open === true) {
       setErrorMessage(state.message)
+    } else if (state?.status === 'error' && open === false) {
+      state.message = ''
+      state.errors = {}
+      setErrorMessage(undefined)
     }
-  }, [state])
+  }, [state, open])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
