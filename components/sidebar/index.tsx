@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Tables } from '@/types/supabase'
 import { Settings } from 'lucide-react'
-import Link from 'next/link'
+import { Link } from 'nextjs13-progress'
 
 export const loggedInItems = [
   { href: '/u/dashboard', label: 'Dashboard' },

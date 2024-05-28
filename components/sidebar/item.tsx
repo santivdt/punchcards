@@ -1,9 +1,10 @@
 'use client'
 
 import { cn } from '@/utils'
-import Link, { LinkProps } from 'next/link'
+import { CircleGauge, FileClock, ScrollText, Users } from 'lucide-react'
+import { LinkProps } from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Users, ScrollText, FileClock, CircleGauge } from 'lucide-react'
+import { Link } from 'nextjs13-progress'
 
 export type ItemProps = {
   label: string
