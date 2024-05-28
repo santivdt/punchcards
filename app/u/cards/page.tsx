@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import CreateCardDialog from './create'
 import { getClientsFromUser } from '@/app/u/clients/actions'
 import { getCardTypes } from '@/app/u/profile/actions'
+import { DataTablePagination } from '@/components/Pagination'
 
 const CardsPage = async () => {
   const user = await requireUser()
