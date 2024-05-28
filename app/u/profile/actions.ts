@@ -1,10 +1,9 @@
 'use server'
 
-import { deleteSchema, updateProfileSchema } from './schema'
-import { createCardTypeSchema } from './schema'
-import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { requireUser } from '@/utils/auth'
+import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { deleteSchema, updateProfileSchema } from './schema'
 
 export const getProfile = async () => {
   const supabase = createSupabaseClient()
@@ -51,123 +50,6 @@ export const updateProfile = async (prevData: any, formData: FormData) => {
   return {
     status: 'success',
     message: 'Profile updated successfully',
-  }
-}
-
-export const getCardTypes = async () => {
-  const supabase = createSupabaseClient()
-
-  return supabase
-    .from('card_types')
-    .select('*')
-    .order('hours', { ascending: true })
-}
-
-export const createCardType = async (prevData: any, formData: FormData) => {
-  const validatedFields = createCardTypeSchema.safeParse({
-    hours: Number(formData.get('hours')),
-    price: Number(formData.get('price')),
-  })
-
-  if (!validatedFields.success) {
-    console.log(validatedFields)
-    return {
-      status: 'error',
-      errors: validatedFields.error.flatten().fieldErrors,
-    }
-  }
-
-  const supabase = createSupabaseClient()
-
-  const user = await requireUser()
-
-  const { data: currentCardTypes, error: currentCardTypesError } =
-    await getCardTypes()
-
-  const checkForDuplicates = (arr: any, hours: Number, price: Number) => {
-    return arr.some((item: any) => item.hours === hours && item.price === price)
-  }
-
-  if (
-    checkForDuplicates(
-      currentCardTypes,
-      validatedFields.data.hours,
-      validatedFields.data.price
-    )
-  ) {
-    return {
-      status: 'error',
-      message: 'Card type already exists',
-    }
-  }
-
-  const { error } = await supabase.from('card_types').insert({
-    user_id: user.id,
-    hours: validatedFields.data.hours,
-    price: validatedFields.data.price,
-  })
-
-  if (error) {
-    console.log(error)
-    return {
-      status: 'error',
-      message: 'An error occurred while creating the client',
-    }
-  }
-
-  revalidatePath('/u/profile')
-
-  return {
-    status: 'success',
-    message: 'Client created successfully',
-  }
-}
-
-export const deleteCardType = async (prevData: any, formData: FormData) => {
-  const validatedFields = deleteSchema.safeParse({
-    id: formData.get('cardTypeId'),
-  })
-
-  if (!validatedFields.success) {
-    return {
-      status: 'error',
-      errors: validatedFields.error.flatten().fieldErrors,
-    }
-  }
-
-  const dummyDataCardTypes = [
-    '36f7cef2-c3b1-4e32-837e-91946f85fc0b',
-    'cb8b7586-2240-484f-81f2-d15033ac2f58',
-    'cb2ec86c-0426-4868-8552-5f28ed9e413f',
-  ]
-
-  if (dummyDataCardTypes.includes(validatedFields.data.id)) {
-    return {
-      status: 'error',
-      message:
-        'Cannot delete dummy card types. If you add your own card type you can delete it.',
-    }
-  }
-
-  const supabase = createSupabaseClient()
-
-  const { error } = await supabase
-    .from('card_types')
-    .delete()
-    .eq('id', validatedFields.data.id)
-
-  if (error) {
-    return {
-      status: 'error',
-      message: 'An error occurred while deleting the card type',
-    }
-  }
-
-  revalidatePath('/profile')
-
-  return {
-    status: 'success',
-    message: 'Card type deleted successfully',
   }
 }
 

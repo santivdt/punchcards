@@ -30,18 +30,18 @@ export const getCardsFromUser = async () => {
 }
 
 export const createCard = async (prevData: any, formData: FormData) => {
-  const supabase = createSupabaseClient()
-
   let dateOneYearFromNow = new Date()
   dateOneYearFromNow.setFullYear(dateOneYearFromNow.getFullYear() + 1)
   const endsAtString = dateOneYearFromNow.toISOString()
 
   const hoursNumber = Number(formData.get('hours'))
+  const priceNumber = Number(formData.get('price'))
 
   const validatedFields = createSchema.safeParse({
     client_id: formData.get('client_id'),
     hours: hoursNumber,
     hours_left: hoursNumber,
+    price: priceNumber,
   })
 
   if (!validatedFields.success) {
@@ -50,6 +50,8 @@ export const createCard = async (prevData: any, formData: FormData) => {
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
+
+  const supabase = createSupabaseClient()
 
   const { data: activeCards, error: activeCardsError } = await supabase
     .from('cards')
@@ -70,16 +72,6 @@ export const createCard = async (prevData: any, formData: FormData) => {
   }
 
   const user = await requireUser()
-  // TODO really no idea how to get the price of the card that was picked
-
-  let price = 0
-  if (hoursNumber == 10) {
-    price = 950
-  } else if (hoursNumber == 20) {
-    price = 1800
-  } else {
-    price = 2250
-  }
 
   const { error } = await supabase.from('cards').insert({
     user_id: user.id,
@@ -88,7 +80,7 @@ export const createCard = async (prevData: any, formData: FormData) => {
     ends_at: endsAtString,
     hours_left: validatedFields.data.hours_left,
     is_active: true,
-    price: price,
+    price: validatedFields.data.price,
   })
 
   if (error) {

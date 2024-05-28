@@ -9,35 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      card_types: {
-        Row: {
-          hours: number
-          id: string
-          price: number
-          user_id: string
-        }
-        Insert: {
-          hours: number
-          id?: string
-          price: number
-          user_id: string
-        }
-        Update: {
-          hours?: number
-          id?: string
-          price?: number
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "card_types_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       cards: {
         Row: {
           client_id: string
@@ -199,6 +170,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      delete_user_data: {
+        Args: {
+          user_uuid: string
+        }
+        Returns: undefined
+      }
       update_card_validity: {
         Args: Record<PropertyKey, never>
         Returns: undefined

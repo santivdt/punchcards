@@ -1,24 +1,21 @@
 import { getCardsFromUser } from '@/app/u/cards/actions'
+import { getClientsFromUser } from '@/app/u/clients/actions'
 import Header from '@/components/header'
+import { Button } from '@/components/ui/button'
 import { requireUser } from '@/utils/auth'
+import CreateCardDialog from './create'
 import { DataTable } from './table'
 import { columns } from './table/columns'
-import { Button } from '@/components/ui/button'
-import CreateCardDialog from './create'
-import { getClientsFromUser } from '@/app/u/clients/actions'
-import { getCardTypes } from '@/app/u/profile/actions'
-import { DataTablePagination } from '@/components/Pagination'
 
 const CardsPage = async () => {
-  const user = await requireUser()
+  requireUser()
   const { data: cards } = await getCardsFromUser()
   const { data: clients } = await getClientsFromUser()
-  const { data: cardTypes } = await getCardTypes()
 
   return (
     <>
       <Header title='Cards'>
-        <CreateCardDialog clients={clients} cardTypes={cardTypes}>
+        <CreateCardDialog clients={clients}>
           <Button>Add card</Button>
         </CreateCardDialog>
       </Header>
