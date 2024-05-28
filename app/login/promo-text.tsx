@@ -1,4 +1,4 @@
-import { Linkedin, LucideGlobe, Mail } from 'lucide-react'
+import { Github, Linkedin, LucideGlobe, Mail } from 'lucide-react'
 
 const PromoText = () => {
   return (
@@ -58,6 +58,9 @@ const PromoText = () => {
           target='_blank'
         >
           <Mail className='' size={18} />
+        </a>
+        <a href='https://github.com/santivdt/punchcards' target='_blank'>
+          <Github className='ml-4' size={18} />
         </a>
       </p>
     </>
