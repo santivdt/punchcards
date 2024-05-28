@@ -134,6 +134,21 @@ export const deleteCardType = async (prevData: any, formData: FormData) => {
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
+
+  const dummyDataCardTypes = [
+    '36f7cef2-c3b1-4e32-837e-91946f85fc0b',
+    'cb8b7586-2240-484f-81f2-d15033ac2f58',
+    'cb2ec86c-0426-4868-8552-5f28ed9e413f',
+  ]
+
+  if (dummyDataCardTypes.includes(validatedFields.data.id)) {
+    return {
+      status: 'error',
+      message:
+        'Cannot delete dummy card types. If you add your own card type you can delete it.',
+    }
+  }
+
   const supabase = createSupabaseClient()
 
   const { error } = await supabase

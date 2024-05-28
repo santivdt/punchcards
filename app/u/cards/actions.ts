@@ -118,6 +118,19 @@ export const deleteCard = async (prevData: any, formData: FormData) => {
     }
   }
 
+  const dummyDataCards = [
+    '43fc1329-b37c-46ba-8b2f-4b6f84bf0772',
+    'a12ebdc7-c6ce-48c4-9a06-de07ac28fa4c',
+  ]
+
+  if (dummyDataCards.includes(validatedFields.data.card_id)) {
+    return {
+      status: 'error',
+      message:
+        'Cannot delete dummy data cards. If you want to test the delete function add a new card and delete it.',
+    }
+  }
+
   const supabase = createSupabaseClient()
   const user = await requireUser()
 

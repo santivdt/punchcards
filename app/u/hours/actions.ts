@@ -119,6 +119,20 @@ export const deleteHour = async (prevData: any, formData: FormData) => {
     }
   }
 
+  const dummyDataHours = [
+    '10922d6b-c13b-4309-a34e-14d356cdeb46',
+    '8554d522-6303-4c50-8e54-86830d99aa93',
+    '1ce933e6-646d-4dc2-a500-94868716ac3d',
+  ]
+
+  if (dummyDataHours.includes(validatedFields.data.hourId)) {
+    return {
+      status: 'error',
+      message:
+        'Cannot delete dummy data hours. Add your own hours to delete them.',
+    }
+  }
+
   const supabase = createSupabaseClient()
   const user = await requireUser()
 

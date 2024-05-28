@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Tables } from '@/types/supabase'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { deleteCardType } from '../actions'
 
@@ -23,6 +23,8 @@ type DeleteFormProps = {
   onOpenChange?: React.Dispatch<React.SetStateAction<boolean>> | (() => void)
 }
 
+type ErrorType = string | undefined
+
 const initialState = undefined
 
 const DeleteCardTypeDialog = ({
@@ -32,12 +34,16 @@ const DeleteCardTypeDialog = ({
   onOpenChange = () => {},
 }: DeleteFormProps) => {
   const [state, formAction] = useFormState(deleteCardType, initialState)
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
 
   useEffect(() => {
     if (state?.status === 'success') {
       onOpenChange(false)
+      setErrorMessage('')
+    } else if (state?.status === 'error') {
+      setErrorMessage(state.message)
     }
-  }, [onOpenChange, state?.status])
+  }, [onOpenChange, state])
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -49,6 +55,9 @@ const DeleteCardTypeDialog = ({
         </DialogHeader>
         <form action={formAction}>
           <input type='hidden' name='cardTypeId' value={cardType.id} />
+          {errorMessage && (
+            <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
+          )}
           <div className='flex items-center justify-end gap-2'>
             <DialogClose asChild>
               <Button type='button' variant='outline'>

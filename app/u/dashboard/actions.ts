@@ -46,7 +46,6 @@ export const getOpenHours = async () => {
     .eq('is_active', true)
     .eq('user_id', user.id)
 
-  // TODO i do wonder where you will ever see this message?
   if (cardsError) {
     return {
       status: 'error',

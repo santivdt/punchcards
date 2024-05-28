@@ -45,7 +45,7 @@ const Page = async () => {
               </CardHeader>
               <CardContent>
                 <div className='text-2xl font-bold'>
-                  {cards && cards.length > 0 ? cards.length : 'Nope'}
+                  {cards && cards.length > 0 ? cards.length : 'No cards'}
                 </div>
               </CardContent>
             </Card>

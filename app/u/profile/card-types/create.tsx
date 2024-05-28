@@ -50,7 +50,7 @@ const CreateCardTypeDialog = ({ children }: CreateCardTypeDialogProps) => {
               <p className='py-2 text-xs text-red-500'>{state.errors.hours}</p>
             )}
           </div>
-          <div>
+          <div className='mb-4'>
             <Label htmlFor='price'>Price</Label>
             <Input id='price' name='price' type='number' required />
             {state?.errors?.price && (

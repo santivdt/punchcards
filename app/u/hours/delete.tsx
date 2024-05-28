@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Tables } from '@/types/supabase'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { deleteHour } from './actions'
 
@@ -25,6 +25,8 @@ type DeleteFormProps = {
 
 const initialState = undefined
 
+type ErrorType = string | undefined
+
 const DeleteHourDialog = ({
   open,
   hour,
@@ -32,11 +34,16 @@ const DeleteHourDialog = ({
   onOpenChange = () => {},
 }: DeleteFormProps) => {
   const [state, formAction] = useFormState(deleteHour, initialState)
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
+
   useEffect(() => {
     if (state?.status === 'success') {
       onOpenChange(false)
+      setErrorMessage
+    } else if (state?.status === 'error') {
+      setErrorMessage(state.message)
     }
-  }, [onOpenChange, state?.status])
+  }, [onOpenChange, state])
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -58,6 +65,9 @@ const DeleteHourDialog = ({
             name='cardId'
             defaultValue={hour.card_id ?? ''}
           />
+          {errorMessage && (
+            <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
+          )}
           <div className='flex items-center justify-end gap-2'>
             <DialogClose asChild>
               <Button type='button' variant='outline'>

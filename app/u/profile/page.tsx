@@ -14,7 +14,6 @@ const ProfilePage = async () => {
   return (
     <>
       <Header title='Settings'></Header>
-      {/* //TODO deze tabs geven hydrate error */}
       <Tabs defaultValue='profile' className='my-4 mx-1'>
         <TabsList>
           <TabsTrigger value='profile'>Profile</TabsTrigger>
