@@ -1,27 +1,18 @@
-import { signIn } from '@/app/login/actions'
+import PromoText from '@/app/login/promo-text'
+import { SubmitButton } from '@/app/login/submit-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
-import PromoText from './promo-text'
-import { SubmitButton } from './submit-button'
+import { signUp } from './actions'
 
-export default function Login({
-  searchParams,
-}: {
-  searchParams: { message: string }
-}) {
+export default function Signup() {
   return (
     <div className='w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]'>
       <div className='flex items-center justify-center py-12'>
         <div className='mx-auto grid w-[350px] gap-6'>
           <div className='grid gap-2 text-center'>
-            <h1 className='text-3xl font-bold'>Login</h1>
-
-            {searchParams?.message ? (
-              <p className=' mt-4 text-green-700'>{searchParams.message}</p>
-            ) : (
-              <p className='mt-4'>Enter your credentials below to login </p>
-            )}
+            <h1 className='text-3xl font-bold'>Sign up</h1>
+            <p>Enter your credentials below to sign up </p>
           </div>
           <form className='flex flex-col justify-center gap-2 text-foreground'>
             <div className='grid gap-4'>
@@ -49,18 +40,18 @@ export default function Login({
                 />
               </div>
               <SubmitButton
-                formAction={signIn}
+                formAction={signUp}
                 className='px-4 py-2 mb-2 bg-black text-white border rounded-md '
                 pendingText='Signing In...'
               >
-                Sign In
+                Sign Up
               </SubmitButton>
             </div>
 
             <div className='mt-4 text-center text-sm'>
-              Don&apos;t have an account?
-              <Link href='/signup' className='underline ml-2'>
-                Sign up
+              Already have an account?
+              <Link href='/login' className='underline ml-2'>
+                Sign in
               </Link>
             </div>
           </form>
