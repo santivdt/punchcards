@@ -8,8 +8,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Hire me :)!',
-  description: 'Manage your clients and their prepaid hours',
+  title: 'Freelance front-end developer',
+  description: 'Portfolio project of Santi van den Toorn',
   icons: {
     icon: '/icon.png',
   },

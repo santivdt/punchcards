@@ -18,24 +18,27 @@ const PromoText = () => {
         <span className='ml-2 text-purple-300'>
           demo@demo.email, demopassword
         </span>
-        . In this account you can do everything except delete the dummydata.
-        Every night the account is automatically cleaned up.
+        . In the demo account you can do everything except delete the dummydata.
+        Every night the account is automatically cleaned up. You can also signup
+        with your own (fake) account of course.
       </p>
       <p className=' mb-4'>
         I am not a designer so the UI/UX is definitey not optimal but it should
         work.
       </p>
-      <p className='mb-4'>
+      <p className='mb-4 text-yellow-500 font-bold'>
         I am looking for a job as a front-end developer where I can work and
         learn in a team. I have extensive experience in tech as a project
-        manager, product owner, consultant and front-end dev.
+        manager, product owner and consultant. I have worked as a front-end dev
+        some years ago and am looking to pick it up again. I am exremely
+        motivated and a quick learner. Any opportunity would be great.
       </p>
       <div className=' mb-4'>
         The perfect place would be:
         <ul className='list-disc'>
-          <li>Fully remote or at least hybrid ( I am Amsterdam based)</li>
+          <li>Fully remote or at least hybrid (I am Amsterdam based)</li>
           <li>Max 32 hours but preferably 24</li>
-          <li>Freelance or contract both fine</li>
+          <li>Freelance or contract both fine for me</li>
         </ul>
       </div>
       <p>Santi van den Toorn</p>
