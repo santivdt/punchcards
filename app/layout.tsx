@@ -8,8 +8,11 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Prepaid hours app',
+  title: 'Hire me :)!',
   description: 'Manage your clients and their prepaid hours',
+  icons: {
+    icon: '/icon.png',
+  },
 }
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
