@@ -88,6 +88,8 @@ export default function Login({
           <span className='ml-2 text-purple-300'>
             demo@demo.email, demopassword
           </span>
+          . In this account you can do everything except delete the dummydata.
+          Every night the account is automatically cleaned up.
         </p>
         <p className='text-white mb-4'>
           I am not a designer so the UI/UX is definitey not optimal but it
