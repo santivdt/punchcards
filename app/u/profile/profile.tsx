@@ -1,15 +1,12 @@
 'use client'
 
+import SubmitButton from '@/components/submitbutton'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Tables } from '@/types/supabase'
 import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { updateProfile } from './actions'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import SubmitButton from '@/components/submitbutton'
-import { Tables } from '@/types/supabase'
-import { Separator } from '@/components/ui/separator'
-import { Button } from '@/components/ui/button'
-import DeleteUserDialog from './delete'
 
 const initialState = undefined
 

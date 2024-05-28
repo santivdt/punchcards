@@ -16,7 +16,15 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en' className={GeistSans.className}>
       <body>
-        <main>{children}</main>
+        <main className='hidden lg:flex'>{children}</main>
+        <main className='flex justify-center mx-10 lg:hidden'>
+          <p className='mt-6'>
+            For now this app only works on desktop. You can visit my website at{' '}
+            <a className='underline' href='https://santi.tech'>
+              santi.tech.
+            </a>
+          </p>
+        </main>
         <Next13NProgress color='#6D49FF' height={3} />
       </body>
     </html>

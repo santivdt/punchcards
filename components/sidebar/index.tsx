@@ -44,6 +44,11 @@ const Sidebar = async ({ userProfile }: SideBarProps) => {
             <DropdownMenuItem asChild>
               <Link href='/u/profile'>Profile</Link>
             </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <form action={signOut}>
+                <button>Logout</button>
+              </form>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -56,9 +61,6 @@ const Sidebar = async ({ userProfile }: SideBarProps) => {
             </li>
           ))}
         </ul>
-        <form action={signOut}>
-          <button>Logout</button>
-        </form>
       </>
     </aside>
   )
