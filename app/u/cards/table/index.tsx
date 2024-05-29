@@ -30,13 +30,8 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData>[] | null
   data: TData[] | null
 }
-interface ClientData {
-  clients: {
-    name: string
-  }
-}
 
-export const DataTable = <TData extends ClientData, TValue>({
+export const DataTable = <TData extends TValue, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) => {
@@ -47,7 +42,6 @@ export const DataTable = <TData extends ClientData, TValue>({
   })
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const clientNames = data?.map((item) => item.clients.name)
 
   const table = useReactTable({
     data: data ?? [],
