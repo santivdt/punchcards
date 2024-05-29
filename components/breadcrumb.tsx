@@ -1,6 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-
+import { getCardFromSlug } from '@/app/u/cards/actions'
 import { getClient } from '@/app/u/clients/actions'
 import {
   Breadcrumb,
@@ -11,6 +10,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { usePathname } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 
 //TODO Ask Giel about this seems like a hack
 
@@ -21,19 +21,40 @@ const Breadcrumbs = () => {
   useEffect(() => {
     const fetchBreadcrumbs = async () => {
       let pathSegments = pathname.split('/').filter(Boolean)
-      pathSegments = pathSegments.filter((item) => item !== 'u')
-      const crumbPromises = pathSegments.map(async (item) => {
-        if (item.length > 10) {
-          const { data: client } = await getClient(item)
-          return client ? client.name : item
-        }
-        return item
-      })
 
-      const resolvedCrumbs = (await Promise.all(crumbPromises)).filter(
-        (item): item is string => item !== null
-      )
-      setCrumbs(resolvedCrumbs)
+      pathSegments = pathSegments.filter((item) => item !== 'u')
+
+      if (pathSegments.length < 2) {
+        return setCrumbs(pathSegments)
+      }
+
+      if (pathSegments[0] === 'clients') {
+        const crumbPromises = pathSegments.map(async (item) => {
+          if (item.length > 10) {
+            const { data: client } = await getClient(item)
+            return client ? client.name : item
+          }
+          return item
+        })
+
+        const resolvedCrumbs = (await Promise.all(crumbPromises)).filter(
+          (item): item is string => item !== null
+        )
+        setCrumbs(resolvedCrumbs)
+      } else if (pathSegments[0] === 'cards') {
+        const crumbPromises = pathSegments.map(async (item) => {
+          if (item.length > 10) {
+            const card = await getCardFromSlug(item)
+            return card ? card : item
+          }
+          return item
+        })
+
+        const resolvedCrumbs = (await Promise.all(crumbPromises)).filter(
+          (item): item is string => item !== null
+        )
+        setCrumbs(resolvedCrumbs)
+      }
     }
 
     fetchBreadcrumbs()
@@ -49,15 +70,17 @@ const Breadcrumbs = () => {
         </BreadcrumbItem>
         {crumbs && crumbs.length > 0 && <BreadcrumbSeparator />}
         {crumbs &&
-          crumbs.slice(0, -1).map((item, index) => (
-            <React.Fragment key={index}>
-              <BreadcrumbItem>
-                <BreadcrumbLink href={`/${item}`}>{item}</BreadcrumbLink>
-              </BreadcrumbItem>
-
-              <BreadcrumbSeparator />
-            </React.Fragment>
-          ))}
+          crumbs.slice(0, -1).map((item, index) => {
+            // TODO make sure breadcrumbs are clickable
+            return (
+              <React.Fragment key={index}>
+                <BreadcrumbItem>
+                  <BreadcrumbLink>{item}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+              </React.Fragment>
+            )
+          })}
         <BreadcrumbItem>
           <BreadcrumbPage>
             {pathLength && pathLength > 0 ? crumbs.slice(-1).toString() : null}

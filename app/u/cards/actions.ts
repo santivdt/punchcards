@@ -202,10 +202,11 @@ export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
 export const getCardFromSlug = async (slug: string) => {
   const supabase = createSupabaseClient()
 
-  const { data: cards, error: cardsError } = await supabase
+  const { data: card, error: cardsError } = await supabase
     .from('cards')
     .select(`readable_id, id`)
     .eq('id', slug)
+    .single()
 
   if (cardsError) {
     return {
@@ -214,12 +215,12 @@ export const getCardFromSlug = async (slug: string) => {
     }
   }
 
-  if (cards.length === 0) {
+  if (!card) {
     return {
       status: 'error',
       message: 'No card found',
     }
   }
 
-  return cards[0].readable_id
+  return card.readable_id
 }

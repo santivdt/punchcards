@@ -53,10 +53,10 @@ const Actions = (client: Tables<'clients'>) => {
             Edit
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href={`/u/clients/cards/${client.id}`}>View cards</Link>
+            <Link href={`/u/clients/${client.id}/cards`}>View cards</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href={`/u/clients/hours/${client.id}`}>View hours</Link>
+            <Link href={`/u/clients/${client.id}/hours`}>View hours</Link>
           </DropdownMenuItem>
           <DropdownMenuItem
             className='text-red-400'

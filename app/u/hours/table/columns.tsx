@@ -77,9 +77,9 @@ const Actions = (hour: Tables<'hours'>) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
-          {pathname != `/cards/hours/${hour.card_id}` && (
+          {pathname != `/cards/${hour.card_id}/hours` && (
             <DropdownMenuItem>
-              <Link href={`/u/cards/hours/${hour.card_id}`}>View card</Link>
+              <Link href={`/u/cards/${hour.card_id}/hours`}>View card</Link>
             </DropdownMenuItem>
           )}
 
