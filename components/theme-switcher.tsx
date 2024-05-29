@@ -10,7 +10,7 @@ type ThemeSwitcherProps = {
 
 const ThemeSwitcher = ({ children }: ThemeSwitcherProps) => {
   const [mounted, setMounted] = useState(false)
-  const { systemTheme, theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
   const currentTheme = theme === 'system' ? 'light' : theme
 
   const handleChange = useCallback(() => {

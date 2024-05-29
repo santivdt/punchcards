@@ -30,7 +30,7 @@ export const getCardsFromUser = async () => {
 }
 
 export const createCard = async (prevData: any, formData: FormData) => {
-  let dateOneYearFromNow = new Date()
+  const dateOneYearFromNow = new Date()
   dateOneYearFromNow.setFullYear(dateOneYearFromNow.getFullYear() + 1)
   const endsAtString = dateOneYearFromNow.toISOString()
 

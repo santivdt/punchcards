@@ -29,7 +29,7 @@ export const updateProfile = async (prevData: any, formData: FormData) => {
 
   const supabase = createSupabaseClient()
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('profiles')
     .update({
       first_name: validatedFields.data.first_name,

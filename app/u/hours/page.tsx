@@ -8,7 +8,7 @@ import { DataTable } from './table'
 import { columns } from './table/columns'
 
 const HourPage = async () => {
-  const user = await requireUser()
+  requireUser()
   const { data: hours } = await getHoursFromUser()
   const { data: clients } = await getClientsFromUser()
 

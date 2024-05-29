@@ -93,7 +93,7 @@ const Page = async () => {
                     </TableHeader>
                     <TableBody>
                       {topClients.map((topClient) => (
-                        <TableRow>
+                        <TableRow key={topClient.id}>
                           <TableCell>
                             <div className='font-medium'>{topClient.name}</div>
                             <div className='hidden text-sm  md:inline'>

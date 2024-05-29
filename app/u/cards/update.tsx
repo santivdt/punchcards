@@ -39,7 +39,6 @@ const UpdateCardDialog = ({
     if (state?.status === 'success') {
       onOpenChange(false)
       formRef.current?.reset()
-    } else if (state?.status === 'error') {
     }
   }, [onOpenChange, state?.status])
 

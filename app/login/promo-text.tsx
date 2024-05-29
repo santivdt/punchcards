@@ -59,7 +59,7 @@ const PromoText = () => {
         </a>
       </p>
       <p className=' mt-4'>
-        Ps. I am not a designer so don't judge me on the UI/UX ;).
+        Ps. I am not a designer so don&apos;t judge me on the UI/UX ;).
       </p>
     </>
   )

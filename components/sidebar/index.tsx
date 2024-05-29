@@ -51,7 +51,9 @@ const Sidebar = async ({ userProfile }: SideBarProps) => {
               </form>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <ThemeSwitcher children='Switch mode' />
+              <ThemeSwitcher>
+                <span>Switch mode</span>
+              </ThemeSwitcher>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

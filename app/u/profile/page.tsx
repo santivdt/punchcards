@@ -10,7 +10,7 @@ const ProfilePage = async () => {
 
   return (
     <>
-      <Header title='Settings'></Header>
+      <Header title='Settings' />
       <ProfileForm userProfile={userProfile}></ProfileForm>
     </>
   )

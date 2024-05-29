@@ -7,7 +7,7 @@ import { DataTable } from './table'
 import { columns } from './table/columns'
 
 const ClientsPage = async () => {
-  const user = await requireUser()
+  requireUser()
   const { data: clients } = await getClientsFromUser()
 
   return (

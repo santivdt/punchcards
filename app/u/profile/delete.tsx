@@ -11,15 +11,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Tables } from '@/types/supabase'
+import { User } from '@supabase/supabase-js'
 import { useEffect } from 'react'
 import { useFormState } from 'react-dom'
 import { deleteUser } from './actions'
 
-//TODO type of user should be auth user?
 type DeleteFormProps = {
   open?: boolean
-  user: Tables<'profiles'>
+  user: User
   children?: React.ReactNode
   onOpenChange?: React.Dispatch<React.SetStateAction<boolean>> | (() => void)
 }

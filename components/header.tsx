@@ -44,7 +44,9 @@ const Header = ({ title, children }: HeaderProps) => {
                   <Link href='/u/profile'>Profile</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <ThemeSwitcher children='Switch mode' />
+                  <ThemeSwitcher>
+                    <span>Switch mode</span>
+                  </ThemeSwitcher>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <form action={signOut}>

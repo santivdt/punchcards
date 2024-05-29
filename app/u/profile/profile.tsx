@@ -4,7 +4,7 @@ import SubmitButton from '@/components/submitbutton'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tables } from '@/types/supabase'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useFormState } from 'react-dom'
 import { updateProfile } from './actions'
 
@@ -17,7 +17,6 @@ type ProfileFormProps = {
 const ProfileForm = ({ userProfile }: ProfileFormProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(updateProfile, initialState)
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   useEffect(() => {
     if (state?.status === 'success') {
