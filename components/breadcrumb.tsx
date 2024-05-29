@@ -71,11 +71,13 @@ const Breadcrumbs = () => {
         {crumbs && crumbs.length > 0 && <BreadcrumbSeparator />}
         {crumbs &&
           crumbs.slice(0, -1).map((item, index) => {
-            // TODO make sure breadcrumbs are clickable
+            const pathSegmentsForUrl = pathname.split('/').filter(Boolean)
+            const url = `/${pathSegmentsForUrl.slice(0, index + 2).join('/')}`
+
             return (
               <React.Fragment key={index}>
                 <BreadcrumbItem>
-                  <BreadcrumbLink>{item}</BreadcrumbLink>
+                  <BreadcrumbLink href={url}>{item}</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
               </React.Fragment>
