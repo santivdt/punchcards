@@ -8,7 +8,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { DataTablePagination } from '@/components/Pagination'
 import {
   Table,
   TableBody,
@@ -80,7 +79,7 @@ export const DataTable = <TData extends TValue, TValue>({
       </Table>
       {data && data.length > 10 && (
         <div className='mt-5'>
-          <DataTablePagination table={table} />
+          {/* <DataTablePagination table={table} /> */}
         </div>
       )}
     </div>
