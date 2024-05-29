@@ -41,7 +41,7 @@ export default function Signup() {
               <SubmitButton
                 formAction={signUp}
                 className='px-4 py-2 mb-2 bg-black text-white border rounded-md '
-                pendingText='Signing In...'
+                pendingText='Signing you up...'
               >
                 Sign Up
               </SubmitButton>
