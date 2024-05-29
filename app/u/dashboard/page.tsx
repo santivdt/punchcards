@@ -56,7 +56,7 @@ const Page = async () => {
                 <CardTitle className='text-sm font-medium'>
                   Open hours
                 </CardTitle>
-                <FileClock className='h-4 w-4 text-muted-foreground' />
+                <FileClock className='h-4 w-4 ' />
               </CardHeader>
               <CardContent>
                 <div className='text-2xl font-bold'>{openHours} hours</div>
@@ -67,7 +67,7 @@ const Page = async () => {
                 <CardTitle className='text-sm font-medium'>
                   Total earnings
                 </CardTitle>
-                <Banknote className='h-4 w-4 text-muted-foreground' />
+                <Banknote className='h-4 w-4 ' />
               </CardHeader>
               <CardContent>
                 <div className='text-2xl font-bold'>€{totalEarnings}</div>
@@ -94,19 +94,12 @@ const Page = async () => {
                     <TableBody>
                       {topClients.map((topClient) => (
                         <TableRow>
-                          <Link
-                            key={topClient.id}
-                            href={`/u/clients/${topClient.id}`}
-                          >
-                            <TableCell>
-                              <div className='font-medium'>
-                                {topClient.name}
-                              </div>
-                              <div className='hidden text-sm text-muted-foreground md:inline'>
-                                {topClient.email}
-                              </div>
-                            </TableCell>
-                          </Link>
+                          <TableCell>
+                            <div className='font-medium'>{topClient.name}</div>
+                            <div className='hidden text-sm  md:inline'>
+                              {topClient.email}
+                            </div>
+                          </TableCell>
                           <TableCell className='text-right'>
                             €{topClient.totalPrice}
                           </TableCell>
