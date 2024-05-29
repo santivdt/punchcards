@@ -1,6 +1,6 @@
 'use client'
 
-import { DataTablePagination } from '@/components/Pagination'
+import { DataTablePagination } from '@/components/pagination'
 import {
   Table,
   TableBody,
