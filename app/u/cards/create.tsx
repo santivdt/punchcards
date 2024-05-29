@@ -18,7 +18,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { Tables } from '@/types/supabase'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Euro } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
@@ -38,6 +46,20 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createCard, initialState)
   const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
+  const [formData, setFormData] = useState<FormData>(new FormData())
+  const [customEndDate, setCustomEndDate] = useState(false)
+
+  const handleSwitchChange = () => {
+    setCustomEndDate(!customEndDate)
+  }
+
+  const today = new Date()
+  const oneYearFromNow = new Date(
+    today.getFullYear() + 1,
+    today.getMonth(),
+    today.getDate()
+  )
+  const formattedDate = oneYearFromNow.toISOString().split('T')[0]
 
   useEffect(() => {
     if (state?.status === 'success') {
@@ -119,6 +141,50 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
                     </p>
                   )}
                 </div>
+              </div>
+              <div className='mb-4 flex flex-col'>
+                <div className='flex items-center'>
+                  <Switch
+                    checked={customEndDate}
+                    className='mr-2'
+                    onCheckedChange={handleSwitchChange}
+                  />
+                  <span className=''>Set custom end date</span>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <InfoCircledIcon className='ml-1' />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>By default cards are valid for one year</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                {customEndDate ? (
+                  <>
+                    <Label htmlFor='ends_at' className='my-2 mr-2'>
+                      Valid until
+                    </Label>
+                    <input
+                      aria-label='Date'
+                      type='date'
+                      id='ends_at'
+                      name='ends_at'
+                      required
+                      defaultValue={formattedDate}
+                    />
+                  </>
+                ) : (
+                  <input
+                    type='hidden'
+                    aria-label='Date'
+                    id='ends_at'
+                    name='ends_at'
+                    required
+                    defaultValue={formattedDate}
+                  />
+                )}
               </div>
               <p aria-live='polite' className='sr-only'>
                 {state?.message}

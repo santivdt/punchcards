@@ -30,15 +30,12 @@ export const getCardsFromUser = async () => {
 }
 
 export const createCard = async (prevData: any, formData: FormData) => {
-  const dateOneYearFromNow = new Date()
-  dateOneYearFromNow.setFullYear(dateOneYearFromNow.getFullYear() + 1)
-  const endsAtString = dateOneYearFromNow.toISOString()
-
   const validatedFields = createSchema.safeParse({
     client_id: formData.get('client_id'),
     hours: Number(formData.get('hours')),
     hours_left: Number(formData.get('hours')),
     price: Number(formData.get('price')),
+    ends_at: formData.get('ends_at'),
   })
 
   if (!validatedFields.success) {
@@ -74,7 +71,7 @@ export const createCard = async (prevData: any, formData: FormData) => {
     user_id: user.id,
     client_id: validatedFields.data.client_id,
     hours: validatedFields.data.hours,
-    ends_at: endsAtString,
+    ends_at: validatedFields.data.ends_at,
     hours_left: validatedFields.data.hours_left,
     is_active: true,
     price: validatedFields.data.price,

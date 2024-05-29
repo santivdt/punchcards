@@ -8,6 +8,7 @@ export const createSchema = z.object({
   hours_left: z.number(),
   is_active: z.boolean().default(true),
   price: z.number(),
+  ends_at: z.string(),
 })
 
 export const deleteSchema = z.object({
