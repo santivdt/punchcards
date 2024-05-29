@@ -1,5 +1,6 @@
 'use client'
 
+import { DataTableColumnHeader } from '@/components/data-table-column-header'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -16,6 +17,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import DeleteCardDialog from '../delete'
 import UpdateCardDialog from '../update'
+import { statuses } from './helpers'
 
 type DialogState = 'update' | 'delete' | null
 type CardWithClient = Tables<'cards'> & {
@@ -25,7 +27,16 @@ type CardWithClient = Tables<'cards'> & {
 export const columns: ColumnDef<Tables<'cards'>>[] = [
   {
     accessorKey: 'readable_id',
-    header: '#',
+    header: '#id',
+  },
+  {
+    accessorKey: 'created_at',
+    header: 'Starts',
+    cell: ({ getValue }) => {
+      const dateValue = getValue<string>()
+      const formattedDate = format(new Date(dateValue), 'dd/MM/yyyy')
+      return <span>{formattedDate}</span>
+    },
   },
   {
     accessorKey: 'clients.name',
@@ -39,7 +50,9 @@ export const columns: ColumnDef<Tables<'cards'>>[] = [
   },
   {
     accessorKey: 'hours_left',
-    header: 'Remaining',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Remaining' />
+    ),
     cell: ({ row }) => {
       const hoursLeft = row.original.hours_left
       const hours = row.original.hours
@@ -48,18 +61,42 @@ export const columns: ColumnDef<Tables<'cards'>>[] = [
   },
   {
     accessorKey: 'is_active',
-    header: 'Active',
-    cell: ({ getValue }) => {
-      let text = 'No'
-      if (getValue()) {
-        text = 'Yes'
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Active' />
+    ),
+    cell: ({ row }) => {
+      const status = statuses.find(
+        (status) => status.value === row.getValue('is_active')
+      )
+
+      if (!status) {
+        return null
       }
-      return text
+
+      return (
+        <div className='flex w-[100px] items-center'>
+          <span>{status.label}</span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
   },
   {
+    accessorKey: 'price',
+    header: 'Price',
+    cell: ({ getValue }) => {
+      const price = getValue<number>()
+      return <span>€{price}</span>
+    },
+  },
+
+  {
     accessorKey: 'ends_at',
-    header: 'Valid until',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Valid until' />
+    ),
     cell: ({ getValue }) => {
       const endsAt = getValue<string | number>()
       const isBeforeEndDate = new Date() < new Date(endsAt)

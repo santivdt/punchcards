@@ -11,30 +11,70 @@ import {
 } from '@/components/ui/table'
 import {
   ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
   flexRender,
   getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { useState } from 'react'
+import { DataTableToolbar } from './data-table-toolbar'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData>[] | null
   data: TData[] | null
 }
+interface ClientData {
+  clients: {
+    name: string
+  }
+}
 
-export const DataTable = <TData extends TValue, TValue>({
+export const DataTable = <TData extends ClientData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) => {
+  const [rowSelection, setRowSelection] = useState({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    price: false,
+    created_at: false,
+  })
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const clientNames = data?.map((item) => item.clients.name)
+
   const table = useReactTable({
     data: data ?? [],
     columns: columns ?? [],
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    enableRowSelection: true,
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+      columnFilters,
+    },
   })
 
   return (
-    <div className='border rounded-md'>
+    <div className='border rounded-md p-4'>
+      <DataTableToolbar table={table} />
+
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
