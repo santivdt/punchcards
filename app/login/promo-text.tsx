@@ -8,37 +8,32 @@ const PromoText = () => {
       </h1>
       <p className='mb-4'>
         Hi there, welcome to my little app to manage prepaid punch cards (in
-        Dutch: strippenkaarten) for freelancers. I built this 'cause I needed it
-        myself and because I needed a portfolio project to apply for jobs as a
-        front-end developer.
+        Dutch: strippenkaarten) for freelancers. I built this because I needed
+        it myself and as a portfolio project to showcase my abilities.
       </p>
       <p className=' mb-4'>
-        The stack I used is NextJS, Typescript, Tailwind, ShadCN UI, Vercel and
-        Supabase. You can signup or login with the demo credentials.
+        I used NextJS, Typescript, Tailwind, ShadCN UI, Vercel and Supabase. You
+        can signup with your own email or login with the demo credentials.
         <span className='ml-2 text-purple-300'>
           demo@demo.email, demopassword
         </span>
         . In the demo account you can do everything except delete the dummydata.
-        Every night the account is automatically cleaned up. You can also signup
-        with your own (fake) account of course.
+        Every night the account is automatically cleaned up.
       </p>
-      <p className=' mb-4'>
-        I am not a designer so the UI/UX is definitey not optimal but it should
-        work.
-      </p>
-      <p className='mb-4 text-yellow-500 font-bold'>
+      <p className='mb-4'>
         I am looking for a job as a front-end developer where I can work and
-        learn in a team. I have extensive experience in tech as a project
-        manager, product owner and consultant. I have worked as a front-end dev
-        some years ago and am looking to pick it up again. I am exremely
-        motivated and a quick learner. Any opportunity would be great.
+        learn in a team. I have 10+ years of experience in tech as a project
+        manager, product owner and consultant. I worked as a front-end dev some
+        years ago and am looking to pick it up again. I am extremely motivated
+        and a quick learner so I am confident I can contribute to your team and
+        project in a meaningful way.
       </p>
       <div className=' mb-4'>
-        The perfect place would be:
+        The perfect job would be:
         <ul className='list-disc'>
           <li>Fully remote or at least hybrid (I am Amsterdam based)</li>
-          <li>Max 32 hours but preferably 24</li>
-          <li>Freelance or contract both fine for me</li>
+          <li>Max 32 but preferably 24 hours/week</li>
+          <li>Freelance or contract both fine</li>
         </ul>
       </div>
       <p>Santi van den Toorn</p>
@@ -62,6 +57,9 @@ const PromoText = () => {
         <a href='https://github.com/santivdt/punchcards' target='_blank'>
           <Github className='ml-4' size={18} />
         </a>
+      </p>
+      <p className=' mt-4'>
+        Ps. I am not a designer so don't judge me on the UI/UX ;).
       </p>
     </>
   )
