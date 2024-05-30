@@ -69,9 +69,9 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
         <p>
           {clients && clients.length === 0 ? (
             <div>
-              Please add
+              Please add&nbsp;
               <Link href='/u/clients' className='border-b border-b-black'>
-                clients
+                clients&nbsp;
               </Link>
               first before you add a card.
             </div>

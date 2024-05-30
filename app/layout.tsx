@@ -16,9 +16,9 @@ export const metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en' className={GeistSans.className}>
-      <body className='antialiased'>
+      <body className='antialiased dark:bg-black dark:text-neutral-300'>
         <ThemeProvider attribute='class'>
-          <main>{children}</main>
+          <main className='flex justify-center'>{children}</main>
           <Next13NProgress color='#6D49FF' height={3} />
         </ThemeProvider>
       </body>

@@ -59,9 +59,7 @@ const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
         {clients && clients.length > 0 ? (
           <form ref={formRef} action={formAction}>
             <div className='mb-4'>
-              <Label htmlFor='client_id' className='mb-2'>
-                Client
-              </Label>
+              <Label htmlFor='client_id'>Client</Label>
               <Select name='client_id' required>
                 <SelectTrigger className='w-[240px]'>
                   <SelectValue placeholder='Select client' />

@@ -56,7 +56,7 @@ export default function Login({
               </SubmitButton>
             </div>
 
-            <div className='mt-4 text-center text-sm'>
+            <div className='mt-4 text-center'>
               Don&apos;t have an account?
               <Link href='/signup' className='underline ml-2'>
                 Sign up

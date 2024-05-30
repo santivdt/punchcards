@@ -20,7 +20,6 @@ const config = {
     extend: {
       fontSize: {
         xs: '12px',
-        sm: '14px',
         base: '14px',
         lg: '18px',
       },
@@ -37,6 +36,11 @@ const config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+      },
+    },
+    variants: {
+      extend: {
+        textColor: ['dark'],
       },
     },
   },
