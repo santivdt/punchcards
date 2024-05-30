@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { deleteUser } from './actions'
 
@@ -19,7 +19,8 @@ type DeleteFormProps = {
   open?: boolean
   userId: string
   children?: React.ReactNode
-  onOpenChange?: React.Dispatch<React.SetStateAction<boolean>> | (() => void)
+  setDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
+  onFinished: () => void
 }
 
 const initialState = undefined
@@ -28,18 +29,29 @@ const DeleteUserDialog = ({
   open,
   userId,
   children,
-  onOpenChange = () => {},
+  setDeleteDialogOpen,
+  onFinished,
 }: DeleteFormProps) => {
   const [state, formAction] = useFormState(deleteUser, initialState)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState<string | undefined>('')
+
   useEffect(() => {
-    if (state?.status === 'success') {
-      onOpenChange(false)
-    }
-  }, [onOpenChange, state?.status])
+    setErrorMessage(
+      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
+    )
+    if (state?.status === 'success') onFinished()
+  }, [onFinished, state?.message, state?.status])
+
+  const handleOpenChange = useCallback(
+    (newOpen: boolean) => {
+      setDeleteDialogOpen(newOpen)
+      if (!newOpen) onFinished()
+    },
+    [onFinished, setDeleteDialogOpen]
+  )
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent>
         <DialogHeader>
@@ -56,7 +68,13 @@ const DeleteUserDialog = ({
           )}
           <div className='flex items-center justify-end gap-2'>
             <DialogClose asChild>
-              <Button type='button' variant='outline'>
+              <Button
+                type='button'
+                variant='outline'
+                onClick={() => {
+                  setDeleteDialogOpen(false)
+                }}
+              >
                 Cancel
               </Button>
             </DialogClose>

@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Tables } from '@/types/supabase'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { updateProfile } from './actions'
 import DeleteUserDialog from './delete'
@@ -21,12 +21,11 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(updateProfile, initialState)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-
-  useEffect(() => {
-    if (state?.status === 'success') {
-      formRef.current?.reset()
-    }
-  }, [state?.status])
+  const [dialogKey, setDialogKey] = useState(0)
+  const resetDialog = useCallback(
+    () => setDialogKey((prevState) => prevState + 1),
+    []
+  )
 
   return (
     <>
@@ -91,7 +90,13 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
             Deleting your account wil delete all of your clients, cards and
             hours. This action cannot be undone.
           </p>
-          <DeleteUserDialog open={deleteDialogOpen} userId={userProfile.id}>
+          <DeleteUserDialog
+            open={deleteDialogOpen}
+            userId={userProfile.id}
+            setDeleteDialogOpen={setDeleteDialogOpen}
+            key={dialogKey}
+            onFinished={resetDialog}
+          >
             <Button
               variant='destructive'
               className='mt-2'

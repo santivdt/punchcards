@@ -65,6 +65,14 @@ export const deleteUser = async (prevData: any, formData: FormData) => {
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
+
+  if (validatedFields.data.id === 'fb706205-b512-4b3e-a232-e755013625fd') {
+    return {
+      status: 'error',
+      message: 'You cannot delete the demo account',
+    }
+  }
+
   const supabase = createSupabaseClient()
   const { error: signOutError } = await supabase.auth.signOut()
 
