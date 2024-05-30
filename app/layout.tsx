@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
 import { ThemeProvider } from 'next-themes'
@@ -23,6 +24,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <main className='flex justify-center'>
             {children}
             <SpeedInsights />
+            <Analytics />
           </main>
           <Next13NProgress color='#6D49FF' height={3} />
         </ThemeProvider>
