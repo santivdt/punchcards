@@ -11,14 +11,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { User } from '@supabase/supabase-js'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { deleteUser } from './actions'
 
 type DeleteFormProps = {
   open?: boolean
-  user: User
+  userId: string
   children?: React.ReactNode
   onOpenChange?: React.Dispatch<React.SetStateAction<boolean>> | (() => void)
 }
@@ -27,11 +26,12 @@ const initialState = undefined
 
 const DeleteUserDialog = ({
   open,
-  user,
+  userId,
   children,
   onOpenChange = () => {},
 }: DeleteFormProps) => {
   const [state, formAction] = useFormState(deleteUser, initialState)
+  const [errorMessage, setErrorMessage] = useState('')
   useEffect(() => {
     if (state?.status === 'success') {
       onOpenChange(false)
@@ -47,7 +47,13 @@ const DeleteUserDialog = ({
           <DialogDescription>This action cannot be undone</DialogDescription>
         </DialogHeader>
         <form action={formAction}>
-          <input type='hidden' name='id' defaultValue={user.id} />
+          <input type='hidden' name='id' defaultValue={userId} />
+          {state?.errors?.id && (
+            <p className='py-2 text-xs text-red-500'>{state.errors.id}</p>
+          )}
+          {errorMessage && (
+            <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
+          )}
           <div className='flex items-center justify-end gap-2'>
             <DialogClose asChild>
               <Button type='button' variant='outline'>

@@ -2,11 +2,13 @@ import { Database } from '@/types/supabase'
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-export const createClient = () => {
+export const createClient = (deleteAccount: '' | 'deleteAccount' = '') => {
   const cookieStore = cookies()
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    deleteAccount === 'deleteAccount'
+      ? process.env.NEXT_SUPABASE_SERVICE_ROLE_KEY!
+      : process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         get(name: string) {
@@ -16,7 +18,6 @@ export const createClient = () => {
           try {
             cookieStore.set({ name, value, ...options })
           } catch (error) {
-            console.log('koekjes error', error)
             // The `set` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing
             // user sessions.

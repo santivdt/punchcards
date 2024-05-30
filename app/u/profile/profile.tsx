@@ -1,12 +1,15 @@
 'use client'
 
 import SubmitButton from '@/components/submitbutton'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
 import { Tables } from '@/types/supabase'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { updateProfile } from './actions'
+import DeleteUserDialog from './delete'
 
 const initialState = undefined
 
@@ -17,6 +20,7 @@ type ProfileFormProps = {
 const ProfileForm = ({ userProfile }: ProfileFormProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(updateProfile, initialState)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   useEffect(() => {
     if (state?.status === 'success') {
@@ -81,16 +85,13 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
               <SubmitButton normal='Update' going='Updating...' />
             </div>
           </form>
-          {/* //TODO make delete user work */}
-          {/* (https://github.com/orgs/supabase/discussions/1066) */}
-
-          {/* <h2 className='mt-16 text-lg font-bold text-red-500'>Danger zone</h2>
+          <h2 className='mt-16 text-lg font-bold text-red-500'>Danger zone</h2>
           <Separator className='w-1/2 mt-2' />
-          <p className='mt-2 w-1/2'>
+          <p className='mt-2 w-1/2 pb-2 text-balance'>
             Deleting your account wil delete all of your clients, cards and
             hours. This action cannot be undone.
           </p>
-          <DeleteUserDialog open={deleteDialogOpen} user={userProfile}>
+          <DeleteUserDialog open={deleteDialogOpen} userId={userProfile.id}>
             <Button
               variant='destructive'
               className='mt-2'
@@ -98,7 +99,7 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
             >
               Delete account
             </Button>
-          </DeleteUserDialog> */}
+          </DeleteUserDialog>
         </>
       )}
     </>

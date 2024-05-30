@@ -66,17 +66,27 @@ export const deleteUser = async (prevData: any, formData: FormData) => {
     }
   }
   const supabase = createSupabaseClient()
-  const { error } = await supabase.auth.admin.deleteUser(
+  const { error: signOutError } = await supabase.auth.signOut()
+
+  if (signOutError) {
+    return {
+      status: 'error',
+      message: 'An error occurred while signing out',
+    }
+  }
+
+  const supabaseToDel = createSupabaseClient('deleteAccount')
+
+  const { error: deleteError } = await supabaseToDel.auth.admin.deleteUser(
     validatedFields.data.id
   )
-
-  if (error) {
-    console.log(error)
+  if (deleteError) {
     return {
       status: 'error',
       message: 'An error occurred while deleting the user',
     }
   }
+
   revalidatePath('/u/profile')
 
   return {
