@@ -15,6 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 
 import { Euro } from 'lucide-react'
+import toast from 'react-hot-toast'
 import { updateCard } from './actions'
 
 type UpdateCardDialogProps = {
@@ -44,7 +45,10 @@ const UpdateCardDialog = ({
     setErrorMessage(
       state?.status === 'error' ? state?.message || 'Unknown error' : undefined
     )
-    if (state?.status === 'success') onFinished()
+    if (state?.status === 'success') {
+      onFinished()
+      toast.success('Card updated successfully')
+    }
   }, [onFinished, state?.message, state?.status])
 
   const handleOpenChange = useCallback(

@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label'
 import { Tables } from '@/types/supabase'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
+import toast from 'react-hot-toast'
 
 type UpdateHourDialogProps = {
   open?: boolean
@@ -40,7 +41,10 @@ const UpdateHourDialog = ({
     setErrorMessage(
       state?.status === 'error' ? state?.message || 'Unknown error' : undefined
     )
-    if (state?.status === 'success') onFinished()
+    if (state?.status === 'success') {
+      onFinished()
+      toast.success('Task updated successfully')
+    }
   }, [onFinished, state?.message, state?.status])
 
   const handleOpenChange = useCallback(

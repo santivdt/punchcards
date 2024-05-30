@@ -4,6 +4,7 @@ import { GeistSans } from 'geist/font/sans'
 import { ThemeProvider } from 'next-themes'
 import { Next13NProgress } from 'nextjs13-progress'
 
+import ToastProvider from '@/components/toast-provider'
 import './globals.css'
 
 const defaultUrl = process.env.VERCEL_URL
@@ -19,7 +20,7 @@ export const metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en' className={GeistSans.className}>
-      <body className='antialiased dark:bg-black dark:text-neutral-300'>
+      <body className='antialiased dark:bg-black dark:text-neutral-300 h-screen'>
         <ThemeProvider attribute='class'>
           <main className='flex justify-center'>
             {children}
@@ -27,6 +28,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             <Analytics />
           </main>
           <Next13NProgress color='#6D49FF' height={3} />
+          <ToastProvider />
         </ThemeProvider>
       </body>
     </html>

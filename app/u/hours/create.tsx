@@ -23,6 +23,7 @@ import {
 import { Tables } from '@/types/supabase'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import toast from 'react-hot-toast'
 
 type CreateHourDialogProps = {
   children: React.ReactNode
@@ -48,7 +49,10 @@ const CreateHourDialog = ({
     setErrorMessage(
       state?.status === 'error' ? state?.message || 'Unknown error' : undefined
     )
-    if (state?.status === 'success') onFinished()
+    if (state?.status === 'success') {
+      onFinished()
+      toast.success('Task added successfully')
+    }
   }, [onFinished, state?.message, state?.status])
 
   const handleOpenChange = useCallback(

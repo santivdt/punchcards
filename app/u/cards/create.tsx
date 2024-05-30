@@ -31,6 +31,7 @@ import { Euro } from 'lucide-react'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
+import toast from 'react-hot-toast'
 
 type CreateClientDialogProps = {
   children: React.ReactNode
@@ -70,7 +71,10 @@ const CreateCardDialog = ({
     setErrorMessage(
       state?.status === 'error' ? state?.message || 'Unknown error' : undefined
     )
-    if (state?.status === 'success') onFinished()
+    if (state?.status === 'success') {
+      onFinished()
+      toast.success('Card added successfully')
+    }
   }, [onFinished, state?.message, state?.status])
 
   const handleOpenChange = useCallback(

@@ -16,6 +16,7 @@ import { Label } from '@/components/ui/label'
 import { Tables } from '@/types/supabase'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
+import toast from 'react-hot-toast'
 import { updateClient } from './actions'
 
 type UpdateClientDialogProps = {
@@ -45,6 +46,12 @@ const UpdateClientDialog = ({
     )
     if (state?.status === 'success') onFinished()
   }, [onFinished, state?.message, state?.status])
+
+  useEffect(() => {
+    if (state?.status === 'success') {
+      toast.success('Client updated successfully')
+    }
+  }, [state?.status])
 
   const handleOpenChange = useCallback(
     (newOpen: boolean) => {

@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
+import toast from 'react-hot-toast'
 
 type CreateClientDialogProps = {
   children: React.ReactNode
@@ -31,7 +32,6 @@ const CreateClientDialog = ({
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
     undefined
   )
-
   useEffect(() => {
     setErrorMessage(
       state?.status === 'error' ? state?.message || 'Unknown error' : undefined
@@ -47,9 +47,16 @@ const CreateClientDialog = ({
     [onFinished]
   )
 
+  useEffect(() => {
+    if (state?.status === 'success') {
+      toast.success('Client added successfully')
+    }
+  }, [state?.status])
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
+
       <DialogContent>
         <form ref={formRef} action={formAction}>
           <div className='mb-4'>

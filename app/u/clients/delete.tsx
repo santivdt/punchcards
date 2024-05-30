@@ -14,6 +14,7 @@ import {
 import { Tables } from '@/types/supabase'
 import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
+import toast from 'react-hot-toast'
 import { deleteClient } from './actions'
 
 type DeleteFormProps = {
@@ -36,6 +37,12 @@ const DeleteClientDialog = ({
   const [state, formAction] = useFormState(deleteClient, initialState)
   const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
   const formRef = useRef<HTMLFormElement>(null)
+
+  useEffect(() => {
+    if (state?.status === 'success') {
+      toast.success('Client deleted successfully')
+    }
+  }, [state?.status])
 
   useEffect(() => {
     if (state?.status === 'success') {

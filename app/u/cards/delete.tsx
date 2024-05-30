@@ -14,6 +14,7 @@ import {
 import { Tables } from '@/types/supabase'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
+import toast from 'react-hot-toast'
 import { deleteCard } from './actions'
 
 type DeleteFormProps = {
@@ -40,6 +41,7 @@ const DeleteCardDialog = ({
     if (state?.status === 'success') {
       onOpenChange(false)
       setErrorMessage('')
+      toast.success('Card deleted successfully')
     } else if (state?.status === 'error') {
       setErrorMessage(state.message)
     }
