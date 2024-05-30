@@ -6,8 +6,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Tables } from '@/types/supabase'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
+import toast from 'react-hot-toast'
 import { updateProfile } from './actions'
 import DeleteUserDialog from './delete'
 
@@ -26,6 +27,12 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
     () => setDialogKey((prevState) => prevState + 1),
     []
   )
+
+  useEffect(() => {
+    if (state?.status === 'success') {
+      toast.success('Profile updated successfully')
+    }
+  }, [state?.message, state?.status])
 
   return (
     <>
