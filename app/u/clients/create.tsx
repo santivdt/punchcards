@@ -11,16 +11,20 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 
 type CreateClientDialogProps = {
   children: React.ReactNode
+  onFinished: () => void
 }
 
 const initialState = undefined
 
-const CreateClientDialog = ({ children }: CreateClientDialogProps) => {
+const CreateClientDialog = ({
+  children,
+  onFinished,
+}: CreateClientDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createClient, initialState)
@@ -29,17 +33,22 @@ const CreateClientDialog = ({ children }: CreateClientDialogProps) => {
   )
 
   useEffect(() => {
-    if (state?.status === 'success') {
-      setOpen(false)
-      setErrorMessage('')
-      formRef.current?.reset()
-    } else if (state?.status === 'error') {
-      setErrorMessage(state.message)
-    }
-  }, [state])
+    setErrorMessage(
+      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
+    )
+    if (state?.status === 'success') onFinished()
+  }, [onFinished, state?.message, state?.status])
+
+  const handleOpenChange = useCallback(
+    (newOpen: boolean) => {
+      setOpen(newOpen)
+      if (!newOpen) onFinished()
+    },
+    [onFinished]
+  )
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <form ref={formRef} action={formAction}>

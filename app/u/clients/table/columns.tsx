@@ -11,7 +11,7 @@ import { Tables } from '@/types/supabase'
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import DeleteClientDialog from '../delete'
 import UpdateClientDialog from '../update'
 
@@ -38,6 +38,11 @@ export const columns: ColumnDef<Tables<'clients'>>[] = [
 
 const Actions = (client: Tables<'clients'>) => {
   const [dialog, setDialog] = useState<DialogState>(null)
+  const [dialogKey, setDialogKey] = useState(0)
+  const resetDialog = useCallback(() => {
+    setDialogKey((prevState) => prevState + 1)
+    setDialog(null)
+  }, [])
 
   return (
     <>
@@ -79,7 +84,9 @@ const Actions = (client: Tables<'clients'>) => {
         <UpdateClientDialog
           open={dialog === 'update'}
           client={client}
-          onOpenChange={() => setDialog(null)}
+          key={dialogKey}
+          setDialog={setDialog}
+          onFinished={resetDialog}
         />
       )}
     </>
