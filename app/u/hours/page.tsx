@@ -1,6 +1,7 @@
 import Header from '@/components/header'
 import { Button } from '@/components/ui/button'
 import { requireUser } from '@/utils/auth'
+import { SquarePlus } from 'lucide-react'
 import { getClientsFromUser } from '../clients/actions'
 import { getHoursFromUser } from './actions'
 import CreateHourDialog from './create'
@@ -16,7 +17,9 @@ const HourPage = async () => {
     <>
       <Header title='Hours'>
         <CreateHourDialog clients={clients}>
-          <Button>Track time</Button>
+          <Button variant='ghost'>
+            <SquarePlus className='dark:text-white mr-2' size={16} /> Track time
+          </Button>
         </CreateHourDialog>
       </Header>
       <DataTable columns={columns} data={hours} />

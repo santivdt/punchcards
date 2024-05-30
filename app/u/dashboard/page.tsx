@@ -40,9 +40,7 @@ const Page = async () => {
             <Link href='/u/cards'>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    Active cards
-                  </CardTitle>
+                  <CardTitle className='font-medium'>Active cards</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className='text-2xl font-bold'>
@@ -53,9 +51,7 @@ const Page = async () => {
             </Link>
             <Card>
               <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                <CardTitle className='text-sm font-medium'>
-                  Open hours
-                </CardTitle>
+                <CardTitle className=' font-medium'>Open hours</CardTitle>
                 <FileClock className='h-4 w-4 ' />
               </CardHeader>
               <CardContent>
@@ -64,9 +60,7 @@ const Page = async () => {
             </Card>
             <Card>
               <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                <CardTitle className='text-sm font-medium'>
-                  Total earnings
-                </CardTitle>
+                <CardTitle className=' font-medium'>Total earnings</CardTitle>
                 <Banknote className='h-4 w-4 ' />
               </CardHeader>
               <CardContent>
@@ -96,7 +90,7 @@ const Page = async () => {
                         <TableRow key={topClient.id}>
                           <TableCell>
                             <div className='font-medium'>{topClient.name}</div>
-                            <div className='hidden text-sm  md:inline'>
+                            <div className='hidden   md:inline'>
                               {topClient.email}
                             </div>
                           </TableCell>
