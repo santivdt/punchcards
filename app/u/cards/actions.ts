@@ -157,6 +157,14 @@ export const updateCard = async (prevData: any, formData: FormData) => {
     }
   }
 
+  if (validatedFields.data.hours_left > validatedFields.data.hours) {
+    return {
+      status: 'error',
+      message:
+        'It is not possible to have more hours left than the total hours on the card.',
+    }
+  }
+
   const supabase = createSupabaseClient()
 
   const { error } = await supabase

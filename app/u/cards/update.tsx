@@ -117,7 +117,11 @@ const UpdateCardDialog = ({
               )}
             </div>
           </div>
-
+          <div className='mb-4'>
+            {errorMessage && (
+              <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
+            )}
+          </div>
           <p aria-live='polite' className='sr-only'>
             {state?.message}
           </p>
