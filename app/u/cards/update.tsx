@@ -11,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tables } from '@/types/supabase'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 
 import { Euro } from 'lucide-react'
@@ -21,7 +21,9 @@ type UpdateCardDialogProps = {
   open?: boolean
   children?: React.ReactNode
   card: Tables<'cards'>
-  onOpenChange?: React.Dispatch<React.SetStateAction<boolean>> | (() => void)
+  onFinished: () => void
+  setDialog: React.Dispatch<React.SetStateAction<'update' | 'delete' | null>>
+  dialog: 'update' | 'delete' | null
 }
 
 const initialState = undefined
@@ -30,20 +32,34 @@ const UpdateCardDialog = ({
   children,
   card,
   open,
-  onOpenChange = () => {},
+  onFinished,
+  dialog,
+  setDialog,
 }: UpdateCardDialogProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(updateCard, initialState)
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined
+  )
 
   useEffect(() => {
-    if (state?.status === 'success') {
-      onOpenChange(false)
-      formRef.current?.reset()
-    }
-  }, [onOpenChange, state?.status])
+    setErrorMessage(
+      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
+    )
+    if (state?.status === 'success') onFinished()
+  }, [onFinished, state?.message, state?.status])
+
+  const handleOpenChange = useCallback(
+    (newOpen: boolean) => {
+      console.log(newOpen)
+      setDialog(null)
+      if (!newOpen) onFinished()
+    },
+    [onFinished]
+  )
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <form ref={formRef} action={formAction}>

@@ -29,19 +29,24 @@ import { Tables } from '@/types/supabase'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Euro } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 
 type CreateClientDialogProps = {
   children: React.ReactNode
   clients: Tables<'clients'>[] | null
+  onFinished: () => void
 }
 
 const initialState = undefined
 
 type ErrorType = string | undefined
 
-const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
+const CreateCardDialog = ({
+  children,
+  clients,
+  onFinished,
+}: CreateClientDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createCard, initialState)
@@ -62,20 +67,22 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
   const formattedDate = oneYearFromNow.toISOString().split('T')[0]
 
   useEffect(() => {
-    if (state?.status === 'success') {
-      setOpen(false)
-      setErrorMessage(undefined)
-    } else if (state?.status === 'error' && open === true) {
-      setErrorMessage(state.message)
-    } else if (state?.status === 'error' && open === false) {
-      state.message = ''
-      state.errors = {}
-      setErrorMessage(undefined)
-    }
-  }, [state, open])
+    setErrorMessage(
+      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
+    )
+    if (state?.status === 'success') onFinished()
+  }, [onFinished, state?.message, state?.status])
+
+  const handleOpenChange = useCallback(
+    (newOpen: boolean) => {
+      setOpen(newOpen)
+      if (!newOpen) onFinished()
+    },
+    [onFinished]
+  )
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <p>

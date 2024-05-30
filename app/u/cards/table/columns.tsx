@@ -14,7 +14,7 @@ import clsx from 'clsx'
 import { format } from 'date-fns'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import DeleteCardDialog from '../delete'
 import UpdateCardDialog from '../update'
 import { statuses } from './helpers'
@@ -116,6 +116,11 @@ export const columns: ColumnDef<Tables<'cards'>>[] = [
 
 const Actions = (card: Tables<'cards'>) => {
   const [dialog, setDialog] = useState<DialogState>(null)
+  const [dialogKey, setDialogKey] = useState(0)
+  const resetDialog = useCallback(() => {
+    setDialogKey((prevState) => prevState + 1)
+    setDialog(null)
+  }, [])
 
   return (
     <>
@@ -141,7 +146,6 @@ const Actions = (card: Tables<'cards'>) => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
       {dialog === 'delete' && (
         <DeleteCardDialog
           card={card}
@@ -149,12 +153,14 @@ const Actions = (card: Tables<'cards'>) => {
           open={dialog === 'delete'}
         />
       )}
-
       {dialog === 'update' && (
         <UpdateCardDialog
+          key={dialogKey}
           open={dialog === 'update'}
+          dialog={dialog}
+          setDialog={setDialog}
           card={card}
-          onOpenChange={() => setDialog(null)}
+          onFinished={resetDialog}
         />
       )}
     </>

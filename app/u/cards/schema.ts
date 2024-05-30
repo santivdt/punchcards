@@ -17,7 +17,9 @@ export const deleteSchema = z.object({
 
 export const updateSchema = z.object({
   card_id: z.string(),
-  hours: z.number(),
+  hours: z.number().refine((value) => value !== 0, {
+    message: 'Size cannot be zero',
+  }),
   hours_left: z.number(),
   price: z.number(),
 })
