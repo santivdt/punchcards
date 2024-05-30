@@ -16,7 +16,7 @@ type NavProps = {
 
 const Nav = ({ userProfile }: NavProps) => {
   return (
-    <div className=' h-[50px] flex items-center px-6 py-8'>
+    <div className=' h-[50px] flex items-center px-4 py-8'>
       <div className='flex-1 '>
         <h1 className='flex flex-1 items-center h-10 text-lg font-bold dark:text-white'>
           {userProfile && (
@@ -38,13 +38,13 @@ const Nav = ({ userProfile }: NavProps) => {
             <DropdownMenuItem asChild className='lg:hidden'>
               <Link href='/u/dashboard'>Dashboard</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className='lg:hidden'>
+            <DropdownMenuItem asChild className='lg:hidden'>
               <Link href='/u/clients'>Clients</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className='lg:hidden'>
+            <DropdownMenuItem asChild className='lg:hidden'>
               <Link href='/u/cards'>Cards</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className='lg:hidden'>
+            <DropdownMenuItem asChild className='lg:hidden'>
               <Link href='/u/hours'>Hours</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
