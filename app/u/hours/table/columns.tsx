@@ -14,7 +14,7 @@ import { format } from 'date-fns'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import UpdateHourDialog from '../update'
 
 type DialogState = 'update' | 'delete' | null
@@ -66,6 +66,11 @@ export const columns: ColumnDef<Tables<'hours'>>[] = [
 const Actions = (hour: Tables<'hours'>) => {
   const [dialog, setDialog] = useState<DialogState>(null)
   const pathname = usePathname()
+  const [dialogKey, setDialogKey] = useState(0)
+  const resetDialog = useCallback(() => {
+    setDialogKey((prevState) => prevState + 1)
+    setDialog(null)
+  }, [])
 
   return (
     <>
@@ -105,9 +110,11 @@ const Actions = (hour: Tables<'hours'>) => {
 
       {dialog === 'update' && (
         <UpdateHourDialog
-          hour={hour}
-          onOpenChange={() => setDialog(null)}
+          key={dialogKey}
           open={dialog === 'update'}
+          setDialog={setDialog}
+          hour={hour}
+          onFinished={resetDialog}
         />
       )}
     </>

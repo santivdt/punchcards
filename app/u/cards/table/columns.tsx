@@ -157,7 +157,6 @@ const Actions = (card: Tables<'cards'>) => {
         <UpdateCardDialog
           key={dialogKey}
           open={dialog === 'update'}
-          dialog={dialog}
           setDialog={setDialog}
           card={card}
           onFinished={resetDialog}

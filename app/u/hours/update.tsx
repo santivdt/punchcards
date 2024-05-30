@@ -12,14 +12,15 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tables } from '@/types/supabase'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 
 type UpdateHourDialogProps = {
   open?: boolean
   children?: React.ReactNode
   hour: Tables<'hours'>
-  onOpenChange?: React.Dispatch<React.SetStateAction<boolean>> | (() => void)
+  onFinished: () => void
+  setDialog: React.Dispatch<React.SetStateAction<'update' | 'delete' | null>>
 }
 
 const initialState = undefined
@@ -28,20 +29,31 @@ const UpdateHourDialog = ({
   children,
   hour,
   open,
-  onOpenChange = () => {},
+  onFinished,
+  setDialog,
 }: UpdateHourDialogProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(updateHour, initialState)
+  const [errorMessage, setErrorMessage] = useState<string | undefined>()
 
   useEffect(() => {
-    if (state?.status === 'success') {
-      onOpenChange(false)
-      formRef.current?.reset()
-    }
-  }, [onOpenChange, state?.status])
+    setErrorMessage(
+      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
+    )
+    if (state?.status === 'success') onFinished()
+  }, [onFinished, state?.message, state?.status])
+
+  const handleOpenChange = useCallback(
+    (newOpen: boolean) => {
+      console.log(newOpen)
+      setDialog(null)
+      if (!newOpen) onFinished()
+    },
+    [onFinished, setDialog]
+  )
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <form ref={formRef} action={formAction}>

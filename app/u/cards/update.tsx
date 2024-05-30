@@ -23,7 +23,6 @@ type UpdateCardDialogProps = {
   card: Tables<'cards'>
   onFinished: () => void
   setDialog: React.Dispatch<React.SetStateAction<'update' | 'delete' | null>>
-  dialog: 'update' | 'delete' | null
 }
 
 const initialState = undefined
@@ -33,7 +32,6 @@ const UpdateCardDialog = ({
   card,
   open,
   onFinished,
-  dialog,
   setDialog,
 }: UpdateCardDialogProps) => {
   const formRef = useRef<HTMLFormElement>(null)
@@ -55,7 +53,7 @@ const UpdateCardDialog = ({
       setDialog(null)
       if (!newOpen) onFinished()
     },
-    [onFinished]
+    [onFinished, setDialog]
   )
 
   return (

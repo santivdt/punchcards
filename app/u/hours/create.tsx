@@ -22,38 +22,45 @@ import {
 } from '@/components/ui/select'
 import { Tables } from '@/types/supabase'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 type CreateHourDialogProps = {
   children: React.ReactNode
   clients: Tables<'clients'>[] | null
+  onFinished: () => void
 }
 
 type ErrorState = string | undefined
 
 const initialState = undefined
 
-const CreateHourDialog = ({ children, clients }: CreateHourDialogProps) => {
+const CreateHourDialog = ({
+  children,
+  clients,
+  onFinished,
+}: CreateHourDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createHour, initialState)
   const [errorMessage, setErrorMessage] = useState<ErrorState>(undefined)
 
   useEffect(() => {
-    if (state?.status === 'success') {
-      setOpen(false)
-      setErrorMessage(undefined)
-    } else if (state?.status === 'error' && open === true) {
-      setErrorMessage(state.message)
-    } else if (state?.status === 'error' && open === false) {
-      state.message = ''
-      state.errors = {}
-      setErrorMessage(undefined)
-    }
-  }, [state, open])
+    setErrorMessage(
+      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
+    )
+    if (state?.status === 'success') onFinished()
+  }, [onFinished, state?.message, state?.status])
+
+  const handleOpenChange = useCallback(
+    (newOpen: boolean) => {
+      setOpen(newOpen)
+      if (!newOpen) onFinished()
+    },
+    [onFinished]
+  )
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         {clients && clients.length > 0 ? (
