@@ -1,6 +1,8 @@
 'use client'
 
+import { useFormReset } from '@/app/hooks/use-form-reset'
 import { createCard } from '@/app/u/cards/actions'
+import { FieldError } from '@/components/field-error'
 import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
@@ -26,10 +28,11 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Tables } from '@/types/supabase'
+import { EMPTY_FORM_STATE, FormState } from '@/utils/to-form-state'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Euro } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useFormState } from 'react-dom'
 
 type CreateClientDialogProps = {
@@ -37,14 +40,12 @@ type CreateClientDialogProps = {
   clients: Tables<'clients'>[] | null
 }
 
-const initialState = undefined
-
 type ErrorType = string | undefined
 
 const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
   const [open, setOpen] = useState(false)
-  const formRef = useRef<HTMLFormElement>(null)
-  const [state, formAction] = useFormState(createCard, initialState)
+  const [formState, formAction] = useFormState(createCard, EMPTY_FORM_STATE)
+  const formRef = useFormReset(formState as FormState)
   const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
   const [formData, setFormData] = useState<FormData>(new FormData())
   const [customEndDate, setCustomEndDate] = useState(false)
@@ -60,19 +61,6 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
     today.getDate()
   )
   const formattedDate = oneYearFromNow.toISOString().split('T')[0]
-
-  useEffect(() => {
-    if (state?.status === 'success') {
-      setOpen(false)
-      setErrorMessage(undefined)
-    } else if (state?.status === 'error' && open === true) {
-      setErrorMessage(state.message)
-    } else if (state?.status === 'error' && open === false) {
-      state.message = ''
-      state.errors = {}
-      setErrorMessage(undefined)
-    }
-  }, [state, open])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -105,22 +93,14 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
                     ))}
                   </SelectContent>
                 </Select>
-                {state?.errors?.client_id && (
-                  <p className='py-2 text-xs text-red-500'>
-                    {state.errors.client_id}
-                  </p>
-                )}
+                <FieldError formState={formState} name='client_id' />
               </div>
               <div className='mb-4'>
                 <Label htmlFor='hours' className='mb-2'>
                   Hours
                 </Label>
                 <Input type='number' name='hours' id='hours' required />
-                {state?.errors?.hours && (
-                  <p className='py-2 text-xs text-red-500'>
-                    {state.errors.hours}
-                  </p>
-                )}
+                <FieldError formState={formState} name='hours' />
               </div>
               <div className='mb-4'>
                 <Label htmlFor='price' className='mb-2'>
@@ -135,11 +115,7 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
                     required
                     className='pl-6'
                   />
-                  {state?.errors?.hours && (
-                    <p className='py-2 text-xs text-red-500'>
-                      {state.errors.price}
-                    </p>
-                  )}
+                  <FieldError formState={formState} name='price' />
                 </div>
               </div>
               <div className='mb-4 flex flex-col'>
@@ -174,6 +150,7 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
                       required
                       defaultValue={formattedDate}
                     />
+                    <FieldError formState={formState} name='client_id' />
                   </>
                 ) : (
                   <input
@@ -186,9 +163,9 @@ const CreateCardDialog = ({ children, clients }: CreateClientDialogProps) => {
                   />
                 )}
               </div>
-              <p aria-live='polite' className='sr-only'>
+              {/* <p aria-live='polite' className='sr-only'>
                 {state?.message}
-              </p>
+              </p> */}
               <div className='mb-4'>
                 {errorMessage && (
                   <p className='py-2 text-xs text-red-500'>{errorMessage}</p>

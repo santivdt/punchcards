@@ -3,6 +3,11 @@
 import { Tables } from '@/types/supabase'
 import { requireUser } from '@/utils/auth'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
+import {
+  FormState,
+  fromErrorToFormState,
+  toFormState,
+} from '@/utils/to-form-state'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 
@@ -29,7 +34,7 @@ export const getCardsFromUser = async () => {
     .order('created_at', { ascending: false })
 }
 
-export const createCard = async (prevData: any, formData: FormData) => {
+export const createCard = async (formState: FormState, formData: FormData) => {
   const validatedFields = createSchema.safeParse({
     client_id: formData.get('client_id'),
     hours: Number(formData.get('hours')),
@@ -39,10 +44,7 @@ export const createCard = async (prevData: any, formData: FormData) => {
   })
 
   if (!validatedFields.success) {
-    return {
-      status: 'error',
-      errors: validatedFields.error.flatten().fieldErrors,
-    }
+    return fromErrorToFormState(validatedFields.error)
   }
 
   const supabase = createSupabaseClient()
@@ -58,39 +60,28 @@ export const createCard = async (prevData: any, formData: FormData) => {
   }
 
   if (activeCards && activeCards.length > 0) {
-    return {
-      status: 'error',
-      message:
-        'Client already has an active card. Finish it first before adding a new one.',
-    }
+    return
   }
 
   const user = await requireUser()
 
-  const { error } = await supabase.from('cards').insert({
-    user_id: user.id,
-    client_id: validatedFields.data.client_id,
-    hours: validatedFields.data.hours,
-    ends_at: validatedFields.data.ends_at,
-    hours_left: validatedFields.data.hours_left,
-    is_active: true,
-    price: validatedFields.data.price,
-  })
-
-  if (error) {
-    console.log(error)
-    return {
-      status: 'error',
-      message: 'An error occurred while creating the client',
-    }
+  try {
+    const { error } = await supabase.from('cards').insert({
+      user_id: user.id,
+      client_id: validatedFields.data.client_id,
+      hours: validatedFields.data.hours,
+      ends_at: validatedFields.data.ends_at,
+      hours_left: validatedFields.data.hours_left,
+      is_active: true,
+      price: validatedFields.data.price,
+    })
+  } catch (error) {
+    return fromErrorToFormState(error)
   }
 
   revalidatePath('/cards')
 
-  return {
-    status: 'success',
-    message: 'Client created successfully',
-  }
+  return toFormState('SUCCESS', 'Client created successfully')
 }
 
 export const deleteCard = async (prevData: any, formData: FormData) => {
