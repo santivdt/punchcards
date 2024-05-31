@@ -44,8 +44,14 @@ export default function Login({
                 <p className='mt-4'>Enter your credentials below to login </p>
                 <p className='text-xs'>
                   To log-in to the demo account use:{' '}
-                  <span className='bg-yellow-200 p-1'>demo@demo.email</span> and
-                  <span className='bg-yellow-200 p-1'>demopassword</span>.
+                  <span className='bg-yellow-200 p-1 dark:text-black'>
+                    demo@demo.email
+                  </span>{' '}
+                  and{' '}
+                  <span className='bg-yellow-200 p-1 dark:text-black'>
+                    demopassword
+                  </span>
+                  .
                 </p>
               </>
             )}
