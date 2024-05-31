@@ -1,6 +1,7 @@
 'use client'
 
 import { createCard } from '@/app/u/cards/actions'
+import FormError from '@/components/form-error'
 import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
@@ -200,11 +201,7 @@ const CreateCardDialog = ({
               <p aria-live='polite' className='sr-only'>
                 {state?.message}
               </p>
-              <div className='mb-4'>
-                {errorMessage && (
-                  <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
-                )}
-              </div>
+              <FormError errorMessage={errorMessage} />
               <DialogClose asChild>
                 <Button variant='outline' className='mr-2'>
                   Cancel

@@ -1,6 +1,7 @@
 'use client'
 
 import { updateHour } from '@/app/u/hours/actions'
+import FormError from '@/components/form-error'
 import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
@@ -38,9 +39,7 @@ const UpdateHourDialog = ({
   const [errorMessage, setErrorMessage] = useState<string | undefined>()
 
   useEffect(() => {
-    setErrorMessage(
-      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
-    )
+    setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') {
       onFinished()
       toast.success('Task updated successfully')
@@ -95,11 +94,7 @@ const UpdateHourDialog = ({
               </p>
             )}
           </div>
-          <div className='mb-4'>
-            {errorMessage && (
-              <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
-            )}
-          </div>
+          <FormError errorMessage={errorMessage} />
           <p aria-live='polite' className='sr-only'>
             {state?.message}
           </p>

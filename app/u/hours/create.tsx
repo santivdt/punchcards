@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { useFormState } from 'react-dom'
 
+import FormError from '@/components/form-error'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -46,9 +47,7 @@ const CreateHourDialog = ({
   const [errorMessage, setErrorMessage] = useState<ErrorState>(undefined)
 
   useEffect(() => {
-    setErrorMessage(
-      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
-    )
+    setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') {
       onFinished()
       toast.success('Task added successfully')
@@ -122,11 +121,7 @@ const CreateHourDialog = ({
             <p aria-live='polite' className='sr-only'>
               {state?.message}
             </p>
-            <div className='mb-4'>
-              {errorMessage && (
-                <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
-              )}
-            </div>
+            <FormError errorMessage={errorMessage} />
             <DialogClose asChild>
               <Button variant='outline' className='mr-2'>
                 Cancel

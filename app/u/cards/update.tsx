@@ -14,6 +14,7 @@ import { Tables } from '@/types/supabase'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 
+import FormError from '@/components/form-error'
 import { Euro } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { updateCard } from './actions'
@@ -121,11 +122,7 @@ const UpdateCardDialog = ({
               )}
             </div>
           </div>
-          <div className='mb-4'>
-            {errorMessage && (
-              <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
-            )}
-          </div>
+          <FormError errorMessage={errorMessage} />
           <p aria-live='polite' className='sr-only'>
             {state?.message}
           </p>

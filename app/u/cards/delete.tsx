@@ -1,5 +1,6 @@
 'use client'
 
+import FormError from '@/components/form-error'
 import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
@@ -57,9 +58,7 @@ const DeleteCardDialog = ({
         </DialogHeader>
         <form action={formAction}>
           <input type='hidden' name='cardId' value={card.id} />
-          {errorMessage && (
-            <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
-          )}
+          <FormError errorMessage={errorMessage} />
           <div className='flex items-center justify-end gap-2'>
             <DialogClose asChild>
               <Button type='button' variant='outline'>

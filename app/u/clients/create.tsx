@@ -1,6 +1,7 @@
 'use client'
 
 import { checkEmail, createClient } from '@/app/u/clients/actions'
+import FormError from '@/components/form-error'
 import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
@@ -88,9 +89,7 @@ const CreateClientDialog = ({
               <p className='py-2 text-xs text-red-500'>{state.errors.email}</p>
             )}
           </div>
-          {errorMessage && (
-            <p className='py-2 text-xs text-red-500'>{errorMessage}</p>
-          )}
+          <FormError errorMessage={errorMessage} />
           <p aria-live='polite' className='sr-only'>
             {state?.message}
           </p>
