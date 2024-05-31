@@ -3,6 +3,7 @@
 import { requireUser } from '@/utils/auth'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 import { deleteSchema, updateProfileSchema } from './schema'
 
 export const getProfile = async () => {
@@ -95,10 +96,5 @@ export const deleteUser = async (prevData: any, formData: FormData) => {
     }
   }
 
-  revalidatePath('/u/profile')
-
-  return {
-    status: 'success',
-    message: 'User deleted successfully',
-  }
+  return redirect('/login')
 }
