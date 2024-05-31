@@ -10,6 +10,24 @@ export default function Login({
 }: {
   searchParams: { message: string }
 }) {
+  const RenderMessage = () => {
+    switch (searchParams?.message) {
+      case 'Could not authenticate user':
+        return (
+          <p className='text-center bg-red-200 p-2 mt-4 text-red-700'>
+            {searchParams.message}
+          </p>
+        )
+      case 'You can sign in with the credentials you just created':
+        return (
+          <p className='text-center bg-green-200 p-2 mt-4 text-green-700'>
+            {searchParams.message}
+          </p>
+        )
+      default:
+        return null
+    }
+  }
   return (
     <div className='w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]'>
       <div className='flex items-center justify-center py-12'>
@@ -18,9 +36,18 @@ export default function Login({
             <h1 className='text-3xl font-bold'>Login</h1>
 
             {searchParams?.message ? (
-              <p className=' mt-4 text-green-700'>{searchParams.message}</p>
+              <>
+                <RenderMessage />
+              </>
             ) : (
-              <p className='mt-4'>Enter your credentials below to login </p>
+              <>
+                <p className='mt-4'>Enter your credentials below to login </p>
+                <p className='text-xs'>
+                  To log-in to the demo account use:{' '}
+                  <span className='bg-yellow-200 p-1'>demo@demo.email</span> and
+                  <span className='bg-yellow-200 p-1'>demopassword</span>.
+                </p>
+              </>
             )}
           </div>
           <form className='flex flex-col justify-center gap-2 text-foreground'>

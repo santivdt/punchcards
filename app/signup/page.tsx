@@ -5,11 +5,20 @@ import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { signUp } from './actions'
 
-export default function Signup() {
+export default function Signup({
+  searchParams,
+}: {
+  searchParams: { message: string }
+}) {
   return (
     <div className='w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]'>
       <div className='flex items-center justify-center py-12'>
         <div className='mx-auto grid w-[350px] gap-6'>
+          {searchParams?.message && (
+            <p className='text-center bg-red-200 p-2 mt-4 text-red-700'>
+              {searchParams.message}
+            </p>
+          )}
           <div className='grid gap-2 text-center'>
             <h1 className='text-3xl font-bold'>Sign up</h1>
             <p>Enter your credentials below to sign up </p>

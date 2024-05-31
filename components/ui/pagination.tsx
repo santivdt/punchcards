@@ -1,8 +1,8 @@
-import * as React from 'react'
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
+import * as React from 'react'
 
-import { cn } from '@/utils'
 import { ButtonProps, buttonVariants } from '@/components/ui/button'
+import { cn } from '@/utils'
 
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
@@ -82,7 +82,7 @@ const PaginationNext = ({
   <PaginationLink
     aria-label='Go to next page'
     size='default'
-    className={cn('gap-1 pr-2.5', className)}
+    className={cn('gap-1 pr-2.5 ', className)}
     {...props}
   >
     <span>Next</span>

@@ -14,7 +14,7 @@ export async function signUp(formData: FormData) {
   })
 
   if (error) {
-    return redirect('/login?message=Could not complete sign-up of user')
+    return redirect('/signup?message=Could not complete sign-up of user')
   }
 
   return redirect(

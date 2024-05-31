@@ -32,9 +32,8 @@ const Item = ({ href, label }: ItemProps) => {
   return (
     <div
       className={cn(
-        'flex py-2 px-4 rounded-xl items-center text-neutral-500 hover:bg-neutral-100 dark:text-neutral-400  dark:hover:text-black transition-colors',
-        pathname === href &&
-          'bg-neutral-200 hover:bg-neutral-100 text-foreground dark:text-black'
+        'flex rounded-xl items-center text-neutral-500 hover:text-black dark:hover:text-white dark:text-neutral-400  transition-colors',
+        pathname === href && 'dark:text-white text-black  '
       )}
     >
       <RenderIcon />
