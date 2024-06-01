@@ -56,7 +56,7 @@ export const DataTable = <TData extends TValue, TValue>({
           className='max-w-sm w-[250px]'
         />
       </div>
-      <div className='border rounded-md'>
+      <div>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

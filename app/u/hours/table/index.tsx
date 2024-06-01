@@ -35,7 +35,7 @@ export const DataTable = <TData extends TValue, TValue>({
   })
 
   return (
-    <div className='border rounded-md'>
+    <div>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

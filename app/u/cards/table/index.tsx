@@ -66,7 +66,7 @@ export const DataTable = <TData extends TValue, TValue>({
   })
 
   return (
-    <div className='border rounded-md p-4'>
+    <div className='p-4'>
       <DataTableToolbar table={table} />
 
       <Table>

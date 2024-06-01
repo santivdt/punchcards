@@ -1,16 +1,20 @@
 import Nav from '@/components/nav'
 import Sidebar from '@/components/sidebar'
+import { requireUser } from '@/utils/auth'
 import { getProfile } from './profile/actions'
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const { data: userProfile } = await getProfile()
+  const user = await requireUser()
 
   return (
-    <div className='w-full max-w-7xl'>
-      <Nav userProfile={userProfile} />
-      <div className='flex gap-4 mx-auto h-[calc(100vh-80px)]'>
-        <Sidebar userProfile={userProfile} />
-        <div className='flex-1 px-4 overflow-scroll'>{children}</div>
+    <div className='flex w-full min-[1800px]:max-w-7xl'>
+      <Sidebar userProfile={userProfile} user={user} />
+      <div className='flex flex-col mx-auto w-full  '>
+        <Nav userProfile={userProfile} />
+        <div className='flex-1 px-4 overflow-scroll h-[calc(100vh-80px)] min-w-[1000px] mx-auto'>
+          {children}
+        </div>
       </div>
     </div>
   )

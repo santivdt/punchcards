@@ -22,7 +22,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang='en' className={GeistSans.className}>
       <body className='antialiased dark:bg-black dark:text-neutral-300 h-screen'>
         <ThemeProvider attribute='class'>
-          <main className='flex justify-center'>
+          <main className='flex justify-center '>
             {children}
             <SpeedInsights />
             <Analytics />

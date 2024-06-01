@@ -4,11 +4,7 @@ import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useState } from 'react'
 
-type ThemeSwitcherProps = {
-  children: React.ReactNode
-}
-
-const ThemeSwitcher = ({ children }: ThemeSwitcherProps) => {
+const ThemeSwitcher = () => {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
   const currentTheme = theme === 'system' ? 'light' : theme
@@ -28,15 +24,9 @@ const ThemeSwitcher = ({ children }: ThemeSwitcherProps) => {
   return (
     <button type='button' className='flex items-center' onClick={handleChange}>
       {currentTheme === 'dark' ? (
-        <>
-          <Sun size={12} className='hover:cursor-pointer mr-2' />
-          {children}
-        </>
+        <Sun size={22} className='hover:cursor-pointer mr-2' />
       ) : (
-        <>
-          <Moon size={12} className='hover:cursor-pointer mr-2' />
-          {children}
-        </>
+        <Moon size={22} className='hover:cursor-pointer mr-2' />
       )}
     </button>
   )

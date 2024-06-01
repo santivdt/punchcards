@@ -16,15 +16,14 @@ type NavProps = {
 
 const Nav = ({ userProfile }: NavProps) => {
   return (
-    <div className=' h-[50px] flex items-center px-4 py-8'>
-      <div className='flex-1 '>
-        <h1 className='flex flex-1 items-center h-10 text-lg font-bold dark:text-white'>
-          {userProfile && (
-            <Link href='/u/profile'>{userProfile.company ?? 'Hi there!'}</Link>
-          )}
-        </h1>
-      </div>
+    <div className='justify-between lg:justify-end h-[50px] flex items-center px-4 py-8 border-b dark:border-neutral-800'>
+      <p className='lg:hidden flex items-center text-lg font-bold dark:text-white'>
+        {userProfile && (
+          <Link href='/u/profile'>{userProfile.company ?? 'Hi there!'}</Link>
+        )}
+      </p>
       <div className='flex items-center '>
+        <ThemeSwitcher />
         <div className='overflow-hidden rounded-full mr-1'>
           <Link href='/u/profile'>
             <UserRound size='22' />
@@ -54,11 +53,6 @@ const Nav = ({ userProfile }: NavProps) => {
               <form action={signOut}>
                 <button>Logout</button>
               </form>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <ThemeSwitcher>
-                <span>Switch mode</span>
-              </ThemeSwitcher>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
