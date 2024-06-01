@@ -12,7 +12,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
       <Sidebar userProfile={userProfile} user={user} />
       <div className='flex flex-col mx-auto w-full  '>
         <Nav userProfile={userProfile} />
-        <div className='flex-1 px-4 overflow-scroll h-[calc(100vh-80px)] min-w-[1000px] mx-auto'>
+        <div className='flex-1 px-4 overflow-scroll h-[calc(100vh-80px)] lg:min-w-[1000px] mx-auto'>
           {children}
         </div>
       </div>

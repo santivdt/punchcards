@@ -39,6 +39,8 @@ export const DataTable = <TData extends TValue, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     price: false,
     created_at: false,
+    readable_id: window.innerWidth <= 800 ? false : true,
+    is_active: window.innerWidth <= 800 ? false : true,
   })
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])

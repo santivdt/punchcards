@@ -18,7 +18,7 @@ type SideBarProps = {
 const Sidebar = async ({ userProfile, user }: SideBarProps) => {
   return (
     <aside className='hidden lg:flex w-full max-w-[250px] bg-slate-1 h-screen px-5 py-3 flex-col border-r dark:border-neutral-800'>
-      <p className='flex items-center h-10 text-lg font-bold dark:text-white mb-8'>
+      <p className='flex items-center h-10 text-lg font-bold dark:text-white mb-8 lg:pl-2'>
         {userProfile && (
           <Link href='/u/profile'>{userProfile.company ?? 'Hi there!'}</Link>
         )}
@@ -33,7 +33,7 @@ const Sidebar = async ({ userProfile, user }: SideBarProps) => {
           </li>
         ))}
       </ul>
-      <div className='flex justify-start items-center mx-auto'>
+      {/* <div className='flex justify-start items-center mx-auto'>
         <svg
           width='20'
           height='20'
@@ -63,7 +63,7 @@ const Sidebar = async ({ userProfile, user }: SideBarProps) => {
             clip-rule='evenodd'
           ></path>
         </svg>
-      </div>
+      </div> */}
     </aside>
   )
 }
