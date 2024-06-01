@@ -27,7 +27,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             <SpeedInsights />
             <Analytics />
           </main>
-          <Next13NProgress color='#6D49FF' height={3} />
+          <Next13NProgress
+            color='#6D49FF'
+            height={3}
+            options={{ showSpinner: false }}
+          />
           <ToastProvider />
         </ThemeProvider>
       </body>
