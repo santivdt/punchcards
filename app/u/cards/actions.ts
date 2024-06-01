@@ -207,25 +207,9 @@ export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
 export const getCardFromSlug = async (slug: string) => {
   const supabase = createSupabaseClient()
 
-  const { data: card, error: cardsError } = await supabase
+  return supabase
     .from('cards')
-    .select(`readable_id, id`)
+    .select(`readable_id, id, is_active`)
     .eq('id', slug)
     .single()
-
-  if (cardsError) {
-    return {
-      status: 'error',
-      message: 'An error occurred while getting the card',
-    }
-  }
-
-  if (!card) {
-    return {
-      status: 'error',
-      message: 'No card found',
-    }
-  }
-
-  return card.readable_id
 }

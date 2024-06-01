@@ -44,8 +44,8 @@ const Breadcrumbs = () => {
       } else if (pathSegments[0] === 'cards') {
         const crumbPromises = pathSegments.map(async (item) => {
           if (item.length > 10) {
-            const card = await getCardFromSlug(item)
-            return card ? card : item
+            const { data: card } = await getCardFromSlug(item)
+            return card ? `#${card.readable_id}` : item
           }
           return item
         })

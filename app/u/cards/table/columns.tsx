@@ -133,7 +133,7 @@ const Actions = (card: Tables<'cards'>) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuItem>
-            <Link href={`/u/cards/${card.id}`}>View hours</Link>
+            <Link href={`/u/cards/${card.id}`}>View details</Link>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setDialog('update')}>
             Edit
