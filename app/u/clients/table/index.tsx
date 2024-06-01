@@ -46,7 +46,7 @@ export const DataTable = <TData extends TValue, TValue>({
   //TODO make sure filter works on name and email columns
   return (
     <div>
-      <div className='flex items-center justify-end py-4 '>
+      <div className='flex items-center justify-end pb-4 '>
         <Input
           placeholder='Search...'
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
