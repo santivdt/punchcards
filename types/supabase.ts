@@ -133,6 +133,35 @@ export type Database = {
           },
         ]
       }
+      logs: {
+        Row: {
+          created_at: string
+          email: string
+          id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           company: string | null
@@ -145,7 +174,7 @@ export type Database = {
           company?: string | null
           created_at?: string
           first_name?: string | null
-          id?: string
+          id: string
           last_name?: string | null
         }
         Update: {
@@ -157,7 +186,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_id_fkey1"
+            foreignKeyName: "profiles_id_fkey"
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
@@ -177,6 +206,10 @@ export type Database = {
         Returns: undefined
       }
       update_card_validity: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      update_dummy_profile: {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }

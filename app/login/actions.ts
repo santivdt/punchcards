@@ -8,13 +8,24 @@ export async function signIn(formData: FormData) {
   const password = formData.get('password') as string
   const supabase = createClient()
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   })
 
   if (error) {
     return redirect('/login?message=Could not authenticate user')
+  }
+
+  if (data?.user?.id && data?.user?.email) {
+    const { error: errorLog } = await supabase.from('logs').insert({
+      user_id: data.user.id,
+      email: data.user.email,
+    })
+
+    if (errorLog) {
+      console.log('error adding log', errorLog)
+    }
   }
 
   return redirect('/u/dashboard')
