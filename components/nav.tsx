@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Tables } from '@/types/supabase'
-import { ChevronDown, UserRound } from 'lucide-react'
+import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 import { Link } from 'nextjs13-progress'
 import ThemeSwitcher from './theme-switcher'
 
@@ -24,38 +24,35 @@ const Nav = ({ userProfile }: NavProps) => {
       </p>
       <div className='flex items-center '>
         <ThemeSwitcher />
-        <div className='overflow-hidden rounded-full mr-1'>
-          <Link href='/u/profile'>
-            <UserRound size='18' />
-          </Link>
+        <div className='lg:hidden ml-2'>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <HamburgerMenuIcon />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link href='/u/dashboard'>Dashboard</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href='/u/clients'>Clients</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href='/u/cards'>Cards</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href='/u/hours'>Hours</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href='/u/profile'>Profile</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <form action={signOut}>
+                  <button>Logout</button>
+                </form>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <ChevronDown size='18' />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem asChild className='lg:hidden'>
-              <Link href='/u/dashboard'>Dashboard</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild className='lg:hidden'>
-              <Link href='/u/clients'>Clients</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild className='lg:hidden'>
-              <Link href='/u/cards'>Cards</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild className='lg:hidden'>
-              <Link href='/u/hours'>Hours</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href='/u/profile'>Profile</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <form action={signOut}>
-                <button>Logout</button>
-              </form>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
     </div>
   )

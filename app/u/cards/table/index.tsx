@@ -68,7 +68,7 @@ export const DataTable = <TData extends TValue, TValue>({
   })
 
   return (
-    <div className='p-4'>
+    <div className='py-4'>
       <DataTableToolbar table={table} />
 
       <Table>
