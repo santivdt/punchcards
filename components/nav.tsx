@@ -26,7 +26,7 @@ const Nav = ({ userProfile }: NavProps) => {
         <ThemeSwitcher />
         <div className='overflow-hidden rounded-full mr-1'>
           <Link href='/u/profile'>
-            <UserRound size='22' />
+            <UserRound size='18' />
           </Link>
         </div>
         <DropdownMenu>
