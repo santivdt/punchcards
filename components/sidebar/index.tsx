@@ -14,7 +14,7 @@ export const loggedInItems = [
   { href: '/u/dashboard', label: 'Dashboard' },
   { href: '/u/clients', label: 'Clients' },
   { href: '/u/cards', label: 'Cards' },
-  { href: '/u/hours', label: 'Hours' },
+  { href: '/u/hours', label: 'Track time' },
 ]
 export const loggedOutItems = [{ href: '/login', label: 'Login' }]
 
