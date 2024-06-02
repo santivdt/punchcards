@@ -5,12 +5,12 @@ import Header from '@/components/header'
 import { requireUser } from '@/utils/auth'
 import { getClientFromSlug } from '../../actions'
 
-type PageProps = { id: string }
+type PageProps = { slug: string }
 
-const Page = async ({ params: { id } }: { params: PageProps }) => {
+const Page = async ({ params: { slug } }: { params: PageProps }) => {
   requireUser()
-  const { data: hours } = await getHoursFromClient(id)
-  const { data: client } = await getClientFromSlug(id)
+  const { data: hours } = await getHoursFromClient(slug)
+  const { data: client } = await getClientFromSlug(slug)
 
   return (
     <>
