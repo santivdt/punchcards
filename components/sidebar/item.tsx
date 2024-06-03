@@ -22,7 +22,7 @@ const Item = ({ href, label }: ItemProps) => {
         return <Users size='14' className='mr-2' />
       case 'Cards':
         return <ScrollText size='14' className='mr-2' />
-      case 'Hours':
+      case 'Track time':
         return <FileClock size='14' className='mr-2' />
       default:
         return null

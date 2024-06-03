@@ -24,9 +24,9 @@ const ThemeSwitcher = () => {
   return (
     <button type='button' className='flex items-center' onClick={handleChange}>
       {currentTheme === 'dark' ? (
-        <Sun size={22} className='hover:cursor-pointer mr-2' />
+        <Sun size={18} className='hover:cursor-pointer ' />
       ) : (
-        <Moon size={22} className='hover:cursor-pointer mr-2' />
+        <Moon size={18} className='hover:cursor-pointer ' />
       )}
     </button>
   )

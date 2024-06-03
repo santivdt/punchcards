@@ -38,7 +38,7 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
     <>
       {userProfile && (
         <>
-          <form action={formAction} className='my-4 mx-1'>
+          <form action={formAction} className='my-4'>
             <input type='hidden' name='id' defaultValue={userProfile.id} />
             <div className='flex'>
               <div className='mr-8'>
@@ -70,7 +70,7 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
                 )}
               </div>
             </div>
-            <div className='w-1/2 mt-4'>
+            <div className='w-fit mt-4'>
               <Label htmlFor='company'>Company</Label>
               <Input
                 id='company'
