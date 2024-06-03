@@ -10,8 +10,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Tables } from '@/types/supabase'
+import { formatDate } from '@/utils/format-date'
+import { customFormatDuration } from '@/utils/format-duration'
 import { ColumnDef } from '@tanstack/react-table'
-import { format } from 'date-fns'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -50,9 +51,7 @@ export const columns: ColumnDef<Tables<'hours'>>[] = [
     accessorKey: 'created_at',
     header: 'Date',
     cell: ({ getValue }) => {
-      const dateValue = getValue<string>()
-      const formattedDate = format(new Date(dateValue), 'dd/MM/yyyy')
-      return formattedDate
+      return formatDate(getValue<string>())
     },
   },
   {
@@ -63,10 +62,7 @@ export const columns: ColumnDef<Tables<'hours'>>[] = [
     accessorKey: 'duration',
     header: 'Duration',
     cell: ({ getValue }) => {
-      const durationInHours = getValue<number>()
-      const hours = Math.floor(durationInHours)
-      const minutes = Math.round((durationInHours - hours) * 60)
-      return `${hours}h ${minutes}m`
+      return customFormatDuration(getValue<number>())
     },
   },
   {

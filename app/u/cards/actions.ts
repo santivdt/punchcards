@@ -209,7 +209,9 @@ export const getCardFromSlug = async (slug: string) => {
 
   return supabase
     .from('cards')
-    .select(`readable_id, id, is_active, clients (id, name)`)
+    .select(
+      `readable_id, id, is_active, created_at, price, client_id, ends_at, hours, hours_left, user_id, clients (id, name, created_at, email, user_id)`
+    )
     .eq('id', slug)
     .single()
 }
