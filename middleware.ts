@@ -1,8 +1,8 @@
-import { createClient } from '@supabase/supabase-js'
+import { updateSession } from '@/utils/supabase/middleware'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  const { supabase, response } = createClient(request)
+  const { supabase, response } = updateSession(request)
   const { data: user } = supabase.auth.getUser()
   if (!user && !request.nextUrl.pathname.startsWith('/login'))
     return NextResponse.redirect(new URL('/login', request.url))
