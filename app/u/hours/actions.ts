@@ -72,7 +72,6 @@ export const createHour = async (prevData: any, formData: FormData) => {
   })
 
   if (hourError) {
-    console.log(hourError, 'hourError')
     return {
       status: 'error',
       message: 'An error occurred while creating the hour',
@@ -85,7 +84,6 @@ export const createHour = async (prevData: any, formData: FormData) => {
     .eq('id', card.id)
 
   if (cardUpdateError) {
-    console.log(cardUpdateError, 'cardUpdateError')
     return {
       status: 'error',
       message: 'An error occurred while updating hours on the card',
@@ -188,6 +186,59 @@ export const deleteHour = async (prevData: any, formData: FormData) => {
     status: 'success',
     message: 'Hour deleted successfully',
   }
+}
+
+export const deleteHours = async (prevData: any, formData: FormData) => {
+  const data: Tables<'hours'>[] = JSON.parse(formData.get('data') as string)
+
+  const ids = data.map((obj) => obj.id)
+  const supabase = createSupabaseClient()
+
+  const { error } = await supabase.from('hours').delete().in('id', ids)
+
+  if (error) {
+    return {
+      status: 'error',
+      message: 'An error occurred while deleting the hours',
+    }
+  }
+
+  data.forEach(async (hour) => {
+    const { data: card, error: getCardInfoError } = await supabase
+      .from('cards')
+      .select('hours_left, ends_at')
+      .eq('id', hour.card_id)
+      .single()
+
+    if (getCardInfoError) {
+      return {
+        status: 'error',
+        message: 'An error occurred while getting hours_left',
+      }
+    }
+
+    const cardShouldBeActivated = new Date() < new Date(card.ends_at)
+
+    const { error: updateCardError } = await supabase
+      .from('cards')
+      .update({
+        hours_left: card.hours_left + hour.duration,
+        is_active: cardShouldBeActivated,
+      })
+      .eq('id', hour.card_id)
+
+    if (updateCardError) {
+      return {
+        status: 'error',
+        message: 'An error occurred while updating the card',
+      }
+    }
+  })
+
+  revalidatePath('/hours')
+  revalidatePath('/cards')
+
+  return { status: 'success', message: 'Hours deleted successfully' }
 }
 
 export const updateHour = async (prevData: any, formData: FormData) => {
