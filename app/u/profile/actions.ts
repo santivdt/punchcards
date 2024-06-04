@@ -78,7 +78,6 @@ export const deleteUser = async (prevData: any, formData: FormData) => {
   const { error: signOutError } = await supabase.auth.signOut()
 
   if (signOutError) {
-    console.log('signOutError ==========', signOutError)
     return {
       status: 'error',
       message: 'An error occurred while signing out',
@@ -91,7 +90,6 @@ export const deleteUser = async (prevData: any, formData: FormData) => {
     validatedFields.data.id
   )
   if (deleteError) {
-    console.log('deleteError ==========', deleteError)
     return {
       status: 'error',
       message: 'An error occurred while deleting the user',
