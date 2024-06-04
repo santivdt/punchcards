@@ -10,7 +10,7 @@ const PromoText = () => {
   return (
     <>
       <h1 className='text-white text-lg font-bold mb-4'>
-        Freelance front-end developer looking for a job
+        Portfolio project by Santi van den Toorn - Punchcards
       </h1>
       <p className='mb-4'>
         Hi there, welcome to my little app to manage prepaid punch cards (in
@@ -98,7 +98,7 @@ const PromoText = () => {
         >
           <Mail className='' size={18} />
         </a>
-        <a href='https://github.com/santivdt/punchcards' target='_blank'>
+        <a href='https://github.com/santivdt' target='_blank'>
           <Github className='ml-4' size={18} />
         </a>
       </p>

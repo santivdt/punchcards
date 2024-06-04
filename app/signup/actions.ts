@@ -18,6 +18,6 @@ export async function signUp(formData: FormData) {
   }
 
   return redirect(
-    '/login?message=You can sign in with the credentials you just created'
+    '/login?message=Check your email to confirm your email address. You can sign in afterwards'
   )
 }

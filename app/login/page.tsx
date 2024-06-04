@@ -18,7 +18,7 @@ export default function Login({
             {searchParams.message}
           </p>
         )
-      case 'You can sign in with the credentials you just created':
+      case 'Check your email to confirm your email address. You can sign in afterwards':
         return (
           <p className='text-center bg-green-200 p-2 mt-4 text-green-700'>
             {searchParams.message}
