@@ -21,14 +21,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Tables } from '@/types/supabase'
+import { CardWithClient } from '@/types/custom-types'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 
 type CreateHourDialogProps = {
   children: React.ReactNode
-  clients: Tables<'clients'>[] | null
+  activeCards: CardWithClient[] | null
   onFinished: () => void
 }
 
@@ -38,7 +38,7 @@ const initialState = undefined
 
 const CreateHourDialog = ({
   children,
-  clients,
+  activeCards,
   onFinished,
 }: CreateHourDialogProps) => {
   const [open, setOpen] = useState(false)
@@ -68,25 +68,25 @@ const CreateHourDialog = ({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
-        {clients && clients.length > 0 ? (
+        {activeCards && activeCards.length > 0 ? (
           <form ref={formRef} action={formAction}>
             <div className='mb-4'>
-              <Label htmlFor='client_id'>Client</Label>
-              <Select name='client_id' required>
+              <Label htmlFor='card_id'>Card</Label>
+              <Select name='card_id' required>
                 <SelectTrigger className='w-[240px]'>
-                  <SelectValue placeholder='Select client' />
+                  <SelectValue placeholder='Select card' />
                 </SelectTrigger>
                 <SelectContent>
-                  {clients?.map((client) => (
-                    <SelectItem key={client.id} value={client.id}>
-                      {client.name}
+                  {activeCards?.map((card) => (
+                    <SelectItem key={card.id} value={card.id}>
+                      {card.clients?.name} - {card.hours_left}/{card.hours}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              {state?.errors?.client_id && (
+              {state?.errors?.card_id && (
                 <p className='py-2 text-xs text-red-500'>
-                  {state.errors.client_id}
+                  {state.errors.card_id}
                 </p>
               )}
             </div>
@@ -148,8 +148,8 @@ const CreateHourDialog = ({
         ) : (
           <p>
             Add{' '}
-            <Link href='/u/clients' className='border-b border-slate-800'>
-              clients
+            <Link href='/u/cards' className='border-b border-slate-800'>
+              a card
             </Link>{' '}
             first.
           </p>

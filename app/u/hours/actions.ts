@@ -22,7 +22,7 @@ export const createHour = async (prevData: any, formData: FormData) => {
   const validatedFields = createSchema.safeParse({
     description: formData.get('description'),
     duration: Number(formData.get('duration')),
-    client_id: formData.get('client_id'),
+    card_id: formData.get('card_id'),
     date: formData.get('date'),
   })
 
@@ -43,16 +43,14 @@ export const createHour = async (prevData: any, formData: FormData) => {
 
   const { data: card, error: cardError } = await supabase
     .from('cards')
-    .select('id, hours_left')
-    .eq('client_id', validatedFields.data.client_id)
-    .eq('is_active', true)
-    .eq('user_id', user.id)
+    .select('*')
+    .eq('id', validatedFields.data.card_id)
     .single()
 
   if (cardError) {
     return {
       status: 'error',
-      message: 'No active card found for this client',
+      message: 'Could not fetch card information',
     }
   }
   const durationNumber = Number(validatedFields.data.duration)
@@ -67,9 +65,9 @@ export const createHour = async (prevData: any, formData: FormData) => {
   const { error: hourError } = await supabase.from('hours').insert({
     user_id: user.id,
     description: validatedFields.data.description,
-    client_id: validatedFields.data.client_id,
+    client_id: card.client_id,
     duration: durationNumber,
-    card_id: card.id,
+    card_id: validatedFields.data.card_id,
     created_at: validatedFields.data.date,
   })
 
@@ -83,7 +81,7 @@ export const createHour = async (prevData: any, formData: FormData) => {
   const { error: cardUpdateError } = await supabase
     .from('cards')
     .update({ hours_left: card.hours_left - durationNumber })
-    .eq('id', card.id)
+    .eq('id', validatedFields.data.card_id)
 
   if (cardUpdateError) {
     return {
@@ -93,7 +91,10 @@ export const createHour = async (prevData: any, formData: FormData) => {
   }
 
   if (card.hours_left === durationNumber) {
-    await supabase.from('cards').update({ is_active: false }).eq('id', card.id)
+    await supabase
+      .from('cards')
+      .update({ is_active: false })
+      .eq('id', validatedFields.data.card_id)
   }
 
   revalidatePath('/hours')

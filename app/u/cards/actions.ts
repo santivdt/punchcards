@@ -25,7 +25,6 @@ export const getCardsFromUser = async () => {
       user_id
     `
     )
-    .limit(10)
     .order('created_at', { ascending: false })
 }
 
@@ -214,4 +213,27 @@ export const getCardFromSlug = async (slug: string) => {
     )
     .eq('id', slug)
     .single()
+}
+
+export const getActiveCardsFromUser = async () => {
+  const supabase = createSupabaseClient()
+  return supabase
+    .from('cards')
+    .select(
+      `
+      created_at,
+      ends_at,
+      hours,
+      hours_left,
+      readable_id,
+      id,
+      is_active,
+      client_id,
+      clients (*),
+      price,
+      user_id
+    `
+    )
+    .eq('is_active', true)
+    .order('created_at', { ascending: false })
 }

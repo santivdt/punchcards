@@ -5,7 +5,7 @@ export const createSchema = z.object({
   duration: z
     .number()
     .min(0.5, { message: 'Duration must be greater than or equal to 0.5' }),
-  client_id: z.string(),
+  card_id: z.string(),
   date: z.string(),
 })
 

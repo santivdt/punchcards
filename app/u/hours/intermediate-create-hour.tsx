@@ -1,19 +1,19 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Tables } from '@/types/supabase'
+import { CardWithClient } from '@/types/custom-types'
 import { Clock } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import CreateHourDialog from './create'
 
 type InterMediateCreateHourProps = {
-  clients: Tables<'clients'>[] | null
   type?: 'default' | 'secondary'
+  activeCards: CardWithClient[] | null
 }
 
 const InterMediateCreateHour = ({
-  clients,
   type,
+  activeCards,
 }: InterMediateCreateHourProps) => {
   const [dialogKey, setDialogKey] = useState(0)
   const resetDialog = useCallback(
@@ -23,9 +23,9 @@ const InterMediateCreateHour = ({
 
   return (
     <CreateHourDialog
-      clients={clients}
       key={dialogKey}
       onFinished={resetDialog}
+      activeCards={activeCards}
     >
       {type === 'secondary' ? (
         <Button
