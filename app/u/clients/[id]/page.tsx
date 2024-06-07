@@ -4,21 +4,21 @@ import { Button } from '@/components/ui/button'
 import { requireUser } from '@/utils/auth'
 import Link from 'next/link'
 
-type PageProps = { slug: string }
+type PageProps = { id: string }
 
-const Page = async ({ params: { slug } }: { params: PageProps }) => {
+const Page = async ({ params: { id } }: { params: PageProps }) => {
   requireUser()
-  const { data: client } = await getClient(slug)
+  const { data: client } = await getClient(id)
   return (
     <>
       <Header title={`Detail page of ${client?.name}`} />
       <div>{client?.email}</div>
       <div className='my-4 space-x-2'>
         <Button variant='outline' asChild>
-          <Link href={`/u/clients/${slug}/cards`}>View cards</Link>
+          <Link href={`/u/clients/${id}/cards`}>View cards</Link>
         </Button>
         <Button variant='outline' asChild>
-          <Link href={`/u/clients/${slug}/hours`}>View hours</Link>
+          <Link href={`/u/clients/${id}/hours`}>View hours</Link>
         </Button>
       </div>
     </>

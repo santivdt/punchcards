@@ -1,5 +1,5 @@
 'use client'
-import { getCardFromSlug } from '@/app/u/cards/actions'
+import { getCardFromId } from '@/app/u/cards/actions'
 import { getClient } from '@/app/u/clients/actions'
 import {
   Breadcrumb,
@@ -44,7 +44,7 @@ const Breadcrumbs = () => {
       } else if (pathSegments[0] === 'cards') {
         const crumbPromises = pathSegments.map(async (item) => {
           if (item.length > 10) {
-            const { data: card } = await getCardFromSlug(item)
+            const { data: card } = await getCardFromId(item)
             return card ? `#${card.readable_id}` : item
           }
           return item

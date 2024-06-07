@@ -1,4 +1,4 @@
-import { getActiveCardsFromUser, getCardFromSlug } from '@/app/u/cards/actions'
+import { getActiveCardsFromUser, getCardFromId } from '@/app/u/cards/actions'
 import { getHoursFromCard } from '@/app/u/hours/actions'
 import { DataTable } from '@/app/u/hours/table'
 import { columns } from '@/app/u/hours/table/columns'
@@ -9,12 +9,12 @@ import 'jspdf-autotable'
 import InterMediateCreateHour from '../../hours/intermediate-create-hour'
 import GeneratePDFButton from './generate-pdf'
 
-type PageProps = { slug: string }
+type PageProps = { id: string }
 
-const Page = async ({ params: { slug } }: { params: PageProps }) => {
+const Page = async ({ params: { id } }: { params: PageProps }) => {
   requireUser()
-  const { data: card } = await getCardFromSlug(slug)
-  const { data: hours } = await getHoursFromCard(slug)
+  const { data: card } = await getCardFromId(id)
+  const { data: hours } = await getHoursFromCard(id)
   const { data: activeCards } = await getActiveCardsFromUser()
 
   return (

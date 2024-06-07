@@ -203,7 +203,7 @@ export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
     .eq('client_id', clientId)
 }
 
-export const getCardFromSlug = async (slug: string) => {
+export const getCardFromId = async (id: string) => {
   const supabase = createSupabaseClient()
 
   return supabase
@@ -211,7 +211,7 @@ export const getCardFromSlug = async (slug: string) => {
     .select(
       `readable_id, id, is_active, created_at, price, client_id, ends_at, hours, hours_left, user_id, clients (id, name, created_at, email, user_id)`
     )
-    .eq('id', slug)
+    .eq('id', id)
     .single()
 }
 
