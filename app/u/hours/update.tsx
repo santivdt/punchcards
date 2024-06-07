@@ -55,12 +55,28 @@ const UpdateHourDialog = ({
     [onFinished, setDialog]
   )
 
+  const setDate = hour.created_at.toString().slice(0, 10)
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <form ref={formRef} action={formAction}>
           <input type='hidden' name='hourId' value={hour.id} />
+          <div className='mb-4 flex flex-col'>
+            <Label htmlFor='date' className='my-2 mr-2'>
+              Date
+            </Label>
+            <input
+              aria-label='Date'
+              type='date'
+              id='date'
+              name='date'
+              required
+              defaultValue={setDate ?? ''}
+              className='w-[240px] p-2 border border-slate-800 dark:border-white rounded-md dark:bg-black'
+            />
+          </div>
           <div className='mb-4'>
             <Label htmlFor='description'>Description</Label>
             <Input

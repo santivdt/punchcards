@@ -6,6 +6,7 @@ export const createSchema = z.object({
     .number()
     .min(0.5, { message: 'Duration must be greater than or equal to 0.5' }),
   client_id: z.string(),
+  date: z.string(),
 })
 
 export const deleteSchema = z.object({
@@ -20,4 +21,5 @@ export const updateSchema = z.object({
     .number()
     .min(0.5, { message: 'Duration must be greater than or equal to 0.5' }),
   hourId: z.string(),
+  date: z.string(),
 })

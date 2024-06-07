@@ -11,7 +11,7 @@ export const getHoursFromUser = async () => {
   return supabase
     .from('hours')
     .select(
-      `id, created_at,description, duration, client_id, card_id, user_id,
+      `id, created_at, description, duration, client_id, card_id, user_id,
       clients(id, name),
       cards(id, readable_id)`
     )
@@ -23,6 +23,7 @@ export const createHour = async (prevData: any, formData: FormData) => {
     description: formData.get('description'),
     duration: Number(formData.get('duration')),
     client_id: formData.get('client_id'),
+    date: formData.get('date'),
   })
 
   if (validatedFields.error) {
@@ -69,6 +70,7 @@ export const createHour = async (prevData: any, formData: FormData) => {
     client_id: validatedFields.data.client_id,
     duration: durationNumber,
     card_id: card.id,
+    created_at: validatedFields.data.date,
   })
 
   if (hourError) {
@@ -246,6 +248,7 @@ export const updateHour = async (prevData: any, formData: FormData) => {
     description: formData.get('description'),
     duration: Number(formData.get('duration')),
     hourId: formData.get('hourId'),
+    date: formData.get('date'),
   })
 
   if (!validatedFields.success) {
@@ -264,6 +267,7 @@ export const updateHour = async (prevData: any, formData: FormData) => {
     .update({
       description: validatedFields.data.description,
       duration: validatedFields.data.duration,
+      created_at: validatedFields.data.date,
     })
     .eq('id', validatedFields.data.hourId)
     .eq('user_id', user.id)

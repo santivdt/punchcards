@@ -46,6 +46,8 @@ const CreateHourDialog = ({
   const [state, formAction] = useFormState(createHour, initialState)
   const [errorMessage, setErrorMessage] = useState<ErrorState>(undefined)
 
+  const currentDate = new Date().toISOString().slice(0, 10)
+
   useEffect(() => {
     setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') {
@@ -87,6 +89,20 @@ const CreateHourDialog = ({
                   {state.errors.client_id}
                 </p>
               )}
+            </div>
+            <div className='mb-4 flex flex-col'>
+              <Label htmlFor='date' className='my-2 mr-2'>
+                Date
+              </Label>
+              <input
+                aria-label='Date'
+                type='date'
+                id='date'
+                name='date'
+                required
+                defaultValue={currentDate}
+                className='w-[240px] p-2 border border-slate-800 dark:border-white rounded-md dark:bg-black'
+              />
             </div>
             <div className='mb-4'>
               <Label htmlFor='description'>Description</Label>
