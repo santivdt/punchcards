@@ -15,6 +15,14 @@ type NavProps = {
 }
 
 const Nav = ({ userProfile }: NavProps) => {
+  const mobileMenu = [
+    { name: 'Dashboard', href: '/u/dashboard' },
+    { name: 'Clients', href: '/u/clients' },
+    { name: 'Cards', href: '/u/cards' },
+    { name: 'Hours', href: '/u/hours' },
+    { name: 'Profile', href: '/u/profile' },
+  ]
+
   return (
     <div className='justify-between lg:justify-end h-[50px] flex items-center px-4 py-8 border-b dark:border-neutral-800'>
       <p className='lg:hidden flex items-center text-lg font-bold dark:text-white'>
@@ -30,21 +38,13 @@ const Nav = ({ userProfile }: NavProps) => {
               <HamburgerMenuIcon />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem asChild>
-                <Link href='/u/dashboard'>Dashboard</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href='/u/clients'>Clients</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href='/u/cards'>Cards</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href='/u/hours'>Hours</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href='/u/profile'>Profile</Link>
-              </DropdownMenuItem>
+              {mobileMenu.map((item) => (
+                <DropdownMenuContent key={item.name}>
+                  <DropdownMenuItem asChild>
+                    <Link href={item.href}>{item.name}</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              ))}
               <DropdownMenuItem asChild>
                 <form action={signOut}>
                   <button>Logout</button>
