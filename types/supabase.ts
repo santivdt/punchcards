@@ -135,35 +135,31 @@ export type Database = {
       }
       logs: {
         Row: {
+          aivd: string | null
           created_at: string
           email: string
           id: number
           user_id: string
         }
         Insert: {
+          aivd?: string | null
           created_at?: string
           email: string
           id?: number
           user_id: string
         }
         Update: {
+          aivd?: string | null
           created_at?: string
           email?: string
           id?: number
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "logs_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       profiles: {
         Row: {
+          avatar: string | null
           company: string | null
           created_at: string
           first_name: string | null
@@ -171,6 +167,7 @@ export type Database = {
           last_name: string | null
         }
         Insert: {
+          avatar?: string | null
           company?: string | null
           created_at?: string
           first_name?: string | null
@@ -178,6 +175,7 @@ export type Database = {
           last_name?: string | null
         }
         Update: {
+          avatar?: string | null
           company?: string | null
           created_at?: string
           first_name?: string | null

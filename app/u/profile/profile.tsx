@@ -10,6 +10,7 @@ import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { updateProfile } from './actions'
 import DangerZone from './components/dangerzone'
+import ProfilePicture from './components/profile-picture'
 
 const initialState = undefined
 
@@ -30,6 +31,7 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
     <>
       {userProfile && (
         <>
+          <ProfilePicture avatar={userProfile.avatar} />
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

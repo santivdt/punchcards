@@ -98,3 +98,51 @@ export const deleteUser = async (prevData: any, formData: FormData) => {
 
   return redirect('/login')
 }
+
+export const uploadProfilePicture = async (
+  prevData: any,
+  formData: FormData
+) => {
+  const user = await requireUser()
+  const supabase = createSupabaseClient()
+
+  const random = Math.random().toString(36).substring(7)
+
+  const { error } = await supabase.storage
+    .from('profile_pictures')
+    .upload(`${user.id}/${random}`, formData.get('profile_picture') as Blob)
+
+  if (error) {
+    console.log(error)
+    return {
+      status: 'error',
+      message: error.message,
+    }
+  }
+
+  const publicUrl = supabase.storage
+    .from('profile_pictures')
+    .getPublicUrl(`${user.id}/${random}`)
+
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update({
+      avatar: publicUrl.data?.publicUrl,
+    })
+    .eq('id', user.id)
+
+  if (updateError) {
+    console.log(updateError, 'updateError')
+    return {
+      status: 'error',
+      message: 'An error occurred while updating the profile',
+    }
+  }
+
+  revalidatePath('/profile')
+
+  return {
+    status: 'success',
+    message: 'Avatar uploaded successfully',
+  }
+}
