@@ -24,6 +24,25 @@ const ProfilePicture = ({ avatar }: ProfilePictureProps) => {
     undefined
   )
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('handling file change')
+    if (event.target.files) {
+      setSelectedFile(event.target.files[0])
+    }
+  }
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log('handling submit')
+    event.preventDefault()
+    if (selectedFile) {
+      const formData = new FormData()
+      formData.append('profile_picture', selectedFile)
+      uploadProfilePicture(undefined, formData)
+    }
+  }
+
   useEffect(() => {
     if (formState?.status === 'error') {
       setErrorMessage(formState.message)
@@ -34,9 +53,12 @@ const ProfilePicture = ({ avatar }: ProfilePictureProps) => {
     }
   }, [formState?.status, formState?.message])
 
+  // const { pending } = useFormStatus()
+
   return (
     <>
-      <form action={formAction} className='my-4 flex'>
+      {/* {pending ? <p className='text-white'>PENDING!!!</p> : <p>not pending</p>} */}
+      <form onSubmit={handleSubmit} className='my-4 flex'>
         <div className='flex flex-col items-start'>
           <label className='flex items-center justify-center'>
             <input
@@ -45,22 +67,14 @@ const ProfilePicture = ({ avatar }: ProfilePictureProps) => {
               type='file'
               accept='image/*'
               className='hidden'
-              onChange={(event) => {
-                if (event.target.files) {
-                  const file = event.target.files[0]
-                  const formData = new FormData()
-                  formData.append('profile_picture', file)
-                  uploadProfilePicture(undefined, formData)
-                }
-              }}
+              onChange={handleFileChange}
             />
             <div className='relative inline-flex rounded-full'>
-              <div className='border-secondary bg-secondary flex cursor-pointer items-center justify-center rounded-full border border-dashed text-sm text-neutral-600 hover:border-neutral-300 dark:text-neutral-400 h-20 w-20'>
+              <div className='flex cursor-pointer items-center justify-center rounded-full border border-dashed text-sm text-neutral-600 hover:border-neutral-300 dark:text-neutral-400 h-20 w-20'>
                 <span className='relative bg-white shadow-small dark:bg-black dark:shadow-white/20 w-20 h-20 text-2xl inline-flex flex-none cursor-pointer rounded-full object-cover'>
                   <Image
                     className='aspect-square h-full w-full rounded-[inherit] object-cover ring-inset ring-black/10'
-                    draggable='false'
-                    alt='Profile photo of: Santi'
+                    alt='Profile picture'
                     src={avatar || '/placeholder.jpeg'}
                     width='80'
                     height='80'
