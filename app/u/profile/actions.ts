@@ -106,7 +106,7 @@ export const uploadProfilePicture = async (
   const user = await requireUser()
   const supabase = createSupabaseClient()
 
-  const random = Math.random().toString(36).substring(7)
+  const random = self.crypto.randomUUID()
 
   const { error } = await supabase.storage
     .from('profile_pictures')
