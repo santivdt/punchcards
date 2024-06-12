@@ -5,6 +5,7 @@ export const updateProfileSchema = z.object({
   last_name: z.string(),
   company: z.string(),
   id: z.string(),
+  avatar: z.instanceof(File),
 })
 
 export const deleteSchema = z.object({

@@ -19,6 +19,7 @@ export const updateProfile = async (prevData: any, formData: FormData) => {
     last_name: formData.get('last_name'),
     company: formData.get('company'),
     id: formData.get('id'),
+    avatar: formData.get('avatar'),
   })
 
   if (!validatedFields.success) {
@@ -29,22 +30,76 @@ export const updateProfile = async (prevData: any, formData: FormData) => {
   }
 
   const supabase = createSupabaseClient()
+  const user = await requireUser()
 
-  const { error } = await supabase
+  const random = crypto.randomUUID()
+
+  const { error: uploadError } = await supabase.storage
+    .from('profile_pictures')
+    .upload(`${user.id}/${random}`, validatedFields.data.avatar as Blob)
+
+  if (uploadError) {
+    console.log(uploadError)
+    return {
+      status: 'error',
+      message: uploadError.message,
+    }
+  }
+
+  const { data: profile, error: getProfileError } = await supabase
     .from('profiles')
-    .update({
-      first_name: validatedFields.data.first_name,
-      last_name: validatedFields.data.last_name,
-      company: validatedFields.data.company,
-    })
-    .eq('id', validatedFields.data.id)
+    .select('*')
+    .eq('id', user.id)
+    .single()
 
-  if (error) {
+  if (getProfileError) {
     return {
       status: 'error',
       message: 'An error occurred while updating the profile',
     }
   }
+
+  const avatarFromForm = formData.get('avatar') as File
+
+  if (avatarFromForm.size === 0 && avatarFromForm.name === 'undefined') {
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        first_name: validatedFields.data.first_name,
+        last_name: validatedFields.data.last_name,
+        company: validatedFields.data.company,
+      })
+      .eq('id', validatedFields.data.id)
+
+    if (error) {
+      return {
+        status: 'error',
+        message: 'An error occurred while updating the profile',
+      }
+    }
+  } else {
+    const publicUrl = supabase.storage
+      .from('profile_pictures')
+      .getPublicUrl(`${user.id}/${random}`)
+
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        first_name: validatedFields.data.first_name,
+        last_name: validatedFields.data.last_name,
+        company: validatedFields.data.company,
+        avatar: publicUrl.data?.publicUrl,
+      })
+      .eq('id', validatedFields.data.id)
+
+    if (error) {
+      return {
+        status: 'error',
+        message: 'An error occurred while updating the profile',
+      }
+    }
+  }
+
   revalidatePath('/profile')
   revalidatePath('/')
 
