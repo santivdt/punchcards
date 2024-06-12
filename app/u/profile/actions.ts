@@ -1,5 +1,6 @@
 'use server'
 
+import crypto from 'crypto'
 import { requireUser } from '@/utils/auth'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
@@ -19,12 +20,21 @@ export const updateProfile = async (prevData: any, formData: FormData) => {
     last_name: formData.get('last_name'),
     company: formData.get('company'),
     id: formData.get('id'),
+    avatar: formData.get('avatar'),
   })
 
   if (!validatedFields.success) {
     return {
       status: 'error',
       errors: validatedFields.error.flatten().fieldErrors,
+    }
+  }
+
+  const avatar = await uploadProfilePicture(validatedFields.data.avatar)
+  if (avatar.status === 'error') {
+    return {
+      status: 'error',
+      message: avatar.message,
     }
   }
 
@@ -36,6 +46,7 @@ export const updateProfile = async (prevData: any, formData: FormData) => {
       first_name: validatedFields.data.first_name,
       last_name: validatedFields.data.last_name,
       company: validatedFields.data.company,
+      avatar: avatar.data,
     })
     .eq('id', validatedFields.data.id)
 
@@ -99,30 +110,27 @@ export const deleteUser = async (prevData: any, formData: FormData) => {
   return redirect('/login')
 }
 
-export const uploadProfilePicture = async (
-  prevData: any,
-  formData: FormData
-) => {
+export const uploadProfilePicture = async (data: Blob) => {
   const user = await requireUser()
+  const randomUUID = crypto.randomUUID()
   const supabase = createSupabaseClient()
 
-  const random = self.crypto.randomUUID()
-
-  const { error } = await supabase.storage
+  const { error: uploadError } = await supabase.storage
     .from('profile_pictures')
-    .upload(`${user.id}/${random}`, formData.get('profile_picture') as Blob)
+    .upload(`${user.id}/${randomUUID}`, data)
 
-  if (error) {
-    console.log(error)
+  if (uploadError) {
+    console.log(uploadError)
+
     return {
       status: 'error',
-      message: error.message,
+      message: uploadError.message,
     }
   }
 
   const publicUrl = supabase.storage
     .from('profile_pictures')
-    .getPublicUrl(`${user.id}/${random}`)
+    .getPublicUrl(`${user.id}/${randomUUID}`)
 
   const { error: updateError } = await supabase
     .from('profiles')
@@ -132,17 +140,17 @@ export const uploadProfilePicture = async (
     .eq('id', user.id)
 
   if (updateError) {
-    console.log(updateError, 'updateError')
+    console.log('updateError: ', updateError)
+
     return {
       status: 'error',
       message: 'An error occurred while updating the profile',
     }
   }
 
-  revalidatePath('/profile')
-
   return {
     status: 'success',
     message: 'Avatar uploaded successfully',
+    data: publicUrl.data.publicUrl,
   }
 }

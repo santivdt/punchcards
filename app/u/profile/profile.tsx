@@ -5,12 +5,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tables } from '@/types/supabase'
 import { motion } from 'framer-motion'
-import { useEffect } from 'react'
+import { Pencil } from 'lucide-react'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { updateProfile } from './actions'
 import DangerZone from './components/dangerzone'
-import ProfilePicture from './components/profile-picture'
 
 const initialState = undefined
 
@@ -20,6 +21,15 @@ type ProfileFormProps = {
 
 const ProfileForm = ({ userProfile }: ProfileFormProps) => {
   const [state, formAction] = useFormState(updateProfile, initialState)
+  const [preview, setPreview] = useState<string | null>(
+    userProfile?.avatar ?? null
+  )
+
+  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setPreview(URL.createObjectURL(event.target.files[0]))
+    }
+  }
 
   useEffect(() => {
     if (state?.status === 'success') {
@@ -31,13 +41,42 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
     <>
       {userProfile && (
         <>
-          <ProfilePicture avatar={userProfile.avatar} />
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 3 }}
           >
             <form action={formAction} className='my-4'>
+              <div className='flex flex-col items-start'>
+                <label className='flex items-center justify-center'>
+                  <input
+                    id='avatar'
+                    type='file'
+                    name='avatar'
+                    accept='image/*'
+                    className='hidden'
+                    onChange={handlePhotoChange}
+                  />
+                  <div className='relative inline-flex rounded-full'>
+                    <div className='flex cursor-pointer items-center justify-center rounded-full border border-dashed text-sm text-neutral-600 hover:border-neutral-300 dark:text-neutral-400 h-20 w-20'>
+                      <span className='relative bg-white shadow-small dark:bg-black dark:shadow-white/20 w-20 h-20 text-2xl inline-flex flex-none cursor-pointer rounded-full object-cover'>
+                        <Image
+                          className='aspect-square h-full w-full rounded-[inherit] object-cover ring-inset ring-black/10'
+                          alt='Profile picture'
+                          src={preview ?? '/placeholder.jpeg'}
+                          width='80'
+                          height='80'
+                          priority
+                        />
+                      </span>
+                    </div>
+                    <div className='absolute bottom-0 right-0 flex translate-y-0 cursor-pointer items-center justify-center rounded-full bg-neutral-50 p-2 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg dark:bg-neutral-800'>
+                      <Pencil size={12} />
+                    </div>
+                  </div>
+                </label>
+              </div>
+
               <input type='hidden' name='id' defaultValue={userProfile.id} />
               <div className='flex'>
                 <div className='mr-8'>
