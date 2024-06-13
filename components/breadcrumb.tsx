@@ -1,6 +1,6 @@
 'use client'
-import { getCardFromId } from '@/app/u/cards/actions'
-import { getClient } from '@/app/u/clients/actions'
+import { getCardFromId } from '@/app/(loggedIn)/cards/actions'
+import { getClient } from '@/app/(loggedIn)/clients/actions'
 import {
   Breadcrumb,
   BreadcrumbItem,
