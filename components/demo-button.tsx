@@ -8,7 +8,7 @@ const DemoButton = () => {
     <Button
       size='xxl'
       variant='outline'
-      className='rounded-full text-lg '
+      className='rounded-full text-lg mt-2 md:mt-0'
       onClick={async (event) => {
         event.preventDefault()
         try {

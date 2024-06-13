@@ -6,7 +6,7 @@ import Nav from './components/nav'
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className='flex flex-col h-screen  max-w-7xl mx-auto '>
+    <main className='flex flex-col h-screen  max-w-7xl mx-auto px-4'>
       <Nav />
       <div className='flex-1 flex flex-col mt-20'>
         {children}

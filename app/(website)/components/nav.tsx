@@ -21,7 +21,7 @@ const Nav = () => {
         <div className='font-bold text-3xl'>
           <Link href='/'>Punchy</Link>
         </div>
-        <div>
+        <div className='hidden md:flex'>
           {menuItems.map((item) => (
             <Link
               key={item.title}
