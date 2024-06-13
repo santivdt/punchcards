@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
     !request.nextUrl.pathname.startsWith('/signup') &&
     request.nextUrl.pathname !== '/'
   ) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL('/', request.url))
   }
   return response
 }

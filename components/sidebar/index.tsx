@@ -1,4 +1,5 @@
-import { signOut } from '@/app/login/actions'
+import { getProfile } from '@/app/(loggedIn)/profile/actions'
+import { signOut } from '@/app/(website)/login/actions'
 import Item from '@/components/sidebar/item'
 import {
   DropdownMenu,
@@ -6,28 +7,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Tables } from '@/types/supabase'
-import { User } from '@supabase/supabase-js'
+import { requireUser } from '@/utils/auth'
 import { Link } from 'nextjs13-progress'
 
 export const loggedInItems = [
-  { href: '/u/dashboard', label: 'Dashboard' },
-  { href: '/u/clients', label: 'Clients' },
-  { href: '/u/cards', label: 'Cards' },
-  { href: '/u/hours', label: 'Track time' },
+  { href: '/dashboard', label: 'Dashboard' },
+  { href: '/clients', label: 'Clients' },
+  { href: '/cards', label: 'Cards' },
+  { href: '/hours', label: 'Track time' },
 ]
-export const loggedOutItems = [{ href: '/login', label: 'Login' }]
 
-type SideBarProps = {
-  userProfile: Tables<'profiles'> | null
-  user: User | null
-}
-const Sidebar = async ({ userProfile, user }: SideBarProps) => {
+const Sidebar = async () => {
+  const { data: userProfile } = await getProfile()
+  const user = await requireUser()
   return (
     <aside className='hidden lg:flex w-full max-w-[250px] bg-slate-1 h-screen px-5 py-3 flex-col border-r dark:border-neutral-800'>
       <p className='flex items-center h-10 text-lg font-bold dark:text-white mb-8 lg:pl-2'>
         {userProfile && (
-          <Link href='/u/profile'>{userProfile.company ?? 'Hi there!'}</Link>
+          <Link href='/profile'>{userProfile.company ?? 'Hi there!'}</Link>
         )}
       </p>
       <ul className='flex-1'>
@@ -77,19 +74,19 @@ const Sidebar = async ({ userProfile, user }: SideBarProps) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem asChild className='lg:hidden'>
-              <Link href='/u/dashboard'>Dashboard</Link>
+              <Link href='/dashboard'>Dashboard</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className='lg:hidden'>
-              <Link href='/u/clients'>Clients</Link>
+              <Link href='/clients'>Clients</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className='lg:hidden'>
-              <Link href='/u/cards'>Cards</Link>
+              <Link href='/cards'>Cards</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className='lg:hidden'>
-              <Link href='/u/hours'>Hours</Link>
+              <Link href='/hours'>Hours</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href='/u/profile'>Profile</Link>
+              <Link href='/profile'>Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <form action={signOut}>

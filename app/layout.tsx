@@ -1,11 +1,7 @@
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
+import ToastProvider from '@/components/toast-provider'
 import { GeistSans } from 'geist/font/sans'
 import { ThemeProvider } from 'next-themes'
 import { Next13NProgress } from 'nextjs13-progress'
-
-import ToastProvider from '@/components/toast-provider'
-import './globals.css'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -22,11 +18,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang='en' className={GeistSans.className}>
       <body className='antialiased dark:bg-black dark:text-neutral-300 h-screen'>
         <ThemeProvider attribute='class'>
-          <main className='flex justify-center '>
-            {children}
-            <SpeedInsights />
-            <Analytics />
-          </main>
+          {children}
           <Next13NProgress
             color='#6D49FF'
             height={3}
