@@ -4,6 +4,12 @@ import { motion } from 'framer-motion'
 import { Link } from 'nextjs13-progress'
 
 const Nav = () => {
+  const menuItems = [
+    { title: 'About', href: '/about' },
+    { title: 'Pricing', href: '/pricing' },
+    { title: 'Contact', href: '/contact' },
+  ]
+
   return (
     <motion.nav
       initial={{ y: '-20px', opacity: 0 }}
@@ -14,6 +20,17 @@ const Nav = () => {
       <nav className='w-full flex justify-between items-center py-4'>
         <div className='font-bold text-3xl'>
           <Link href='/'>Punchy</Link>
+        </div>
+        <div>
+          {menuItems.map((item) => (
+            <Link
+              key={item.title}
+              href={item.href}
+              className='mr-10 font-semibold hover:slate-400'
+            >
+              {item.title}
+            </Link>
+          ))}
         </div>
         <div>
           <Button variant='secondary' className='mr-2' asChild>

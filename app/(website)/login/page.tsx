@@ -1,4 +1,5 @@
 import { signIn } from '@/app/(website)/login/actions'
+import DemoButton from '@/components/demo-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
@@ -24,68 +25,61 @@ const Login = ({ searchParams }: { searchParams: { message: string } }) => {
     }
   }
   return (
-    <div className='flex justify-center flex-col'>
-      <h1 className='text-3xl font-bold mt-40'>Log in</h1>
-      {searchParams?.message ? (
-        <>
-          <RenderMessage />
-        </>
-      ) : (
-        <>
-          <p className='mt-4'>Enter your credentials below to login </p>
-          <p className='text-xs mb-8 text-pretty'>
-            To log-in to the demo account use:{' '}
-            <span className='bg-yellow-200 p-1 dark:text-black'>
-              demo@demo.email
-            </span>{' '}
-            and{' '}
-            <span className='bg-yellow-200 p-1 dark:text-black'>
-              demopassword
-            </span>
-            .
-          </p>
-        </>
-      )}
-      <form className='flex flex-col justify-center gap-2 w-[300px]'>
-        <div className='grid gap-4'>
-          <div className='grid gap-2'>
-            <Label className='text-md' htmlFor='email'>
-              Email
-            </Label>
-            <Input
-              className='px-4 py-2 mb-6 border rounded-md bg-inherit'
-              name='email'
-              placeholder='you@example.com'
-              required
-            />
-          </div>
-          <div className='grid gap-2'>
-            <Label className='text-md' htmlFor='password'>
-              Password
-            </Label>
-            <Input
-              className='px-4 py-2 mb-6 border rounded-md bg-inherit'
-              type='password'
-              name='password'
-              required
-            />
-          </div>
-          <SubmitButton
-            formAction={signIn}
-            className='px-4 py-2 mb-2 bg-black text-white border rounded-md '
-            pendingText='Signing In...'
-          >
-            Sign In
-          </SubmitButton>
-        </div>
+    <div className='flex justify-center items-center flex-col '>
+      <div>
+        <h1 className='text-2xl font-bold'>Log in to Punchy</h1>
+        {searchParams?.message ? (
+          <>
+            <RenderMessage />
+          </>
+        ) : (
+          <>
+            <p className='mt-2'>Enter your credentials below to login </p>
+          </>
+        )}
+        <form className='flex flex-col justify-center gap-2 w-[300px] mt-4'>
+          <div className='grid gap-4'>
+            <div className='grid gap-2'>
+              <Label className='text-md' htmlFor='email'>
+                Email
+              </Label>
+              <Input
+                className='px-4 py-2 mb-6 border rounded-md bg-inherit'
+                name='email'
+                placeholder='you@example.com'
+                required
+              />
+            </div>
+            <div className='grid gap-2'>
+              <Label className='text-md' htmlFor='password'>
+                Password
+              </Label>
+              <Input
+                className='px-4 py-2 mb-6 border rounded-md bg-inherit'
+                type='password'
+                name='password'
+                required
+              />
+            </div>
+            <SubmitButton
+              formAction={signIn}
+              className='px-4 py-2 mb-2 bg-black text-white border rounded-md '
+              pendingText='Signing In...'
+            >
+              Sign In
+            </SubmitButton>
 
-        <div className='mt-4 text-center'>
-          Don&apos;t have an account?
-          <Link href='/signup' className='underline ml-2'>
-            Sign up
-          </Link>
-        </div>
-      </form>
+            <DemoButton />
+          </div>
+
+          <div className='mt-4 text-center'>
+            Don&apos;t have an account?
+            <Link href='/signup' className='underline ml-2'>
+              Sign up
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
