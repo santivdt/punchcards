@@ -1,3 +1,5 @@
+'use client'
+
 import { demoSignIn } from '@/app/(website)/login/actions'
 import { Button } from './ui/button'
 

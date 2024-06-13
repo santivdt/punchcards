@@ -12,7 +12,9 @@ const Nav = () => {
       className='navbar'
     >
       <nav className='w-full flex justify-between items-center py-4'>
-        <div className='font-bold text-3xl'>Punchy</div>
+        <div className='font-bold text-3xl'>
+          <Link href='/'>Punchy</Link>
+        </div>
         <div>
           <Button variant='secondary' className='mr-2' asChild>
             <Link href='/login'>Login</Link>

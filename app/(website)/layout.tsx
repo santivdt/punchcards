@@ -8,7 +8,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className='flex flex-col h-screen  max-w-7xl mx-auto '>
       <Nav />
-      <div className='flex-1 flex flex-col'>
+      <div className='flex-1 flex flex-col mt-20'>
         {children}
         <footer className='mt-auto w-full py-4 text-center flex items-center justify-center'>
           Made with <Coffee className='mx-1' size={16} /> in Amsterdam

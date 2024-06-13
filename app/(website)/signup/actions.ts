@@ -1,9 +1,11 @@
 'use server'
 
+import { requireUser } from '@/utils/auth'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { createFeedbackSchema } from './schema'
 
-export async function signUp(formData: FormData) {
+export const signUp = async (formData: FormData) => {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
   const supabase = createClient()
@@ -20,4 +22,41 @@ export async function signUp(formData: FormData) {
   return redirect(
     '/login?message=Check your email to confirm your email address. You can sign in afterwards'
   )
+}
+
+export const createFeedback = async (prevData: any, formData: FormData) => {
+  const validatedFields = createFeedbackSchema.safeParse({
+    feedback: formData.get('feedback'),
+  })
+
+  if (!validatedFields.success) {
+    console.log('validating error')
+    return {
+      status: 'error',
+      errors: validatedFields.error.flatten().fieldErrors,
+    }
+  }
+
+  const supabase = createClient()
+
+  const user = await requireUser()
+
+  const { error } = await supabase.from('feedback').insert({
+    user_id: user.id,
+    email: user.email,
+    feedback: validatedFields.data.feedback,
+  })
+
+  if (error) {
+    return {
+      status: 'error',
+      message:
+        'An error occurred while submittig the feedback, please try again.',
+    }
+  }
+
+  return {
+    status: 'success',
+    message: 'Feedback submitted successfully',
+  }
 }

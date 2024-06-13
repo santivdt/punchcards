@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 import { Link } from 'nextjs13-progress'
+import FeedbackButton from './feedback-button'
 import ThemeSwitcher from './theme-switcher'
 
 const Nav = async () => {
@@ -29,7 +30,9 @@ const Nav = async () => {
         )}
       </p>
       <div className='flex items-center '>
+        <FeedbackButton />
         <ThemeSwitcher />
+
         <div className='lg:hidden ml-2'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
