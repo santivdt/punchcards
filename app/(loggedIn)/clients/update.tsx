@@ -15,7 +15,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tables } from '@/types/supabase'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { updateClient } from './actions'
@@ -37,7 +37,6 @@ const UpdateClientDialog = ({
   onFinished,
   setDialog,
 }: UpdateClientDialogProps) => {
-  const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(updateClient, initialState)
   const [errorMessage, setErrorMessage] = useState<string | undefined>()
 
@@ -71,7 +70,7 @@ const UpdateClientDialog = ({
           <DialogTitle>Update client</DialogTitle>
           <DialogDescription>You are updating {client.name}</DialogDescription>
         </DialogHeader>
-        <form ref={formRef} action={formAction}>
+        <form action={formAction}>
           <input type='hidden' name='clientId' defaultValue={client.id} />
           <div className='mb-4'>
             <Label htmlFor='name'>Name</Label>

@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 
@@ -28,7 +28,6 @@ const CreateClientDialog = ({
   onFinished,
 }: CreateClientDialogProps) => {
   const [open, setOpen] = useState(false)
-  const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createClient, initialState)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
     undefined
@@ -59,7 +58,7 @@ const CreateClientDialog = ({
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent>
-        <form ref={formRef} action={formAction}>
+        <form action={formAction}>
           <div className='mb-4'>
             <Label htmlFor='name'>Name</Label>
             <Input

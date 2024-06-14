@@ -12,6 +12,9 @@ import {
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
+const replaceDashWithSpace = (arr: string[]) => {
+  return arr.map((str) => str.replace(/-/g, ' '))
+}
 //TODO Ask Giel about this seems like a hack
 
 const Breadcrumbs = () => {
@@ -22,7 +25,7 @@ const Breadcrumbs = () => {
     const fetchBreadcrumbs = async () => {
       let pathSegments = pathname.split('/').filter(Boolean)
 
-      pathSegments = pathSegments.filter((item) => item !== 'u')
+      pathSegments = replaceDashWithSpace(pathSegments)
 
       if (pathSegments.length < 2) {
         return setCrumbs(pathSegments)
