@@ -49,9 +49,11 @@ const CreateClientDialog = ({
 
   useEffect(() => {
     if (state?.status === 'success') {
-      toast.success('Client added successfully')
+      if (state.message) {
+        toast.success(state.message)
+      }
     }
-  }, [state?.status])
+  }, [state?.status, state?.message])
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>

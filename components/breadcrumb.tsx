@@ -75,7 +75,7 @@ const Breadcrumbs = () => {
     <Breadcrumb className='mt-2 mb-4'>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href='/'>Home</BreadcrumbLink>
+          <BreadcrumbLink href='/dashboard'>Home</BreadcrumbLink>
         </BreadcrumbItem>
         {crumbs && crumbs.length > 0 && <BreadcrumbSeparator />}
         {crumbs &&
