@@ -13,8 +13,14 @@ import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const replaceDashWithSpace = (arr: string[]) => {
-  return arr.map((str) => str.replace(/-/g, ' '))
+  return arr.map((str) => {
+    if (str.length < 15) {
+      return str.replace(/-/g, ' ')
+    }
+    return str
+  })
 }
+
 //TODO Ask Giel about this seems like a hack
 
 const Breadcrumbs = () => {
@@ -75,7 +81,7 @@ const Breadcrumbs = () => {
         {crumbs &&
           crumbs.slice(0, -1).map((item, index) => {
             const pathSegmentsForUrl = pathname.split('/').filter(Boolean)
-            const url = `/${pathSegmentsForUrl.slice(0, index + 2).join('/')}`
+            const url = `/${pathSegmentsForUrl.slice(0, index + 1).join('/')}`
 
             return (
               <React.Fragment key={index}>
