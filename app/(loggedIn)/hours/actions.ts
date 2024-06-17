@@ -121,9 +121,9 @@ export const deleteHour = async (prevData: any, formData: FormData) => {
   }
 
   const dummyDataHours = [
-    '10922d6b-c13b-4309-a34e-14d356cdeb46',
-    '8554d522-6303-4c50-8e54-86830d99aa93',
-    '1ce933e6-646d-4dc2-a500-94868716ac3d',
+    'be689607-3fb8-4153-a613-456b7606b4ed',
+    'e6f47601-34bc-4e84-a1e0-ee9cbd4f4131',
+    '495030a6-a189-4a52-bc57-8f66be38aef4',
   ]
 
   if (dummyDataHours.includes(validatedFields.data.hourId)) {
@@ -195,6 +195,21 @@ export const deleteHours = async (prevData: any, formData: FormData) => {
   const data: Tables<'hours'>[] = JSON.parse(formData.get('data') as string)
 
   const ids = data.map((obj) => obj.id)
+
+  const dummyDataHours = [
+    'be689607-3fb8-4153-a613-456b7606b4ed',
+    'e6f47601-34bc-4e84-a1e0-ee9cbd4f4131',
+    '495030a6-a189-4a52-bc57-8f66be38aef4',
+  ]
+
+  if (ids.some((id) => dummyDataHours.includes(id))) {
+    return {
+      status: 'error',
+      message:
+        'Cannot delete dummy data hours. Add your own hours to delete them.',
+    }
+  }
+
   const supabase = createSupabaseClient()
 
   const { error } = await supabase.from('hours').delete().in('id', ids)
@@ -256,6 +271,20 @@ export const updateHour = async (prevData: any, formData: FormData) => {
     return {
       status: 'error',
       errors: validatedFields.error.flatten().fieldErrors,
+    }
+  }
+
+  const dummyDataHours = [
+    'be689607-3fb8-4153-a613-456b7606b4ed',
+    'e6f47601-34bc-4e84-a1e0-ee9cbd4f4131',
+    '495030a6-a189-4a52-bc57-8f66be38aef4',
+  ]
+
+  if (dummyDataHours.includes(validatedFields.data.hourId)) {
+    return {
+      status: 'error',
+      message:
+        'Cannot update dummy data hours. Add your own hours to update them.',
     }
   }
 

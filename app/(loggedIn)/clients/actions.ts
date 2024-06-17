@@ -6,6 +6,15 @@ import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 
+const dummyDataClients = [
+  'cc4620b7-9aae-455b-b7f1-79bbd404d5ba',
+  'a6f0d3b0-d9d6-47c3-9dbc-d3a777842cae',
+  '8fc5cbf6-90bc-41a7-9faf-fb93467781fe',
+  '088d040d-698f-479f-87c9-86a26b18de0d',
+  '498a65d6-e01d-416e-bfbf-f09dc94db0aa',
+  '42aea556-5fab-411b-b78d-3bfbc387ee29',
+]
+
 export const getClientsFromUser = async () => {
   const supabase = createSupabaseClient()
 
@@ -81,6 +90,14 @@ export const updateClient = async (prevData: any, formData: FormData) => {
     }
   }
 
+  if (dummyDataClients.includes(validatedFields.data.clientId)) {
+    return {
+      status: 'error',
+      message:
+        'Cannot update dummy clients. If you add your own client you can update them.',
+    }
+  }
+
   const supabase = createSupabaseClient()
 
   const user = await requireUser()
@@ -120,15 +137,6 @@ export const deleteClient = async (prevData: any, formData: FormData) => {
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
-
-  const dummyDataClients = [
-    'cc4620b7-9aae-455b-b7f1-79bbd404d5ba',
-    'a6f0d3b0-d9d6-47c3-9dbc-d3a777842cae',
-    '8fc5cbf6-90bc-41a7-9faf-fb93467781fe',
-    '088d040d-698f-479f-87c9-86a26b18de0d',
-    '498a65d6-e01d-416e-bfbf-f09dc94db0aa',
-    '42aea556-5fab-411b-b78d-3bfbc387ee29',
-  ]
 
   if (dummyDataClients.includes(validatedFields.data.clientId)) {
     return {

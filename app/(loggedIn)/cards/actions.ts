@@ -105,8 +105,9 @@ export const deleteCard = async (prevData: any, formData: FormData) => {
   }
 
   const dummyDataCards = [
-    '43fc1329-b37c-46ba-8b2f-4b6f84bf0772',
+    '21524a64-9bc7-4d9b-8f48-98cbce929071',
     'a12ebdc7-c6ce-48c4-9a06-de07ac28fa4c',
+    '43fc1329-b37c-46ba-8b2f-4b6f84bf0772',
   ]
 
   if (dummyDataCards.includes(validatedFields.data.card_id)) {
@@ -161,6 +162,20 @@ export const updateCard = async (prevData: any, formData: FormData) => {
       status: 'error',
       message:
         'It is not possible to have more hours left than the total hours on the card.',
+    }
+  }
+
+  const dummyDataCards = [
+    '21524a64-9bc7-4d9b-8f48-98cbce929071',
+    'a12ebdc7-c6ce-48c4-9a06-de07ac28fa4c',
+    '43fc1329-b37c-46ba-8b2f-4b6f84bf0772',
+  ]
+
+  if (dummyDataCards.includes(validatedFields.data.card_id)) {
+    return {
+      status: 'error',
+      message:
+        'Cannot update dummy data cards. If you want to test the update function add a new card and update it.',
     }
   }
 
