@@ -71,9 +71,7 @@ export const columns: ColumnDef<Tables<'hours'>>[] = [
     cell: ({ row }) => {
       const hour = row.original as HourWithClient
       return (
-        <Link href={`/(loggedIn)/clients/${hour.client_id}`}>
-          {hour.clients.name}
-        </Link>
+        <Link href={`/clients/${hour.client_id}`}>{hour.clients.name}</Link>
       )
     },
   },
