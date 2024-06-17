@@ -20,6 +20,5 @@ export const updateSchema = z.object({
   hours: z.number().refine((value) => value !== 0, {
     message: 'Size cannot be zero',
   }),
-  hours_left: z.number(),
   price: z.number(),
 })

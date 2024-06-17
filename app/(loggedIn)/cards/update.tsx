@@ -81,25 +81,6 @@ const UpdateCardDialog = ({
             )}
           </div>
           <div className='mb-4'>
-            <Label htmlFor='hours_left' className='mb-2'>
-              Hours left
-            </Label>
-            <Input
-              name='hours_left'
-              id='hours_left'
-              defaultValue={card.hours_left?.toString() ?? ''}
-              type='number'
-              className='w-[240px]'
-              required
-            />
-
-            {state?.errors?.hours_left && (
-              <p className='py-2 text-xs text-red-500'>
-                {state.errors.hours_left}
-              </p>
-            )}
-          </div>
-          <div className='mb-4'>
             <Label htmlFor='price' className='mb-2'>
               Price
             </Label>

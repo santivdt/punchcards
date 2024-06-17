@@ -145,7 +145,6 @@ export const deleteCard = async (prevData: any, formData: FormData) => {
 export const updateCard = async (prevData: any, formData: FormData) => {
   const validatedFields = updateSchema.safeParse({
     hours: Number(formData.get('hours')),
-    hours_left: Number(formData.get('hours_left')),
     card_id: formData.get('card_id'),
     price: Number(formData.get('price')),
   })
@@ -154,14 +153,6 @@ export const updateCard = async (prevData: any, formData: FormData) => {
     return {
       status: 'error',
       errors: validatedFields.error.flatten().fieldErrors,
-    }
-  }
-
-  if (validatedFields.data.hours_left > validatedFields.data.hours) {
-    return {
-      status: 'error',
-      message:
-        'It is not possible to have more hours left than the total hours on the card.',
     }
   }
 
@@ -179,14 +170,40 @@ export const updateCard = async (prevData: any, formData: FormData) => {
     }
   }
 
+  const { data: currentCard, error: currentCardError } = await getCardFromId(
+    validatedFields.data.card_id
+  )
+
+  if (currentCardError) {
+    return {
+      status: 'error',
+      message: 'An error occurred while getting the current card',
+    }
+  }
+
+  let changeInHours = 0
+
+  if (currentCard.hours) {
+    changeInHours = validatedFields.data.hours - currentCard.hours
+  }
+
+  const newHoursLeft = currentCard.hours_left + changeInHours
+
+  if (newHoursLeft < 0) {
+    return {
+      status: 'error',
+      message: `It is not possible to have less than 0 hours left on the card.`,
+    }
+  }
+
   const supabase = createSupabaseClient()
 
   const { error } = await supabase
     .from('cards')
     .update({
       hours: validatedFields.data.hours,
-      hours_left: validatedFields.data.hours_left,
       price: validatedFields.data.price,
+      hours_left: newHoursLeft,
     })
     .eq('id', validatedFields.data.card_id)
 
