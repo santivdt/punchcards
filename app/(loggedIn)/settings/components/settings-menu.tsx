@@ -13,8 +13,8 @@ const SettingsMenu = () => {
   ]
 
   return (
-    <div dir='ltr' className='mb-16'>
-      <div className='relative mb-4 flex items-center gap-2 overflow-auto scroll-pb-6 outline-none'>
+    <div dir='ltr'>
+      <div className='relative mb-4 flex items-center gap-2 overflow-auto outline-none'>
         {menuItems.map((item) => (
           <div key={item.label} className='relative'>
             <div

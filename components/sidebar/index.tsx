@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { requireUser } from '@/utils/auth'
+import { Circle } from 'lucide-react'
 import Image from 'next/image'
 import { Link } from 'nextjs13-progress'
 
@@ -22,6 +23,7 @@ const Sidebar = async () => {
   const { data: userProfile } = await getProfile()
   const { data: organisation } = await getOrganisation()
   const user = await requireUser()
+
   return (
     <aside className='hidden lg:flex w-full max-w-[250px] bg-slate-1 h-screen px-5 py-3 flex-col border-r dark:border-neutral-800'>
       <p className='flex items-center h-10 text-lg font-bold dark:text-white mb-8 lg:pl-2 gap-2'>
@@ -47,6 +49,16 @@ const Sidebar = async () => {
             <Item {...item} />
           </li>
         ))}
+        {(!userProfile?.first_name ||
+          !userProfile?.last_name ||
+          !organisation?.name) && (
+          <li>
+            <div className='mb-2 px-2 py-1 gap-2 flex rounded-md border border-purple-500 items-center hover:text-black hover:bg-neutral-200 text-neutral-500 hover:dark:bg-neutral-900 dark:hover:text-white dark:text-neutral-400'>
+              <Circle size='14' className='text-purple-500' />
+              Finish onboarding
+            </div>
+          </li>
+        )}
       </ul>
       <div className='flex justify-between items-center'>
         <div className='flex items-center'>
