@@ -1,6 +1,8 @@
 'use client'
 import { getCardFromId } from '@/app/(loggedIn)/cards/actions'
 import { getClient } from '@/app/(loggedIn)/clients/actions'
+import { usePathname } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,9 +10,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
-import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+} from './ui/breadcrumb'
 
 const replaceDashWithSpace = (arr: string[]) => {
   return arr.map((str) => {

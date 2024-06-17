@@ -1,4 +1,4 @@
-import { getProfile } from '@/app/(loggedIn)/profile/actions'
+import { getOrganisation, getProfile } from '@/app/(loggedIn)/settings/actions'
 import { signOut } from '@/app/(website)/login/actions'
 import Item from '@/components/sidebar/item'
 import {
@@ -20,13 +20,23 @@ export const loggedInItems = [
 
 const Sidebar = async () => {
   const { data: userProfile } = await getProfile()
+  const { data: organisation } = await getOrganisation()
   const user = await requireUser()
   return (
     <aside className='hidden lg:flex w-full max-w-[250px] bg-slate-1 h-screen px-5 py-3 flex-col border-r dark:border-neutral-800'>
-      <p className='flex items-center h-10 text-lg font-bold dark:text-white mb-8 lg:pl-2'>
-        {userProfile && (
-          <Link href='/profile'>{userProfile.company ?? 'Hi there!'}</Link>
+      <p className='flex items-center h-10 text-lg font-bold dark:text-white mb-8 lg:pl-2 gap-2'>
+        {organisation && organisation.logo && (
+          <Image
+            src={organisation.logo}
+            width='30'
+            height='30'
+            alt='Logo'
+            className='rounded-full'
+          />
         )}
+        <Link href='/settings/profile'>
+          {organisation ? organisation.name : 'Hi there!'}
+        </Link>
       </p>
       <ul className='flex-1'>
         {loggedInItems.map((item) => (
@@ -96,7 +106,7 @@ const Sidebar = async () => {
               <Link href='/hours'>Hours</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href='/profile'>Profile</Link>
+              <Link href='/settings/profile'>Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <form action={signOut}>

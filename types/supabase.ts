@@ -189,10 +189,41 @@ export type Database = {
         }
         Relationships: []
       }
+      organisations: {
+        Row: {
+          created_at: string
+          id: string
+          logo: string | null
+          name: string | null
+          owner: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          logo?: string | null
+          name?: string | null
+          owner: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          logo?: string | null
+          name?: string | null
+          owner?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organisations_owner_fkey"
+            columns: ["owner"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar: string | null
-          company: string | null
           created_at: string
           first_name: string | null
           id: string
@@ -200,7 +231,6 @@ export type Database = {
         }
         Insert: {
           avatar?: string | null
-          company?: string | null
           created_at?: string
           first_name?: string | null
           id: string
@@ -208,7 +238,6 @@ export type Database = {
         }
         Update: {
           avatar?: string | null
-          company?: string | null
           created_at?: string
           first_name?: string | null
           id?: string

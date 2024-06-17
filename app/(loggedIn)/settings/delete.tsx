@@ -36,9 +36,7 @@ const DeleteUserDialog = ({
   const [errorMessage, setErrorMessage] = useState<string | undefined>('')
 
   useEffect(() => {
-    setErrorMessage(
-      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
-    )
+    setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') onFinished()
   }, [onFinished, state?.message, state?.status])
 

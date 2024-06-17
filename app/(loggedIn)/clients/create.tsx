@@ -33,9 +33,7 @@ const CreateClientDialog = ({
     undefined
   )
   useEffect(() => {
-    setErrorMessage(
-      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
-    )
+    setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') onFinished()
   }, [onFinished, state?.message, state?.status])
 
@@ -51,6 +49,10 @@ const CreateClientDialog = ({
     if (state?.status === 'success') {
       if (state.message) {
         toast.success(state.message)
+      }
+    } else if (state?.status === 'error') {
+      if (state.message) {
+        toast.error(state.message)
       }
     }
   }, [state?.status, state?.message])

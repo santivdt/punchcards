@@ -69,9 +69,7 @@ const CreateCardDialog = ({
   const formattedDate = oneYearFromNow.toISOString().split('T')[0]
 
   useEffect(() => {
-    setErrorMessage(
-      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
-    )
+    setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') {
       onFinished()
       toast.success('Card added successfully')

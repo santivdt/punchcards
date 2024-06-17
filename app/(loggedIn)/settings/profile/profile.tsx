@@ -9,8 +9,8 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
-import { updateProfile } from './actions'
-import DangerZone from './components/dangerzone'
+import { updateProfile } from '../actions'
+import DangerZone from '../components/dangerzone'
 
 const initialState = undefined
 
@@ -32,7 +32,7 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
 
   useEffect(() => {
     if (state?.status === 'success') {
-      toast.success('Profile updated successfully')
+      toast.success(state?.message || 'Profile updated successfully')
     }
   }, [state?.message, state?.status])
 
@@ -100,20 +100,6 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
                   </p>
                 )}
               </div>
-            </div>
-            <div className='w-fit mt-4'>
-              <Label htmlFor='company'>Company</Label>
-              <Input
-                id='company'
-                name='company'
-                type='text'
-                defaultValue={userProfile.company ?? ''}
-              />
-              {state?.errors?.company && (
-                <p className='py-2 text-xs text-red-500'>
-                  {state.errors.company}
-                </p>
-              )}
             </div>
             <p aria-live='polite' className='sr-only'>
               {state?.message}

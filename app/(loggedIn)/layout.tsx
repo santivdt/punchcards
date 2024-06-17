@@ -12,7 +12,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <div className='flex flex-col mx-auto w-full  '>
           <Nav />
           <div className='flex-1 px-4 overflow-scroll h-[calc(100vh-80px)] lg:min-w-[1000px] lg:mx-auto'>
-            {children}
+            <div className='2xl:pl-28'>{children}</div>
           </div>
         </div>
       </div>

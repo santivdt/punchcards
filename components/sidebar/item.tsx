@@ -32,9 +32,9 @@ const Item = ({ href, label }: ItemProps) => {
   return (
     <div
       className={cn(
-        ' mb-2 px-2 py-1 flex rounded-md items-center hover:text-black hover:bg-neutral-200 text-neutral-500 hover:dark:bg-neutral-900 dark:hover:text-white dark:text-neutral-400  ',
+        'mb-2 px-2 py-1 flex rounded-md items-center hover:text-black hover:bg-neutral-200 text-neutral-500 hover:dark:bg-neutral-900 dark:hover:text-white dark:text-neutral-400',
         pathname === href &&
-          'bg-neutral-200 dark:text-white text-black dark:bg-neutral-900  '
+          'bg-neutral-200 dark:text-white text-black dark:bg-neutral-900'
       )}
     >
       <RenderIcon />

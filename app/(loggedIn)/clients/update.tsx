@@ -41,17 +41,14 @@ const UpdateClientDialog = ({
   const [errorMessage, setErrorMessage] = useState<string | undefined>()
 
   useEffect(() => {
-    setErrorMessage(
-      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
-    )
-    if (state?.status === 'success') onFinished()
-  }, [onFinished, state?.message, state?.status])
-
-  useEffect(() => {
+    setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') {
-      toast.success('Client updated successfully')
+      if (state?.message) {
+        toast.success(state.message)
+      }
+      onFinished()
     }
-  }, [state?.status])
+  }, [onFinished, state?.message, state?.status])
 
   const handleOpenChange = useCallback(
     (newOpen: boolean) => {
