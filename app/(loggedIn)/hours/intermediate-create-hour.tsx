@@ -9,11 +9,13 @@ import CreateHourDialog from './create'
 type InterMediateCreateHourProps = {
   type?: 'default' | 'secondary'
   activeCards: CardWithClient[] | null
+  cardId?: string
 }
 
 const InterMediateCreateHour = ({
   type,
   activeCards,
+  cardId,
 }: InterMediateCreateHourProps) => {
   const [dialogKey, setDialogKey] = useState(0)
   const resetDialog = useCallback(
@@ -26,6 +28,7 @@ const InterMediateCreateHour = ({
       key={dialogKey}
       onFinished={resetDialog}
       activeCards={activeCards}
+      cardId={cardId}
     >
       {type === 'secondary' ? (
         <Button

@@ -26,7 +26,11 @@ const Page = async ({ params: { id } }: { params: PageProps }) => {
         title={`Hours for card #${card?.readable_id} - ${card?.clients?.name}`}
       >
         {card && hours && <GeneratePDFButton card={card} hours={hours} />}
-        <InterMediateCreateHour activeCards={activeCards} type='secondary' />
+        <InterMediateCreateHour
+          activeCards={activeCards}
+          type='secondary'
+          cardId={id}
+        />
       </Header>
       <div className='flex justify-end w-full mb-2'>
         {card?.is_active ? (

@@ -30,6 +30,7 @@ type CreateHourDialogProps = {
   children: React.ReactNode
   activeCards: CardWithClient[] | null
   onFinished: () => void
+  cardId?: string
 }
 
 type ErrorState = string | undefined
@@ -40,6 +41,7 @@ const CreateHourDialog = ({
   children,
   activeCards,
   onFinished,
+  cardId,
 }: CreateHourDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
@@ -72,7 +74,7 @@ const CreateHourDialog = ({
           <form ref={formRef} action={formAction}>
             <div className='mb-4'>
               <Label htmlFor='card_id'>Card</Label>
-              <Select name='card_id' required>
+              <Select name='card_id' required defaultValue={cardId}>
                 <SelectTrigger className='w-[240px]'>
                   <SelectValue placeholder='Select card' />
                 </SelectTrigger>
@@ -112,6 +114,7 @@ const CreateHourDialog = ({
                 type='text'
                 placeholder='Built an app'
                 required
+                autoFocus={cardId ? true : false}
               />
               {state?.errors?.description && (
                 <p className='py-2 text-xs text-red-500'>
