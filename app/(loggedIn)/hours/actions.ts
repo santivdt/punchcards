@@ -6,6 +6,12 @@ import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 
+const dummyDataHours = [
+  '50974046-4eaf-4dc6-8690-b82f28a6544e',
+  'bf3bd164-de2d-42b8-abd4-14c6f92e2782',
+  '26233683-3ef5-422d-bb27-eba2656ce83b',
+]
+
 export const getHoursFromUser = async () => {
   const supabase = createSupabaseClient()
   return supabase
@@ -120,12 +126,6 @@ export const deleteHour = async (prevData: any, formData: FormData) => {
     }
   }
 
-  const dummyDataHours = [
-    'be689607-3fb8-4153-a613-456b7606b4ed',
-    'e6f47601-34bc-4e84-a1e0-ee9cbd4f4131',
-    '495030a6-a189-4a52-bc57-8f66be38aef4',
-  ]
-
   if (dummyDataHours.includes(validatedFields.data.hourId)) {
     return {
       status: 'error',
@@ -195,12 +195,6 @@ export const deleteHours = async (prevData: any, formData: FormData) => {
   const data: Tables<'hours'>[] = JSON.parse(formData.get('data') as string)
 
   const ids = data.map((obj) => obj.id)
-
-  const dummyDataHours = [
-    'be689607-3fb8-4153-a613-456b7606b4ed',
-    'e6f47601-34bc-4e84-a1e0-ee9cbd4f4131',
-    '495030a6-a189-4a52-bc57-8f66be38aef4',
-  ]
 
   if (ids.some((id) => dummyDataHours.includes(id))) {
     return {
@@ -273,12 +267,6 @@ export const updateHour = async (prevData: any, formData: FormData) => {
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
-
-  const dummyDataHours = [
-    'be689607-3fb8-4153-a613-456b7606b4ed',
-    'e6f47601-34bc-4e84-a1e0-ee9cbd4f4131',
-    '495030a6-a189-4a52-bc57-8f66be38aef4',
-  ]
 
   if (dummyDataHours.includes(validatedFields.data.hourId)) {
     return {
