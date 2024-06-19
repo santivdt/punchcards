@@ -6,7 +6,7 @@ import '../globals.css'
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className='flex justify-center '>
+    <main className='flex justify-center'>
       <div className='flex w-full min-[1800px]:max-w-7xl'>
         <Sidebar />
         <div className='flex flex-col mx-auto w-full  '>

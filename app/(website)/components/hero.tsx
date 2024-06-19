@@ -11,9 +11,9 @@ const Hero = () => {
       initial={{ y: '20px', opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1, ease: 'easeInOut' }}
-      className='flex gap-8'
+      className='flex flex-col lg:flex-row gap-8 w-full lg:w-1/2 mx-8 lg:mx-0'
     >
-      <div className='w-full md:w-1/2'>
+      <div>
         <h1 className='text-bold text-5xl md:text-7xl text-balance'>
           Manage your prepaid hours with ease
         </h1>
