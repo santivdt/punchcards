@@ -28,6 +28,7 @@ const CreateClientDialog = ({
   onFinished,
 }: CreateClientDialogProps) => {
   const [open, setOpen] = useState(false)
+  const [emailIsDouble, setEmailIsDouble] = useState(false)
   const [state, formAction] = useFormState(createClient, initialState)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
     undefined
@@ -72,9 +73,12 @@ const CreateClientDialog = ({
               placeholder='John Doe'
               required
             />
-            {state?.errors?.name && (
-              <p className='py-2 text-xs text-red-500'>{state.errors.name}</p>
-            )}
+            {state?.errors?.name ||
+              (!emailIsDouble && (
+                <p className='py-2 text-xs text-red-500'>
+                  {state?.errors?.name}
+                </p>
+              ))}
           </div>
           <div>
             <Label htmlFor='email'>Email</Label>
@@ -84,13 +88,20 @@ const CreateClientDialog = ({
               type='text'
               placeholder='johndoe@example.com'
               required
-              onBlur={(e) => {
-                checkEmail(e.target.value)
+              onBlur={async (e) => {
+                const emailIsDouble = await checkEmail(e.target.value)
+                if (emailIsDouble?.status === 'error') {
+                  return setEmailIsDouble(true)
+                }
+                return setEmailIsDouble(false)
               }}
             />
-            {state?.errors?.email && (
-              <p className='py-2 text-xs text-red-500'>{state.errors.email}</p>
-            )}
+            {state?.errors?.email ||
+              (emailIsDouble && (
+                <p className='py-2 text-xs text-red-500'>
+                  {state?.errors?.email || 'TODO: MELDING'}
+                </p>
+              ))}
           </div>
           <FormError errorMessage={errorMessage} />
           <p aria-live='polite' className='sr-only'>

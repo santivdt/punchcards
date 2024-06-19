@@ -1,13 +1,11 @@
 import { getCardsFromUser } from '@/app/(loggedIn)/cards/actions'
 import { getClientsFromUser } from '@/app/(loggedIn)/clients/actions'
 import Header from '@/components/header'
-import { requireUser } from '@/utils/auth'
 import InterMediateCreateCard from './intermediate-create-card'
 import { DataTable } from './table'
 import { columns } from './table/columns'
 
 const CardsPage = async () => {
-  requireUser()
   const { data: cards } = await getCardsFromUser()
   const { data: clients } = await getClientsFromUser()
 

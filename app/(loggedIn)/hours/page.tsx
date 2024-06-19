@@ -7,7 +7,6 @@ import { DataTable } from './table'
 import { columns } from './table/columns'
 
 const HourPage = async () => {
-  requireUser()
   const { data: hours } = await getHoursFromUser()
   const { data: activeCards } = await getActiveCardsFromUser()
 

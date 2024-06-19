@@ -25,7 +25,6 @@ import {
 } from './actions'
 
 const Page = async () => {
-  requireUser()
   const { data: cards } = await getActiveCards()
   const { data: openHours } = await getOpenHours()
   const { data: totalEarnings } = await getTotalEarnings()
