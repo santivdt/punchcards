@@ -1,5 +1,4 @@
 import Header from '@/components/header'
-import { requireUser } from '@/utils/auth'
 import { getActiveCardsFromUser } from '../cards/actions'
 import { getHoursFromUser } from './actions'
 import InterMediateCreateHour from './intermediate-create-hour'
