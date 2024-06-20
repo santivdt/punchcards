@@ -7,7 +7,6 @@ import { DataTable } from '@/app/(loggedIn)/hours/table'
 import { columns } from '@/app/(loggedIn)/hours/table/columns'
 import Header from '@/components/header'
 import { Badge } from '@/components/ui/badge'
-import { requireUser } from '@/utils/auth'
 import 'jspdf-autotable'
 import InterMediateCreateHour from '../../hours/intermediate-create-hour'
 import GeneratePDFButton from './generate-pdf'
@@ -15,10 +14,12 @@ import GeneratePDFButton from './generate-pdf'
 type PageProps = { id: string }
 
 const Page = async ({ params: { id } }: { params: PageProps }) => {
-  requireUser()
-  const { data: card } = await getCardFromId(id)
-  const { data: hours } = await getHoursFromCard(id)
-  const { data: activeCards } = await getActiveCardsFromUser()
+  const [{ data: card }, { data: hours }, { data: activeCards }] =
+    await Promise.all([
+      getCardFromId(id),
+      getHoursFromCard(id),
+      getActiveCardsFromUser(),
+    ])
 
   return (
     <>

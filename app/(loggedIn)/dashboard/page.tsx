@@ -14,7 +14,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { requireUser } from '@/utils/auth'
 import { Banknote, FileClock } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
 import {
@@ -25,10 +24,17 @@ import {
 } from './actions'
 
 const Page = async () => {
-  const { data: cards } = await getActiveCards()
-  const { data: openHours } = await getOpenHours()
-  const { data: totalEarnings } = await getTotalEarnings()
-  const topClients = await getTopClients()
+  const [
+    { data: cards },
+    { data: openHours },
+    { data: totalEarnings },
+    topClients,
+  ] = await Promise.all([
+    getActiveCards(),
+    getOpenHours(),
+    getTotalEarnings(),
+    getTopClients(),
+  ])
 
   return (
     <div>

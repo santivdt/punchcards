@@ -6,8 +6,10 @@ import { DataTable } from './table'
 import { columns } from './table/columns'
 
 const HourPage = async () => {
-  const { data: hours } = await getHoursFromUser()
-  const { data: activeCards } = await getActiveCardsFromUser()
+  const [{ data: hours }, { data: activeCards }] = await Promise.all([
+    getHoursFromUser(),
+    getActiveCardsFromUser(),
+  ])
 
   return (
     <>
