@@ -73,7 +73,7 @@ const UpdateCardDialog = ({
               type='number'
               name='hours'
               id='hours'
-              defaultValue={card.hours?.toString() ?? ''}
+              defaultValue={card.hours?.toString() || ''}
               required
             />
             {state?.errors?.hours && (
@@ -92,7 +92,7 @@ const UpdateCardDialog = ({
                 id='price'
                 required
                 className='pl-6'
-                defaultValue={card.price?.toString() ?? ''}
+                defaultValue={card.price?.toString() || ''}
               />
               {state?.errors?.hours && (
                 <p className='py-2 text-xs text-red-500'>

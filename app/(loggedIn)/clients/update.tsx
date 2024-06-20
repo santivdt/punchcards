@@ -76,7 +76,7 @@ const UpdateClientDialog = ({
               name='name'
               type='text'
               required
-              defaultValue={client.name ?? ''}
+              defaultValue={client.name || ''}
             />
             {state?.errors?.name && (
               <p className='py-2 text-xs text-red-500'>{state.errors.name}</p>
@@ -89,7 +89,7 @@ const UpdateClientDialog = ({
               name='email'
               type='text'
               required
-              defaultValue={client.email ?? ''}
+              defaultValue={client.email || ''}
             />
             {state?.errors?.email && (
               <p className='py-2 text-xs text-red-500'>{state.errors.email}</p>

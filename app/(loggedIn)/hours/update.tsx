@@ -73,7 +73,7 @@ const UpdateHourDialog = ({
               id='date'
               name='date'
               required
-              defaultValue={setDate ?? ''}
+              defaultValue={setDate || ''}
               className='w-[240px] p-2 border border-slate-800 dark:border-white rounded-md dark:bg-black'
             />
           </div>
@@ -84,7 +84,7 @@ const UpdateHourDialog = ({
               name='description'
               type='text'
               placeholder='Built an app'
-              defaultValue={hour.description ?? ''}
+              defaultValue={hour.description || ''}
               required
             />
             {state?.errors?.description && (
@@ -100,7 +100,7 @@ const UpdateHourDialog = ({
               name='duration'
               type='number'
               placeholder='0.5'
-              defaultValue={hour.duration ?? ''}
+              defaultValue={hour.duration || ''}
               required
               step='0.5'
             />

@@ -19,7 +19,7 @@ type OrgnisationProps = {
 const UpdateOrgnisationForm = ({ organisation }: OrgnisationProps) => {
   const [state, formAction] = useFormState(updateOrganisation, initialState)
   const [preview, setPreview] = useState<string | null>(
-    organisation?.logo ?? null
+    organisation?.logo || null
   )
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -41,7 +41,7 @@ const UpdateOrgnisationForm = ({ organisation }: OrgnisationProps) => {
     <>
       <>
         <form action={formAction} className='my-4'>
-          <input type='hidden' name='id' defaultValue={organisation.id ?? ''} />
+          <input type='hidden' name='id' defaultValue={organisation.id || ''} />
           <div className='flex flex-col items-start mb-4'>
             <label className='flex items-center justify-center'>
               <input
@@ -58,7 +58,7 @@ const UpdateOrgnisationForm = ({ organisation }: OrgnisationProps) => {
                     <Image
                       className='aspect-square h-full w-full rounded-[inherit] object-cover ring-inset ring-black/10'
                       alt='Logo'
-                      src={preview ?? '/placeholder.jpeg'}
+                      src={preview || '/placeholder.jpeg'}
                       width='80'
                       height='80'
                       priority
@@ -77,7 +77,7 @@ const UpdateOrgnisationForm = ({ organisation }: OrgnisationProps) => {
               id='name'
               name='name'
               type='text'
-              defaultValue={organisation.name ?? ''}
+              defaultValue={organisation.name || ''}
             />
           </div>
           <p aria-live='polite' className='sr-only'>

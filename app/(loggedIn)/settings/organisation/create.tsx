@@ -50,7 +50,7 @@ const CreateOrgnisationForm = () => {
                     <Image
                       className='aspect-square h-full w-full rounded-[inherit] object-cover ring-inset ring-black/10'
                       alt='Logo'
-                      src={preview ?? '/placeholder.jpeg'}
+                      src={preview || '/placeholder.jpeg'}
                       width='80'
                       height='80'
                       priority

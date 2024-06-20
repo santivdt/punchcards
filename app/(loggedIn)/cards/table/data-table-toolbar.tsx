@@ -22,7 +22,7 @@ export function DataTableToolbar<TData>({
         {/* <Input
           placeholder='Search cards'
           value={
-            (table.getColumn('clients.name')?.getFilterValue() as string) ?? ''
+            (table.getColumn('clients.name')?.getFilterValue() as string) || ''
           }
           onChange={(event) =>
             table.getColumn('clients.name')?.setFilterValue(event.target.value)

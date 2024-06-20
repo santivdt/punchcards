@@ -46,8 +46,8 @@ export const DataTable = <TData extends TValue, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const table = useReactTable({
-    data: data ?? [],
-    columns: columns ?? [],
+    data: data || [],
+    columns: columns || [],
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),

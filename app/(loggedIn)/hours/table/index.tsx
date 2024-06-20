@@ -75,8 +75,8 @@ export const DataTable = <
   }, [rowSelection, data])
 
   const table = useReactTable({
-    data: data ?? [],
-    columns: columns ?? [],
+    data: data || [],
+    columns: columns || [],
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onRowSelectionChange: setRowSelection,

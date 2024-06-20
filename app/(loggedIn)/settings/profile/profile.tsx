@@ -21,7 +21,7 @@ type ProfileFormProps = {
 const ProfileForm = ({ userProfile }: ProfileFormProps) => {
   const [state, formAction] = useFormState(updateProfile, initialState)
   const [preview, setPreview] = useState<string | null>(
-    userProfile?.avatar ?? null
+    userProfile?.avatar || null
   )
 
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +58,7 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
                       <Image
                         className='aspect-square h-full w-full rounded-[inherit] object-cover ring-inset ring-black/10'
                         alt='Profile picture'
-                        src={preview ?? '/placeholder.jpeg'}
+                        src={preview || '/placeholder.jpeg'}
                         width='80'
                         height='80'
                         priority
@@ -78,7 +78,7 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
                   id='first_name'
                   name='first_name'
                   type='text'
-                  defaultValue={userProfile.first_name ?? ''}
+                  defaultValue={userProfile.first_name || ''}
                 />
                 {state?.errors?.first_name && (
                   <p className='py-2 text-xs text-red-500'>
@@ -92,7 +92,7 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
                   id='last_name'
                   name='last_name'
                   type='text'
-                  defaultValue={userProfile.last_name ?? ''}
+                  defaultValue={userProfile.last_name || ''}
                 />
                 {state?.errors?.last_name && (
                   <p className='py-2 text-xs text-red-500'>

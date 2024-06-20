@@ -33,8 +33,8 @@ export const DataTable = <TData extends TValue, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const table = useReactTable({
-    data: data ?? [],
-    columns: columns ?? [],
+    data: data || [],
+    columns: columns || [],
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
@@ -49,7 +49,7 @@ export const DataTable = <TData extends TValue, TValue>({
       <div className='flex items-center justify-end pb-4 '>
         <Input
           placeholder='Search...'
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          value={(table.getColumn('name')?.getFilterValue() as string) || ''}
           onChange={(event) =>
             table.getColumn('')?.setFilterValue(event.target.value)
           }

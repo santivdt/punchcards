@@ -61,12 +61,12 @@ const DeleteHourDialog = ({
           <input
             type='hidden'
             name='duration'
-            defaultValue={hour.duration ?? ''}
+            defaultValue={hour.duration || ''}
           />
           <input
             type='hidden'
             name='cardId'
-            defaultValue={hour.card_id ?? ''}
+            defaultValue={hour.card_id || ''}
           />
           <FormError errorMessage={errorMessage} />
           <div className='flex items-center justify-end gap-2'>
