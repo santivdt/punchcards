@@ -7,20 +7,31 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
+import {
+  CircleGauge,
+  FileClock,
+  FilePlus2,
+  LogOut,
+  Settings,
+  Users,
+} from 'lucide-react'
 import { Link } from 'nextjs13-progress'
 import FeedbackButton from './feedback-button'
 import ThemeSwitcher from './theme-switcher'
 
 const Nav = async () => {
-  const { data: userProfile } = await getProfile()
-  const { data: organisation } = await getOrganisation()
+  const [{ data: userProfile }, { data: organisation }] = await Promise.all([
+    getProfile(),
+    getOrganisation(),
+  ])
 
+  //TODO how to render the icons?
   const mobileMenu = [
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'Clients', href: '/clients' },
-    { name: 'Cards', href: '/cards' },
-    { name: 'Hours', href: '/hours' },
-    { name: 'Settings', href: '/settings/profile' },
+    { name: 'Dashboard', href: '/dashboard', icon: <CircleGauge /> },
+    { name: 'Clients', href: '/clients', icon: <Users /> },
+    { name: 'Cards', href: '/cards', icon: <FilePlus2 /> },
+    { name: 'Hours', href: '/hours', icon: <FileClock /> },
+    { name: 'Settings', href: '/settings/profile', icon: <Settings /> },
   ]
 
   return (
@@ -32,23 +43,23 @@ const Nav = async () => {
           </Link>
         )}
       </p>
-      <div className='flex items-center'>
+      <div className='flex items-center gap-2'>
         <FeedbackButton />
         <ThemeSwitcher />
-
-        <div className='lg:hidden ml-2'>
+        <div className='lg:hidden ml-2]'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <HamburgerMenuIcon />
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className='w-[150px]'>
               {mobileMenu.map((item) => (
                 <DropdownMenuItem asChild key={item.name}>
                   <Link href={item.href}>{item.name}</Link>
                 </DropdownMenuItem>
               ))}
               <DropdownMenuItem asChild>
-                <form action={signOut}>
+                <form action={signOut} className='flex gap-1'>
+                  <LogOut size={14} />
                   <button>Logout</button>
                 </form>
               </DropdownMenuItem>

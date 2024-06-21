@@ -9,13 +9,10 @@ import { Github, Linkedin, LucideGlobe, Mail } from 'lucide-react'
 const PromoText = () => {
   return (
     <>
-      <h1 className='text-white text-lg font-bold mb-4'>
-        Portfolio project by Santi van den Toorn - Punchcards
-      </h1>
       <p className='mb-4'>
         Hi there, welcome to my little app to manage prepaid punch cards (in
         Dutch: strippenkaarten) for freelancers. I built this because I needed
-        it myself and as a portfolio project to showcase my abilities.
+        it myself and as a portfolio project.
       </p>
       <Accordion type='single' collapsible>
         <AccordionItem value='item-1'>
@@ -33,13 +30,14 @@ const PromoText = () => {
         <AccordionItem value='item-1'>
           <AccordionTrigger>What stack did you use?</AccordionTrigger>
           <AccordionContent>
-            <ul>
+            <ul className='list-disc'>
               <li>NextJS</li>
               <li>Tailwind</li>
               <li>Vercel</li>
               <li>Supabase</li>
               <li>ShadCN UI</li>
               <li>Typescript</li>
+              <li>Sentry</li>
             </ul>
           </AccordionContent>
         </AccordionItem>
@@ -49,14 +47,14 @@ const PromoText = () => {
           <AccordionTrigger>What are you looking for?</AccordionTrigger>
           <AccordionContent>
             <p className='mb-4'>
-              I am looking for a job as a front-end developer where I can work
-              and learn in a team. I have 10+ years of experience in tech as a
-              project manager, product owner and consultant. I worked as a
+              I am looking for a job as a medior front-end developer where I can
+              work and learn in a team. I have 10+ years of experience in tech
+              as a project manager, product owner and consultant. I worked as a
               front-end dev some years ago and am looking to pick it up again. I
               am extremely motivated and a quick learner so I am confident I can
               contribute to your team and project in a meaningful way.
             </p>
-            <div className=' mb-4'>
+            <div className='mb-4'>
               The perfect job would be:
               <ul className='list-disc'>
                 <li>Fully remote or at least hybrid (I am Amsterdam based)</li>

@@ -29,6 +29,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "utils/use-window-size.tsz"
-  ],
+, "app/(website)/pricing/pricing"  ],
   "exclude": ["node_modules"]
 }
