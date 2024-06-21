@@ -4,6 +4,7 @@ import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tables } from '@/types/supabase'
+import { initialState } from '@/utils'
 import { Pencil } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -11,8 +12,6 @@ import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { updateProfile } from '../actions'
 import DangerZone from '../components/dangerzone'
-
-const initialState = undefined
 
 type ProfileFormProps = {
   userProfile: Tables<'profiles'> | null

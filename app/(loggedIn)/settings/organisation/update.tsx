@@ -3,14 +3,14 @@
 import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ErrorType } from '@/types/custom-types'
 import { Tables } from '@/types/supabase'
+import { initialState } from '@/utils'
 import { Pencil } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useFormState } from 'react-dom'
 import { updateOrganisation } from '../actions'
-
-const initialState = undefined
 
 type OrgnisationProps = {
   organisation: Tables<'organisations'>
@@ -21,7 +21,7 @@ const UpdateOrgnisationForm = ({ organisation }: OrgnisationProps) => {
   const [preview, setPreview] = useState<string | null>(
     organisation?.logo || null
   )
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
 
   const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {

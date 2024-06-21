@@ -15,6 +15,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 
 import FormError from '@/app/(loggedIn)/components/form-error'
+import { ErrorType } from '@/types/custom-types'
+import { initialState } from '@/utils'
 import { Euro } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { updateCard } from './actions'
@@ -27,8 +29,6 @@ type UpdateCardDialogProps = {
   setDialog: React.Dispatch<React.SetStateAction<'update' | 'delete' | null>>
 }
 
-const initialState = undefined
-
 const UpdateCardDialog = ({
   children,
   card,
@@ -38,9 +38,7 @@ const UpdateCardDialog = ({
 }: UpdateCardDialogProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(updateCard, initialState)
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(
-    undefined
-  )
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
 
   useEffect(() => {
     setErrorMessage(state?.status === 'error' ? state?.message : undefined)

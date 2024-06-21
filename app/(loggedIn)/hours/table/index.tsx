@@ -19,7 +19,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Tables } from '@/types/supabase'
-import { useEffect, useRef, useState } from 'react'
+import { initialState } from '@/utils'
+import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { deleteHours } from '../actions'
@@ -29,8 +30,6 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData>[] | null
   data: TData[] | null
 }
-
-const initialState = undefined
 
 export const DataTable = <
   TData extends {
@@ -49,7 +48,6 @@ export const DataTable = <
 }: DataTableProps<TData, TValue>) => {
   const [rowSelection, setRowSelection] = useState({})
   const [hoursToDelete, setHoursToDelete] = useState<Tables<'hours'>[]>([])
-  const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(deleteHours, initialState)
   const [open, setOpen] = useState(false)
 

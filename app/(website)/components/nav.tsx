@@ -1,4 +1,5 @@
 'use client'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -33,8 +34,11 @@ const Nav = () => {
       className='navbar'
     >
       <nav className='w-full flex justify-between items-center py-4'>
-        <div className='font-bold text-3xl'>
+        <div className='font-bold text-3xl relative'>
           <Link href='/'>Punchy</Link>
+          <Badge className='ml-2 text-sm absolute top-0 bg-purple-900 hover:bg-purple-900 hover:cursor-default'>
+            Beta
+          </Badge>
         </div>
         <div className='hidden lg:flex'>
           {menuItems.map((item) => (

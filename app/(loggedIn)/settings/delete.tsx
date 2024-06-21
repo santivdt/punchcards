@@ -11,6 +11,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { ErrorType } from '@/types/custom-types'
+import { initialState } from '@/utils'
 import { useCallback, useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { deleteUser } from './actions'
@@ -23,8 +25,6 @@ type DeleteFormProps = {
   onFinished: () => void
 }
 
-const initialState = undefined
-
 const DeleteUserDialog = ({
   open,
   userId,
@@ -33,7 +33,7 @@ const DeleteUserDialog = ({
   onFinished,
 }: DeleteFormProps) => {
   const [state, formAction] = useFormState(deleteUser, initialState)
-  const [errorMessage, setErrorMessage] = useState<string | undefined>('')
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
 
   useEffect(() => {
     setErrorMessage(state?.status === 'error' ? state?.message : undefined)

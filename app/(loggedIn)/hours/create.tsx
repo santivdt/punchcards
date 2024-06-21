@@ -21,7 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { CardWithClient } from '@/types/custom-types'
+import { CardWithClient, ErrorType } from '@/types/custom-types'
+import { initialState } from '@/utils'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -33,10 +34,6 @@ type CreateHourDialogProps = {
   cardId?: string
 }
 
-type ErrorState = string | undefined
-
-const initialState = undefined
-
 const CreateHourDialog = ({
   children,
   activeCards,
@@ -46,7 +43,7 @@ const CreateHourDialog = ({
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createHour, initialState)
-  const [errorMessage, setErrorMessage] = useState<ErrorState>(undefined)
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
 
   const currentDate = new Date().toISOString().slice(0, 10)
 

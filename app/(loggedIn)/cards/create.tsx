@@ -26,7 +26,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { ErrorType } from '@/types/custom-types'
 import { Tables } from '@/types/supabase'
+import { initialState } from '@/utils'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Euro } from 'lucide-react'
 import Link from 'next/link'
@@ -39,10 +41,6 @@ type CreateClientDialogProps = {
   clients: Tables<'clients'>[] | null
   onFinished: () => void
 }
-
-const initialState = undefined
-
-type ErrorType = string | undefined
 
 const CreateCardDialog = ({
   children,

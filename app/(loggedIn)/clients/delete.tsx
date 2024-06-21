@@ -12,7 +12,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { ErrorType } from '@/types/custom-types'
 import { Tables } from '@/types/supabase'
+import { initialState } from '@/utils'
 import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
@@ -25,10 +27,6 @@ type DeleteFormProps = {
   onOpenChange?: React.Dispatch<React.SetStateAction<boolean>> | (() => void)
 }
 
-type ErrorType = string | undefined
-
-const initialState = undefined
-
 const DeleteClientDialog = ({
   open,
   client,
@@ -36,7 +34,7 @@ const DeleteClientDialog = ({
   onOpenChange = () => {},
 }: DeleteFormProps) => {
   const [state, formAction] = useFormState(deleteClient, initialState)
-  const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
   const formRef = useRef<HTMLFormElement>(null)
 
   useEffect(() => {

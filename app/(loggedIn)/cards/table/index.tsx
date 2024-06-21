@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useWindowSize } from '@/utils/use-window-size'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -23,7 +24,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DataTableToolbar } from './data-table-toolbar'
 
 interface DataTableProps<TData, TValue> {
@@ -36,14 +37,26 @@ export const DataTable = <TData extends TValue, TValue>({
   data,
 }: DataTableProps<TData, TValue>) => {
   const [rowSelection, setRowSelection] = useState({})
+  const windowSize = useWindowSize()
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     price: false,
     created_at: false,
-    readable_id: window.innerWidth <= 800 ? false : true,
-    is_active: window.innerWidth <= 800 ? false : true,
+    readable_id: windowSize.width <= 800 ? false : true,
+    is_active: windowSize.width <= 800 ? false : true,
   })
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
+  //TODO im not sure i use this windowsize correctly. i have to suppres hyration warnings now. think i need to dynamically import it but dk how
+  useEffect(() => {
+    if (windowSize) {
+      setColumnVisibility((prev) => ({
+        ...prev,
+        readable_id: windowSize.width > 800,
+        is_active: windowSize.width > 800,
+      }))
+    }
+  }, [windowSize])
 
   const table = useReactTable({
     data: data || [],
@@ -68,7 +81,7 @@ export const DataTable = <TData extends TValue, TValue>({
   })
 
   return (
-    <div className='py-4'>
+    <div className='py-4' suppressHydrationWarning>
       <DataTableToolbar table={table} />
 
       <Table>

@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types/supabase'
+import { initialState } from '@/utils'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
@@ -11,8 +12,6 @@ import DeleteUserDialog from '../delete'
 type DangerZoneProps = {
   userProfile: Tables<'profiles'> | null
 }
-
-const initialState = undefined
 
 const DangerZone = ({ userProfile }: DangerZoneProps) => {
   const [state, formAction] = useFormState(updateProfile, initialState)

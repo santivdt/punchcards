@@ -12,6 +12,8 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ErrorType } from '@/types/custom-types'
+import { initialState } from '@/utils'
 import { useCallback, useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
@@ -21,8 +23,6 @@ type CreateClientDialogProps = {
   onFinished: () => void
 }
 
-const initialState = undefined
-
 const CreateClientDialog = ({
   children,
   onFinished,
@@ -30,9 +30,7 @@ const CreateClientDialog = ({
   const [open, setOpen] = useState(false)
   const [emailIsDouble, setEmailIsDouble] = useState(false)
   const [state, formAction] = useFormState(createClient, initialState)
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(
-    undefined
-  )
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
   useEffect(() => {
     setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') onFinished()

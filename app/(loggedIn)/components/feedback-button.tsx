@@ -6,6 +6,8 @@ import { createFeedback } from '@/app/(website)/signup/actions'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { ErrorType } from '@/types/custom-types'
+import { initialState } from '@/utils'
 import {
   Popover,
   PopoverContent,
@@ -16,13 +18,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 
-const initialState = undefined
-
 const FeedbackButton = () => {
   const formRef = useRef<HTMLFormElement>(null)
   const [formState, formAction] = useFormState(createFeedback, initialState)
   const [open, setOpen] = useState(false)
-  const [errorMessage, setErrorMessage] = useState<string | undefined>()
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
 
   useEffect(() => {
     if (formState) {
