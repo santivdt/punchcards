@@ -16,15 +16,20 @@ const dummyDataClients = [
 ]
 
 export const getClientsFromUser = async () => {
+  requireUser()
+  // TODO is this really better, and if there is an error where / how would it be displayed?
+  //TODO had to remove the try catch because then my promise all wasnt working anymore
+
   const supabase = createSupabaseClient()
 
-  return supabase
+  return await supabase
     .from('clients')
     .select(`name, email, created_at, user_id, id`)
     .order('created_at', { ascending: false })
 }
 
 export const createClient = async (prevData: any, formData: FormData) => {
+  requireUser()
   const validatedFields = createSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
@@ -38,6 +43,7 @@ export const createClient = async (prevData: any, formData: FormData) => {
   }
 
   const supabase = createSupabaseClient()
+  const user = await requireUser()
 
   const { data: currentClients } = await supabase
     .from('clients')
@@ -52,8 +58,6 @@ export const createClient = async (prevData: any, formData: FormData) => {
       message: 'Client with this e-mail already exists',
     }
   }
-
-  const user = await requireUser()
 
   const { error } = await supabase.from('clients').insert({
     user_id: user.id,
@@ -77,6 +81,10 @@ export const createClient = async (prevData: any, formData: FormData) => {
 }
 
 export const updateClient = async (prevData: any, formData: FormData) => {
+  //TODO is this the same ?
+  requireUser()
+  const user = await requireUser()
+
   const validatedFields = updateSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
@@ -99,8 +107,6 @@ export const updateClient = async (prevData: any, formData: FormData) => {
   }
 
   const supabase = createSupabaseClient()
-
-  const user = await requireUser()
 
   const { error } = await supabase
     .from('clients')
@@ -127,6 +133,7 @@ export const updateClient = async (prevData: any, formData: FormData) => {
 }
 
 export const deleteClient = async (prevData: any, formData: FormData) => {
+  const user = await requireUser()
   const validatedFields = deleteSchema.safeParse({
     clientId: formData.get('clientId'),
   })
@@ -147,7 +154,6 @@ export const deleteClient = async (prevData: any, formData: FormData) => {
   }
 
   const supabase = createSupabaseClient()
-  const user = await requireUser()
 
   const { error } = await supabase
     .from('clients')
@@ -183,6 +189,7 @@ export const getClient = async (clientId: Tables<'clients'>['id']) => {
 }
 
 export const getClientFromId = async (id: string) => {
+  requireUser()
   const supabase = createSupabaseClient()
 
   return supabase
@@ -194,6 +201,7 @@ export const getClientFromId = async (id: string) => {
 
 // TODO: doesnt get to the form status
 export const checkEmail = async (email: string) => {
+  requireUser
   const supabase = createSupabaseClient()
 
   const { data: currentClients } = await supabase
