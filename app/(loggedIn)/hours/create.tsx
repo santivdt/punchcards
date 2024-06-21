@@ -1,7 +1,7 @@
 'use client'
 
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { createHour } from '@/app/(loggedIn)/hours/actions'
-import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { useFormState } from 'react-dom'
 
-import FormError from '@/components/form-error'
+import FormError from '@/app/(loggedIn)/components/form-error'
 import { Label } from '@/components/ui/label'
 import {
   Select,

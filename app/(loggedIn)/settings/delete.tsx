@@ -1,6 +1,6 @@
 'use client'
 
-import SubmitButton from '@/components/submitbutton'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

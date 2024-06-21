@@ -1,8 +1,8 @@
 'use client'
 
 import { checkEmail, createClient } from '@/app/(loggedIn)/clients/actions'
-import FormError from '@/components/form-error'
-import SubmitButton from '@/components/submitbutton'
+import FormError from '@/app/(loggedIn)/components/form-error'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

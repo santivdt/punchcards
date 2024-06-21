@@ -1,5 +1,5 @@
-import Nav from '@/components/nav'
-import Sidebar from '@/components/sidebar'
+import Nav from '@/app/(loggedIn)/components/nav'
+import Sidebar from '@/app/(loggedIn)/components/sidebar'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import '../globals.css'

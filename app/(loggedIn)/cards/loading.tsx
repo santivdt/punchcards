@@ -1,4 +1,4 @@
-import SkeletonTable from '@/components/skeleton-table'
+import SkeletonTable from '@/app/(loggedIn)/components/skeleton-table'
 import { Skeleton } from '@/components/ui/skeleton'
 
 const loading = () => {

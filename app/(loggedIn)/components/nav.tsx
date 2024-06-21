@@ -16,8 +16,8 @@ import {
   Users,
 } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
+import ThemeSwitcher from '../../../components/theme-switcher'
 import FeedbackButton from './feedback-button'
-import ThemeSwitcher from './theme-switcher'
 
 const Nav = async () => {
   const [{ data: userProfile }, { data: organisation }] = await Promise.all([
@@ -35,7 +35,7 @@ const Nav = async () => {
   ]
 
   return (
-    <div className='justify-between lg:justify-end h-[50px] flex items-center px-4 py-8 border-b dark:border-neutral-800'>
+    <div className='lg:hidden justify-between lg:justify-end h-[50px] flex items-center px-4 py-8 border-b dark:border-neutral-800'>
       <p className='lg:hidden flex items-center text-lg font-bold dark:text-white'>
         {userProfile && (
           <Link href='/settings/profile'>

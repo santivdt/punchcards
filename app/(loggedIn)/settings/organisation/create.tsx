@@ -1,6 +1,6 @@
 'use client'
 
-import SubmitButton from '@/components/submitbutton'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Pencil } from 'lucide-react'

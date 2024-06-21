@@ -8,7 +8,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { DataTablePagination } from '@/components/pagination'
+import { DataTablePagination } from '@/app/(loggedIn)/components/pagination'
 import { Button } from '@/components/ui/button'
 import {
   Table,

@@ -1,6 +1,6 @@
 'use client'
 
-import DemoButton from '@/components/demo-button'
+import DemoButton from '@/app/(website)/components/demo-button'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import { Link } from 'nextjs13-progress'

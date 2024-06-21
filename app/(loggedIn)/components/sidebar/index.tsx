@@ -1,6 +1,6 @@
+import Item from '@/app/(loggedIn)/components/sidebar/item'
 import { getOrganisation, getProfile } from '@/app/(loggedIn)/settings/actions'
 import { signOut } from '@/app/(website)/login/actions'
-import Item from '@/components/sidebar/item'
 import {
   DropdownMenu,
   DropdownMenuContent,
