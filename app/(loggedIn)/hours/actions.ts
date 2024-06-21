@@ -7,9 +7,9 @@ import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 
 const dummyDataHours = [
-  '50974046-4eaf-4dc6-8690-b82f28a6544e',
-  'bf3bd164-de2d-42b8-abd4-14c6f92e2782',
-  '26233683-3ef5-422d-bb27-eba2656ce83b',
+  '63c8caac-89df-4886-8fc5-16b2a4c37b53',
+  '69de5493-0be2-4001-beb2-0a10dc557391',
+  'c8a47945-7225-4928-8b4a-44ad2f3666bd',
 ]
 
 export const getHoursFromUser = async () => {
