@@ -1,7 +1,13 @@
 'use client'
 
 import { cn } from '@/utils'
-import { CircleGauge, FileClock, ScrollText, Users } from 'lucide-react'
+import {
+  CircleGauge,
+  FileClock,
+  ScrollText,
+  Settings,
+  Users,
+} from 'lucide-react'
 import { LinkProps } from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Link } from 'nextjs13-progress'
@@ -24,6 +30,9 @@ const Item = ({ href, label }: ItemProps) => {
         return <ScrollText size='14' className='mr-2' />
       case 'Track time':
         return <FileClock size='14' className='mr-2' />
+      case 'Settings':
+        return <Settings size='14' className='mr-2' />
+
       default:
         return null
     }

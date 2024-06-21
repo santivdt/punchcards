@@ -17,16 +17,16 @@ export const loggedInItems = [
   { href: '/clients', label: 'Clients' },
   { href: '/cards', label: 'Cards' },
   { href: '/hours', label: 'Track time' },
+  { href: '/settings/profile', label: 'Settings' },
 ]
 
 const Sidebar = async () => {
-  const { data: userProfile } = await getProfile()
-  const { data: organisation } = await getOrganisation()
-  const user = await requireUser()
+  const [{ data: userProfile }, { data: organisation }, user] =
+    await Promise.all([getProfile(), getOrganisation(), requireUser()])
 
   return (
-    <aside className='hidden lg:flex w-full max-w-[250px] bg-slate-1 h-screen px-5 py-3 flex-col border-r dark:border-neutral-800'>
-      <p className='flex items-center h-10 text-lg font-bold dark:text-white mb-8 lg:pl-2 gap-2'>
+    <aside className='hidden lg:flex w-full max-w-[250px] bg-slate-1 h-screen px-5 py-5 flex-col border-r dark:border-neutral-800'>
+      <div className='flex items-center h-10 text-lg font-bold dark:text-white mb-8 lg:pl-2 gap-2'>
         {organisation && organisation.logo && (
           <Image
             src={organisation.logo}
@@ -39,7 +39,7 @@ const Sidebar = async () => {
         <Link href='/settings/profile'>
           {organisation ? organisation.name : 'Hi there!'}
         </Link>
-      </p>
+      </div>
       <ul className='flex-1'>
         {loggedInItems.map((item) => (
           <li

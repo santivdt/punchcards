@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types/supabase'
 import { Separator } from '@radix-ui/react-dropdown-menu'
+import { Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
@@ -33,7 +34,7 @@ const DangerZone = ({ userProfile }: DangerZoneProps) => {
         <>
           <h2 className='mt-16 text-lg font-bold text-red-500'>Danger zone</h2>
           <Separator className='w-1/2 mt-2' />
-          <p className='mt-2 w-1/2 pb-2 text-balance'>
+          <p className='mt-2 pb-2 w-4/5 text-balance'>
             Deleting your account wil delete all of your clients, cards and
             hours. This action cannot be undone.
           </p>
@@ -49,6 +50,7 @@ const DangerZone = ({ userProfile }: DangerZoneProps) => {
               className='mt-2'
               onClick={() => setDeleteDialogOpen(true)}
             >
+              <Trash2 size={14} className='mr-2' />
               Delete account
             </Button>
           </DeleteUserDialog>
