@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useWindowSize } from '@/utils/use-window-size'
+import { useWindowSize } from '@/utils/client-utils'
 import {
   ColumnDef,
   ColumnFiltersState,

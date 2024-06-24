@@ -17,6 +17,15 @@ const dummyDataClients = [
 ]
 
 export const getClientsFromUser = async () => {
+  requireUser()
+  const supabase = createSupabaseClient()
+  return await supabase
+    .from('clients')
+    .select(`name, email, created_at, user_id, id`)
+    .order('created_at', { ascending: false })
+}
+
+export const getClientsFromUserNew = async () => {
   try {
     requireUser()
     // TODO is this really better, and if there is an error where / how would it be displayed?
