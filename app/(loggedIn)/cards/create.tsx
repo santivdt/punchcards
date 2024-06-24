@@ -36,22 +36,16 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 
-type CreateClientDialogProps = {
+type CreateCardDialogProps = {
   children: React.ReactNode
   clients: Tables<'clients'>[] | null
-  onFinished: () => void
 }
 
-const CreateCardDialog = ({
-  children,
-  clients,
-  onFinished,
-}: CreateClientDialogProps) => {
+const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createCard, initialState)
   const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
-  const [formData, setFormData] = useState<FormData>(new FormData())
   const [customEndDate, setCustomEndDate] = useState(false)
 
   const handleSwitchChange = () => {
@@ -69,18 +63,19 @@ const CreateCardDialog = ({
   useEffect(() => {
     setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') {
-      onFinished()
       toast.success('Card added successfully')
     }
-  }, [onFinished, state?.message, state?.status])
+  }, [state?.message, state?.status])
 
-  const handleOpenChange = useCallback(
-    (newOpen: boolean) => {
-      setOpen(newOpen)
-      if (!newOpen) onFinished()
-    },
-    [onFinished]
-  )
+  useEffect(() => {
+    setErrorMessage(undefined)
+  }, [open])
+
+  const handleOpenChange = useCallback((newOpen: boolean) => {
+    setOpen(newOpen)
+  }, [])
+
+  // TODO i am getting there but now I dont get the specific field errors to the front-end anymore .. and if it fails it has removed the inputs anyway which might be not user friendly
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -96,7 +91,20 @@ const CreateCardDialog = ({
               first before you add a card.
             </div>
           ) : (
-            <form ref={formRef} action={formAction}>
+            <form
+              ref={formRef}
+              action={async (formData) => {
+                formRef.current?.reset()
+                const state = await createCard(undefined, formData)
+                if (state.status === 'success') {
+                  setOpen(false)
+                  setErrorMessage(undefined)
+                } else if (state.status === 'error') {
+                  console.log(state)
+                  setErrorMessage(state.message)
+                }
+              }}
+            >
               <div className='mb-4'>
                 <Label htmlFor='client_id' className='mb-2'>
                   Client
