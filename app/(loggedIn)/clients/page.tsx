@@ -1,11 +1,20 @@
 import { getClientsFromUser } from '@/app/(loggedIn)/clients/actions'
 import Header from '@/components/header'
+import { PostgrestSingleResponse } from '@supabase/supabase-js'
 import InterMediateCreateClient from './intermediate-create-client'
 import { DataTable } from './table'
 import { columns } from './table/columns'
 
 const ClientsPage = async () => {
-  const { data: clients } = await getClientsFromUser()
+  //TODO this is now because i am using try catch in the other file and using catch error message but not sure.
+  const response = await getClientsFromUser()
+
+  // TODO now i have to load like this where as i have generic loading in the other file?
+  if (!response) {
+    ;<p>Could not get clients</p>
+  }
+  // TODO this should be typed correctly?
+  const clients = (response as PostgrestSingleResponse<any>).data
 
   return (
     <>

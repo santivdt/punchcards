@@ -10,8 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Tables } from '@/types/supabase'
-import { formatDate } from '@/utils/format-date'
-import { customFormatDuration } from '@/utils/format-duration'
+import { customFormatDuration, formatDate } from '@/utils/'
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'

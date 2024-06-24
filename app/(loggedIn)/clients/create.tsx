@@ -97,7 +97,8 @@ const CreateClientDialog = ({
             {state?.errors?.email ||
               (emailIsDouble && (
                 <p className='py-2 text-xs text-red-500'>
-                  {state?.errors?.email || 'TODO: MELDING'}
+                  {state?.errors?.email ||
+                    'A client with this email already exists'}
                 </p>
               ))}
           </div>

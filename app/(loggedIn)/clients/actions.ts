@@ -2,6 +2,7 @@
 
 import { Tables } from '@/types/supabase'
 import { requireUser } from '@/utils/auth'
+import { getErrorMessage } from '@/utils/server-utils'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
@@ -16,16 +17,20 @@ const dummyDataClients = [
 ]
 
 export const getClientsFromUser = async () => {
-  requireUser()
-  // TODO is this really better, and if there is an error where / how would it be displayed?
-  //TODO had to remove the try catch because then my promise all wasnt working anymore
+  try {
+    requireUser()
+    // TODO is this really better, and if there is an error where / how would it be displayed?
+    //TODO had to remove the try catch because then my promise all wasnt working anymore
 
-  const supabase = createSupabaseClient()
+    const supabase = createSupabaseClient()
 
-  return await supabase
-    .from('clients')
-    .select(`name, email, created_at, user_id, id`)
-    .order('created_at', { ascending: false })
+    return await supabase
+      .from('clients')
+      .select(`name, email, created_at, user_id, id`)
+      .order('created_at', { ascending: false })
+  } catch (error) {
+    getErrorMessage(error)
+  }
 }
 
 export const createClient = async (prevData: any, formData: FormData) => {
@@ -199,7 +204,6 @@ export const getClientFromId = async (id: string) => {
     .single()
 }
 
-// TODO: doesnt get to the form status
 export const checkEmail = async (email: string) => {
   requireUser
   const supabase = createSupabaseClient()
