@@ -35,6 +35,7 @@ import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
+import { createSchema } from './schema'
 
 type CreateCardDialogProps = {
   children: React.ReactNode
@@ -47,6 +48,7 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
   const [state, formAction] = useFormState(createCard, initialState)
   const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
   const [customEndDate, setCustomEndDate] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<any>()
 
   const handleSwitchChange = () => {
     setCustomEndDate(!customEndDate)
@@ -69,13 +71,26 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
 
   useEffect(() => {
     setErrorMessage(undefined)
+    setFieldErrors(undefined)
   }, [open])
 
   const handleOpenChange = useCallback((newOpen: boolean) => {
     setOpen(newOpen)
   }, [])
 
-  // TODO i am getting there but now I dont get the specific field errors to the front-end anymore .. and if it fails it has removed the inputs anyway which might be not user friendly
+  const validateFields = (formData: FormData) => {
+    return createSchema.safeParse({
+      client_id: formData.get('client_id'),
+      hours: Number(formData.get('hours')),
+      hours_left: Number(formData.get('hours')),
+      price: Number(formData.get('price')),
+      ends_at: formData.get('ends_at'),
+    })
+  }
+
+  const validateHours = (hours: number) => {}
+
+  // TODO i am getting there but not sure if this is more optimal then the one with intermediate ?
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -94,9 +109,16 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
             <form
               ref={formRef}
               action={async (formData) => {
-                formRef.current?.reset()
+                const validatedFields = validateFields(formData)
+
+                if (!validatedFields.success) {
+                  setFieldErrors(validatedFields.error.flatten().fieldErrors)
+                  return
+                }
+
                 const state = await createCard(undefined, formData)
                 if (state.status === 'success') {
+                  formRef.current?.reset()
                   setOpen(false)
                   setErrorMessage(undefined)
                 } else if (state.status === 'error') {
@@ -121,9 +143,9 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
                     ))}
                   </SelectContent>
                 </Select>
-                {state?.errors?.client_id && (
+                {fieldErrors?.client_id && (
                   <p className='py-2 text-xs text-red-500'>
-                    {state.errors.client_id}
+                    {fieldErrors.client_id}
                   </p>
                 )}
               </div>
@@ -132,9 +154,9 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
                   Hours
                 </Label>
                 <Input type='number' name='hours' id='hours' required />
-                {state?.errors?.hours && (
+                {fieldErrors?.hours && (
                   <p className='py-2 text-xs text-red-500'>
-                    {state.errors.hours}
+                    {fieldErrors.hours}
                   </p>
                 )}
               </div>
@@ -151,9 +173,9 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
                     required
                     className='pl-6'
                   />
-                  {state?.errors?.hours && (
+                  {fieldErrors?.price && (
                     <p className='py-2 text-xs text-red-500'>
-                      {state.errors.price}
+                      {fieldErrors.price}
                     </p>
                   )}
                 </div>
