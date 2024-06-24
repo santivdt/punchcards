@@ -1,4 +1,4 @@
-
+{
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
@@ -8,11 +8,6 @@
     "target": "es2021",
     "strict": true
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
