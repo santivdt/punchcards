@@ -28,18 +28,14 @@ export const getCardsFromUser = async () => {
     .order('created_at', { ascending: false })
 }
 
-export const createCard = async (prevData: any, formData: FormData) => {
+export const createCard = async (data: unknown) => {
   const validatedFields = createSchema.safeParse({
-    client_id: formData.get('client_id'),
-    hours: Number(formData.get('hours')),
-    hours_left: Number(formData.get('hours')),
-    price: Number(formData.get('price')),
-    ends_at: formData.get('ends_at'),
+    data,
   })
 
   if (!validatedFields.success) {
     return {
-      status: 'error',
+      status: 'fields-error',
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
@@ -80,7 +76,7 @@ export const createCard = async (prevData: any, formData: FormData) => {
     console.log(error)
     return {
       status: 'error',
-      message: 'An error occurred while creating the client',
+      message: 'An error occurred while creating the card',
     }
   }
 
@@ -88,7 +84,7 @@ export const createCard = async (prevData: any, formData: FormData) => {
 
   return {
     status: 'success',
-    message: 'Client created successfully',
+    message: 'Card created successfully',
   }
 }
 

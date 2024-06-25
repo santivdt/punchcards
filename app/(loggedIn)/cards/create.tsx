@@ -46,9 +46,10 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createCard, initialState)
-  const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
+  const [serverErrorMessage, setserverErrorMessage] =
+    useState<ErrorType>(undefined)
   const [customEndDate, setCustomEndDate] = useState(false)
-  const [fieldErrors, setFieldErrors] = useState<any>()
+  const [clientErrorMessage, setClientErrorMessage] = useState<any>()
 
   const handleSwitchChange = () => {
     setCustomEndDate(!customEndDate)
@@ -62,33 +63,54 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
   )
   const formattedDate = oneYearFromNow.toISOString().split('T')[0]
 
+  //set error message from server
   useEffect(() => {
-    setErrorMessage(state?.status === 'error' ? state?.message : undefined)
-    if (state?.status === 'success') {
-      toast.success('Card added successfully')
+    setserverErrorMessage(
+      state?.status === 'error' ? state?.message : undefined
+    )
+    if (state?.status === 'success' && state.message) {
+      toast.success(state.message)
     }
   }, [state?.message, state?.status])
 
+  // clear errormessages when you open and close the modal
   useEffect(() => {
-    setErrorMessage(undefined)
-    setFieldErrors(undefined)
+    setserverErrorMessage(undefined)
+    setClientErrorMessage(undefined)
   }, [open])
 
+  // get zod errors from back-end to front-end
+  useEffect(() => {
+    if (state?.status === 'fields-error') {
+      setClientErrorMessage(state.errors)
+    }
+  }, [state?.status, state?.errors])
+
+  // make sure modal can open and close
   const handleOpenChange = useCallback((newOpen: boolean) => {
     setOpen(newOpen)
   }, [])
 
   const validateFields = (formData: FormData) => {
-    return createSchema.safeParse({
+    const validatedFields = createSchema.safeParse({
       client_id: formData.get('client_id'),
       hours: Number(formData.get('hours')),
       hours_left: Number(formData.get('hours')),
       price: Number(formData.get('price')),
       ends_at: formData.get('ends_at'),
     })
+
+    if (!validatedFields.success) {
+      return setClientErrorMessage(validatedFields.error.flatten().fieldErrors)
+    }
+
+    return validateFields
   }
 
-  const validateHours = (hours: number) => {}
+  const handleBlur = useCallback(
+    (field: string, value: string | number) => {},
+    []
+  )
 
   // TODO i am getting there but not sure if this is more optimal then the one with intermediate ?
 
@@ -111,19 +133,14 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
               action={async (formData) => {
                 const validatedFields = validateFields(formData)
 
-                if (!validatedFields.success) {
-                  setFieldErrors(validatedFields.error.flatten().fieldErrors)
-                  return
-                }
-
-                const state = await createCard(undefined, formData)
+                const state = await createCard(validatedFields)
                 if (state.status === 'success') {
                   formRef.current?.reset()
                   setOpen(false)
-                  setErrorMessage(undefined)
+                  setClientErrorMessage(undefined)
                 } else if (state.status === 'error') {
                   console.log(state)
-                  setErrorMessage(state.message)
+                  setserverErrorMessage(state.message)
                 }
               }}
             >
@@ -143,9 +160,9 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
                     ))}
                   </SelectContent>
                 </Select>
-                {fieldErrors?.client_id && (
+                {clientErrorMessage?.client_id && (
                   <p className='py-2 text-xs text-red-500'>
-                    {fieldErrors.client_id}
+                    {clientErrorMessage.client_id}
                   </p>
                 )}
               </div>
@@ -154,9 +171,9 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
                   Hours
                 </Label>
                 <Input type='number' name='hours' id='hours' required />
-                {fieldErrors?.hours && (
+                {clientErrorMessage?.hours && (
                   <p className='py-2 text-xs text-red-500'>
-                    {fieldErrors.hours}
+                    {clientErrorMessage.hours}
                   </p>
                 )}
               </div>
@@ -173,9 +190,9 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
                     required
                     className='pl-6'
                   />
-                  {fieldErrors?.price && (
+                  {clientErrorMessage?.price && (
                     <p className='py-2 text-xs text-red-500'>
-                      {fieldErrors.price}
+                      {clientErrorMessage.price}
                     </p>
                   )}
                 </div>
@@ -227,7 +244,7 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
               <p aria-live='polite' className='sr-only'>
                 {state?.message}
               </p>
-              <FormError errorMessage={errorMessage} />
+              <FormError errorMessage={serverErrorMessage} />
               <DialogClose asChild>
                 <Button variant='outline' className='mr-2'>
                   Cancel
