@@ -1,6 +1,6 @@
 'use server'
 
-import { Tables } from '@/types/supabase'
+import { TopClient } from '@/types/custom-types'
 import { requireUser } from '@/utils/auth'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 
@@ -79,14 +79,8 @@ export const getOpenHours = async () => {
   return { data: totalHoursLeft }
 }
 
-export type TopClient = {
-  id: Tables<'clients'>['id']
-  name: Tables<'clients'>['name']
-  email: Tables<'clients'>['email']
-  totalPrice: number
-}
-
 export const getTopClients = async (): Promise<TopClient[]> => {
+  requireUser()
   const supabase = createSupabaseClient()
 
   const { data, error } = await supabase.from('cards').select(
