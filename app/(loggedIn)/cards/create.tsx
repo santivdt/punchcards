@@ -107,10 +107,25 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
     return validateFields
   }
 
-  const handleBlur = useCallback(
-    (field: string, value: string | number) => {},
-    []
-  )
+  const handleBlur = useCallback((field: string, value: string | number) => {
+    console.log(value, field)
+    const validatedFields = createSchema.safeParse({
+      field: value,
+    })
+
+    console.log(validatedFields)
+    if (!validatedFields.success) {
+      setClientErrorMessage(validatedFields.error.flatten().fieldErrors[field])
+    } else {
+      setClientErrorMessage((prev) => {
+        if (prev && prev[field]) {
+          const { [field]: _, ...rest } = prev
+          return rest
+        }
+        return prev
+      })
+    }
+  }, [])
 
   // TODO i am getting there but not sure if this is more optimal then the one with intermediate ?
 
@@ -170,7 +185,13 @@ const CreateCardDialog = ({ children, clients }: CreateCardDialogProps) => {
                 <Label htmlFor='hours' className='mb-2'>
                   Hours
                 </Label>
-                <Input type='number' name='hours' id='hours' required />
+                <Input
+                  type='number'
+                  name='hours'
+                  id='hours'
+                  onBlur={(e) => handleBlur('hours', e.target.value)}
+                  required
+                />
                 {clientErrorMessage?.hours && (
                   <p className='py-2 text-xs text-red-500'>
                     {clientErrorMessage.hours}

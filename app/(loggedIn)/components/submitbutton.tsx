@@ -6,7 +6,7 @@ type SubmitButtonProps = {
   going: string
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ normal, going }) => {
+const SubmitButton = ({ normal, going }: SubmitButtonProps) => {
   const { pending } = useFormStatus()
 
   return (
