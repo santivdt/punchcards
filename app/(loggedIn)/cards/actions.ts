@@ -13,24 +13,11 @@ const dummyDataCards = [
 ]
 
 export const getCardsFromUser = async () => {
+  requireUser()
   const supabase = createSupabaseClient()
   return supabase
     .from('cards')
-    .select(
-      `
-      created_at,
-      ends_at,
-      hours,
-      hours_left,
-      readable_id,
-      id,
-      is_active,
-      client_id,
-      clients (id,name),
-      price,
-      user_id
-    `
-    )
+    .select(`*, clients (id,name)`)
     .order('created_at', { ascending: false })
 }
 
@@ -217,6 +204,7 @@ export const updateCard = async (prevData: any, formData: FormData) => {
 }
 
 export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
+  requireUser()
   const supabase = createSupabaseClient()
 
   return supabase
@@ -227,6 +215,7 @@ export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
 }
 
 export const getCardFromId = async (id: string) => {
+  requireUser()
   const supabase = createSupabaseClient()
 
   return supabase
@@ -237,24 +226,23 @@ export const getCardFromId = async (id: string) => {
 }
 
 export const getActiveCardsFromUser = async () => {
+  requireUser()
   const supabase = createSupabaseClient()
   return supabase
     .from('cards')
-    .select(
-      `
-      created_at,
-      ends_at,
-      hours,
-      hours_left,
-      readable_id,
-      id,
-      is_active,
-      client_id,
-      clients (*),
-      price,
-      user_id
-    `
-    )
+    .select(`*, clients (*)`)
     .eq('is_active', true)
     .order('created_at', { ascending: false })
+}
+
+export const getRecentCardsFromUser = async () => {
+  requireUser()
+
+  const supabase = createSupabaseClient()
+
+  return supabase
+    .from('cards')
+    .select(`*, clients (*)`)
+    .order('last_updated', { ascending: false })
+    .limit(5)
 }

@@ -40,6 +40,7 @@ export const DataTable = <
     duration: number
     id: string
     user_id: string
+    created_at: string
   },
   TValue,
 >({

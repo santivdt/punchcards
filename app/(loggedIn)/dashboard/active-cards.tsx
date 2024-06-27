@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tables } from '@/types/supabase'
 import { cn } from '@/utils'
 import { Link } from 'nextjs13-progress'
 
 type ActiveCardProps = {
-  cards: { id: string }[] | null
+  cards: Tables<'cards'>[] | null
 }
 
 const ActiveCards = ({ cards }: ActiveCardProps) => {

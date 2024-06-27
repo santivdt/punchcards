@@ -10,7 +10,7 @@ export const getActiveCards = async () => {
 
   return supabase
     .from('cards')
-    .select(`id`)
+    .select(`*`)
     .eq('is_active', true)
     .eq('user_id', user.id)
 }

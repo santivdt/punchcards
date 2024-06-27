@@ -42,7 +42,7 @@ const TopClients = ({ topClients }: TopClientProps) => {
                 <TableRow key={topClient.id}>
                   <TableCell>
                     <div className='font-medium'>{topClient.name}</div>
-                    <div className='hidden   md:inline'>{topClient.email}</div>
+                    <div className='hidden md:inline'>{topClient.email}</div>
                   </TableCell>
                   <TableCell className='text-right'>
                     €{topClient.totalPrice}

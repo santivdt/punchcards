@@ -1,4 +1,5 @@
 import Header from '@/components/header'
+import { getRecentCardsFromUser } from '../cards/actions'
 import {
   getActiveCards,
   getOpenHours,
@@ -7,6 +8,7 @@ import {
 } from './actions'
 import ActiveCards from './active-cards'
 import OpenHours from './open-hours'
+import RecentActiveCards from './recent-active-cards'
 import TopClients from './top-clients'
 import TotalEarnings from './total-earnings'
 
@@ -15,11 +17,13 @@ const Page = async () => {
     { data: cards },
     { data: openHours },
     { data: totalEarnings },
+    { data: recentActiveCards },
     topClients,
   ] = await Promise.all([
     getActiveCards(),
     getOpenHours(),
     getTotalEarnings(),
+    getRecentCardsFromUser(),
     getTopClients(),
   ])
 
@@ -35,6 +39,7 @@ const Page = async () => {
           </div>
           <div className='grid gap-4 md:gap-8 md:grid-cols-2 xl:grid-cols-2'>
             <TopClients topClients={topClients} />
+            <RecentActiveCards cards={recentActiveCards} />
           </div>
         </main>
       </div>

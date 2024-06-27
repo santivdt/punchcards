@@ -21,5 +21,6 @@ export const updateSchema = z.object({
     .number()
     .min(0.5, { message: 'Duration must be greater than or equal to 0.5' }),
   hourId: z.string(),
+  cardId: z.string(),
   date: z.string(),
 })
