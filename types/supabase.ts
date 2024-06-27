@@ -18,6 +18,7 @@ export type Database = {
           hours_left: number
           id: string
           is_active: boolean
+          last_updated: string | null
           price: number
           readable_id: number
           user_id: string

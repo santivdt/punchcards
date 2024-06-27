@@ -35,7 +35,7 @@ export const DataTable = <
   TData extends {
     card_id: string
     client_id: string
-    created_at: string
+    date: string
     description: string
     duration: number
     id: string

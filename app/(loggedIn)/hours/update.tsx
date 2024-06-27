@@ -55,7 +55,7 @@ const UpdateHourDialog = ({
     [onFinished, setDialog]
   )
 
-  const setDate = hour.created_at.toString().slice(0, 10)
+  const setDate = hour.date.toString().slice(0, 10)
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -63,6 +63,7 @@ const UpdateHourDialog = ({
       <DialogContent>
         <form ref={formRef} action={formAction}>
           <input type='hidden' name='hourId' value={hour.id} />
+          <input type='hidden' name='cardId' value={hour.card_id} />
           <div className='mb-4 flex flex-col'>
             <Label htmlFor='date' className='my-2 mr-2'>
               Date

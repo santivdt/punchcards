@@ -6,6 +6,12 @@ import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 
+const dummyDataCards = [
+  '21524a64-9bc7-4d9b-8f48-98cbce929071',
+  'a12ebdc7-c6ce-48c4-9a06-de07ac28fa4c',
+  '43fc1329-b37c-46ba-8b2f-4b6f84bf0772',
+]
+
 export const getCardsFromUser = async () => {
   const supabase = createSupabaseClient()
   return supabase
@@ -104,12 +110,6 @@ export const deleteCard = async (prevData: any, formData: FormData) => {
     }
   }
 
-  const dummyDataCards = [
-    '21524a64-9bc7-4d9b-8f48-98cbce929071',
-    'a12ebdc7-c6ce-48c4-9a06-de07ac28fa4c',
-    '43fc1329-b37c-46ba-8b2f-4b6f84bf0772',
-  ]
-
   if (dummyDataCards.includes(validatedFields.data.card_id)) {
     return {
       status: 'error',
@@ -155,12 +155,6 @@ export const updateCard = async (prevData: any, formData: FormData) => {
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
-
-  const dummyDataCards = [
-    '21524a64-9bc7-4d9b-8f48-98cbce929071',
-    'a12ebdc7-c6ce-48c4-9a06-de07ac28fa4c',
-    '43fc1329-b37c-46ba-8b2f-4b6f84bf0772',
-  ]
 
   if (dummyDataCards.includes(validatedFields.data.card_id)) {
     return {
@@ -227,10 +221,7 @@ export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
 
   return supabase
     .from('cards')
-    .select(
-      `created_at, ends_at, hours, hours_left, readable_id, id, is_active, client_id, price, user_id, 
-      clients (id, name)`
-    )
+    .select(`*, clients (id, name)`)
     .order('created_at', { ascending: false })
     .eq('client_id', clientId)
 }
@@ -240,9 +231,7 @@ export const getCardFromId = async (id: string) => {
 
   return supabase
     .from('cards')
-    .select(
-      `readable_id, id, is_active, created_at, price, client_id, ends_at, hours, hours_left, user_id, clients (id, name, created_at, email, user_id)`
-    )
+    .select(`*, clients (id, name, created_at, email, user_id)`)
     .eq('id', id)
     .single()
 }
