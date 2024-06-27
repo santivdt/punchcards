@@ -17,7 +17,7 @@ const OpenHours = ({ openHours }: OpenHoursProps) => {
             'font-bold text-2xl': openHours && openHours > 0,
           })}
         >
-          {openHours && openHours > 0 ? `€${openHours}` : 'No open hours'}
+          {openHours && openHours > 0 ? `${openHours}` : 'No open hours'}
         </div>
       </CardContent>
     </Card>
