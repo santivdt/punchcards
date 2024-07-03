@@ -13,7 +13,6 @@ const dummyDataCards = [
 ]
 
 export const getCardsFromUser = async () => {
-  requireUser()
   const supabase = createSupabaseClient()
   return supabase
     .from('cards')
@@ -204,7 +203,6 @@ export const updateCard = async (prevData: any, formData: FormData) => {
 }
 
 export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
-  requireUser()
   const supabase = createSupabaseClient()
 
   return supabase
@@ -215,7 +213,6 @@ export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
 }
 
 export const getCardFromId = async (id: string) => {
-  requireUser()
   const supabase = createSupabaseClient()
 
   return supabase
@@ -226,7 +223,6 @@ export const getCardFromId = async (id: string) => {
 }
 
 export const getActiveCardsFromUser = async () => {
-  requireUser()
   const supabase = createSupabaseClient()
   return supabase
     .from('cards')
@@ -236,8 +232,6 @@ export const getActiveCardsFromUser = async () => {
 }
 
 export const getRecentCardsFromUser = async () => {
-  requireUser()
-
   const supabase = createSupabaseClient()
 
   return supabase

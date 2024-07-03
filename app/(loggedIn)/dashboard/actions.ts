@@ -80,7 +80,6 @@ export const getOpenHours = async () => {
 }
 
 export const getTopClients = async (): Promise<TopClient[]> => {
-  requireUser()
   const supabase = createSupabaseClient()
 
   const { data, error } = await supabase.from('cards').select(

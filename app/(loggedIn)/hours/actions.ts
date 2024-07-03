@@ -14,7 +14,6 @@ const dummyDataHours = [
 ]
 
 export const getHoursFromUser = async () => {
-  requireUser()
   const supabase = createSupabaseClient()
   return supabase
     .from('hours')
@@ -354,7 +353,6 @@ export const updateHour = async (prevData: any, formData: FormData) => {
 }
 
 export const getHoursFromClient = async (clientId: Tables<'clients'>['id']) => {
-  requireUser()
   const supabase = createSupabaseClient()
 
   return supabase
@@ -365,7 +363,6 @@ export const getHoursFromClient = async (clientId: Tables<'clients'>['id']) => {
 }
 
 export const getHoursFromCard = async (cardId: Tables<'cards'>['id']) => {
-  requireUser()
   const supabase = createSupabaseClient()
 
   return supabase

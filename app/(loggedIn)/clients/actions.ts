@@ -17,7 +17,6 @@ const dummyDataClients = [
 ]
 
 export const getClientsFromUser = async () => {
-  requireUser()
   const supabase = createSupabaseClient()
   return await supabase
     .from('clients')
@@ -27,7 +26,6 @@ export const getClientsFromUser = async () => {
 
 export const getClientsFromUserNew = async () => {
   try {
-    requireUser()
     // TODO is this really better, and if there is an error where / how would it be displayed?
     //TODO had to remove the try catch because then my promise all wasnt working anymore
 
@@ -43,7 +41,6 @@ export const getClientsFromUserNew = async () => {
 }
 
 export const createClient = async (prevData: any, formData: FormData) => {
-  requireUser()
   const validatedFields = createSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
@@ -96,7 +93,6 @@ export const createClient = async (prevData: any, formData: FormData) => {
 
 export const updateClient = async (prevData: any, formData: FormData) => {
   //TODO is this the same ?
-  requireUser()
   const user = await requireUser()
 
   const validatedFields = updateSchema.safeParse({
@@ -203,7 +199,6 @@ export const getClient = async (clientId: Tables<'clients'>['id']) => {
 }
 
 export const getClientFromId = async (id: string) => {
-  requireUser()
   const supabase = createSupabaseClient()
 
   return supabase
