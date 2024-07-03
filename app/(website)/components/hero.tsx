@@ -9,7 +9,7 @@ import { Link } from 'nextjs13-progress'
 const Hero = () => {
   return (
     <>
-      <motion.div
+      <motion.section
         initial={{ y: '20px', opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, ease: 'easeInOut' }}
@@ -33,7 +33,7 @@ const Hero = () => {
         <motion.div className='w-auto flex justify-center items-center'>
           <Image src='/demo.png' width='800' height='800' alt='Punchcard' />
         </motion.div>
-      </motion.div>
+      </motion.section>
     </>
   )
 }

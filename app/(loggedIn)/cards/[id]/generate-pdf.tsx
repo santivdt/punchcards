@@ -15,7 +15,7 @@ type GeneratePDFButtonProps = {
 
 const GeneratePDFButton = ({ card, hours }: GeneratePDFButtonProps) => {
   const cardTable = hours.map((obj) => [
-    formatDate(obj.created_at),
+    formatDate(obj.date),
     obj.description,
     customFormatDuration(obj.duration),
   ])

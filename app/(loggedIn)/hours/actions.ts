@@ -7,21 +7,18 @@ import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 
 const dummyDataHours = [
-  '63c8caac-89df-4886-8fc5-16b2a4c37b53',
-  '69de5493-0be2-4001-beb2-0a10dc557391',
-  'c8a47945-7225-4928-8b4a-44ad2f3666bd',
+  '4724f5f5-ea95-4272-8728-23052d5e68aa',
+  '7911d999-3a9c-4e92-a5a7-47048a3ddf47',
+  '7b309bf2-f478-4399-afe1-9b7bbe24d8f5',
+  '891a6fa9-ed9d-4de3-8b6f-2551fe374a53',
 ]
 
 export const getHoursFromUser = async () => {
   const supabase = createSupabaseClient()
   return supabase
     .from('hours')
-    .select(
-      `id, created_at, description, duration, client_id, card_id, user_id,
-      clients(id, name),
-      cards(id, readable_id)`
-    )
-    .order('created_at', { ascending: false })
+    .select(`*, clients(id, name), cards(id, readable_id)`)
+    .order('date', { ascending: false })
 }
 
 export const createHour = async (prevData: any, formData: FormData) => {
@@ -74,7 +71,7 @@ export const createHour = async (prevData: any, formData: FormData) => {
     client_id: card.client_id,
     duration: durationNumber,
     card_id: validatedFields.data.card_id,
-    created_at: validatedFields.data.date,
+    date: validatedFields.data.date,
   })
 
   if (hourError) {
@@ -84,9 +81,14 @@ export const createHour = async (prevData: any, formData: FormData) => {
     }
   }
 
+  const currentDate = new Date().toISOString().slice(0, 10)
+
   const { error: cardUpdateError } = await supabase
     .from('cards')
-    .update({ hours_left: card.hours_left - durationNumber })
+    .update({
+      hours_left: card.hours_left - durationNumber,
+      last_updated: currentDate,
+    })
     .eq('id', validatedFields.data.card_id)
 
   if (cardUpdateError) {
@@ -253,12 +255,14 @@ export const deleteHours = async (prevData: any, formData: FormData) => {
   return { status: 'success', message: 'Hours deleted successfully' }
 }
 
+// TODO i make 1000 database calls in this function, think it could be done better
 export const updateHour = async (prevData: any, formData: FormData) => {
   const validatedFields = updateSchema.safeParse({
     description: formData.get('description'),
     duration: Number(formData.get('duration')),
     hourId: formData.get('hourId'),
     date: formData.get('date'),
+    cardId: formData.get('cardId'),
   })
 
   if (!validatedFields.success) {
@@ -280,12 +284,24 @@ export const updateHour = async (prevData: any, formData: FormData) => {
 
   const user = await requireUser()
 
+  const { data: oldDuration, error: getOldDurationError } = await supabase
+    .from('hours')
+    .select('duration')
+    .eq('id', validatedFields.data.hourId)
+    .single()
+
+  if (getOldDurationError)
+    return {
+      status: 'error',
+      message: 'An error occurred while fetching the old duration',
+    }
+
   const { error } = await supabase
     .from('hours')
     .update({
       description: validatedFields.data.description,
       duration: validatedFields.data.duration,
-      created_at: validatedFields.data.date,
+      date: validatedFields.data.date,
     })
     .eq('id', validatedFields.data.hourId)
     .eq('user_id', user.id)
@@ -295,6 +311,37 @@ export const updateHour = async (prevData: any, formData: FormData) => {
       status: 'error',
       message: 'An error occurred while updating the task',
     }
+  }
+
+  const { data: card, error: getCardInfoError } = await supabase
+    .from('cards')
+    .select('hours_left')
+    .eq('id', validatedFields.data.cardId)
+    .single()
+
+  if (getCardInfoError) {
+    return {
+      status: 'error',
+      message: 'An error occurred while getting hours_left',
+    }
+  }
+
+  if (oldDuration.duration !== validatedFields.data.duration) {
+    const difference = oldDuration.duration - validatedFields.data.duration
+
+    const { error: updateCardError } = await supabase
+      .from('cards')
+      .update({ hours_left: card.hours_left + difference })
+      .eq('id', validatedFields.data.cardId)
+
+    if (updateCardError) {
+      return {
+        status: 'error',
+        message: 'An error occurred while updating the card',
+      }
+    }
+
+    revalidatePath('/cards')
   }
 
   revalidatePath('/hours')
@@ -312,7 +359,7 @@ export const getHoursFromClient = async (clientId: Tables<'clients'>['id']) => {
     .from('hours')
     .select(`*, clients (id, name)`)
     .eq('client_id', clientId)
-    .order('created_at', { ascending: false })
+    .order('date', { ascending: false })
 }
 
 export const getHoursFromCard = async (cardId: Tables<'cards'>['id']) => {
@@ -325,6 +372,6 @@ export const getHoursFromCard = async (cardId: Tables<'cards'>['id']) => {
       clients (id, name),
       cards(readable_id)`
     )
-    .order('created_at', { ascending: false })
+    .order('date', { ascending: false })
     .eq('card_id', cardId)
 }

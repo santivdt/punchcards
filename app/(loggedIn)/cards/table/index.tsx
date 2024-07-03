@@ -83,7 +83,6 @@ export const DataTable = <TData extends TValue, TValue>({
   return (
     <div className='py-4' suppressHydrationWarning>
       <DataTableToolbar table={table} />
-
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

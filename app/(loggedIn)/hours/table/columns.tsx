@@ -47,7 +47,7 @@ export const columns: ColumnDef<Tables<'hours'>>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'created_at',
+    accessorKey: 'date',
     header: 'Date',
     cell: ({ getValue }) => {
       return formatDate(getValue<string>())

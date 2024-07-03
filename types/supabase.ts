@@ -18,6 +18,7 @@ export type Database = {
           hours_left: number
           id: string
           is_active: boolean
+          last_updated: string | null
           price: number
           readable_id: number
           user_id: string
@@ -30,6 +31,7 @@ export type Database = {
           hours_left: number
           id?: string
           is_active: boolean
+          last_updated?: string | null
           price: number
           readable_id?: number
           user_id: string
@@ -42,6 +44,7 @@ export type Database = {
           hours_left?: number
           id?: string
           is_active?: boolean
+          last_updated?: string | null
           price?: number
           readable_id?: number
           user_id?: string
@@ -125,6 +128,7 @@ export type Database = {
           card_id: string
           client_id: string
           created_at: string
+          date: string
           description: string
           duration: number
           id: string
@@ -134,6 +138,7 @@ export type Database = {
           card_id: string
           client_id: string
           created_at?: string
+          date: string
           description: string
           duration: number
           id?: string
@@ -143,6 +148,7 @@ export type Database = {
           card_id?: string
           client_id?: string
           created_at?: string
+          date?: string
           description?: string
           duration?: number
           id?: string
