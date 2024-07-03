@@ -12,6 +12,7 @@ const config: Config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  preset: 'ts-jest',
   transform: {
     '^.+\\.(ts|tsx)$': [
       'ts-jest',
