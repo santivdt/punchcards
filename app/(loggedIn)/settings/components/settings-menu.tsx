@@ -3,14 +3,14 @@ import { cn } from '@/utils'
 import { usePathname } from 'next/navigation'
 import { Link } from 'nextjs13-progress'
 
+const menuItems = [
+  { label: 'Profile', path: '/settings/profile' },
+  { label: 'Organisation', path: '/settings/organisation' },
+  { label: 'Team', path: '/settings/team' },
+]
+
 const SettingsMenu = () => {
   const pathname = usePathname()
-
-  const menuItems = [
-    { label: 'Profile', path: '/settings/profile' },
-    { label: 'Organisation', path: '/settings/organisation' },
-    { label: 'Team', path: '/settings/team' },
-  ]
 
   return (
     <div dir='ltr'>

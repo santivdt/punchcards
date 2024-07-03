@@ -11,13 +11,13 @@ import { motion } from 'framer-motion'
 import { BadgeEuro, Info, LogIn, Mail, Menu, UserPlus } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
 
-const Nav = () => {
-  const menuItems = [
-    { title: 'About', href: '/about' },
-    { title: 'Pricing', href: '/pricing' },
-    { title: 'Contact', href: '/contact' },
-  ]
+const menuItems = [
+  { title: 'About', href: '/about' },
+  { title: 'Pricing', href: '/pricing' },
+  { title: 'Contact', href: '/contact' },
+]
 
+const Nav = () => {
   const mobileMenu = [
     { name: 'About', href: '/about', icon: <Info /> },
     { name: 'Pricing', href: '/pricing', icon: <BadgeEuro /> },
@@ -27,13 +27,12 @@ const Nav = () => {
   ]
 
   return (
-    <motion.nav
+    <motion.header
       initial={{ y: '-20px', opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1, ease: 'easeInOut' }}
-      className='navbar'
     >
-      <nav className='w-full flex justify-between items-center py-4'>
+      <nav className='w-full flex justify-between items-center py-4 max-w-7xl mx-auto px-4'>
         <div className='font-bold text-3xl relative'>
           <Link href='/'>Punchy</Link>
           <Badge className='ml-2 text-sm absolute top-0 bg-purple-900 hover:bg-purple-900 hover:cursor-default'>
@@ -76,7 +75,7 @@ const Nav = () => {
           </div>
         </div>
       </nav>
-    </motion.nav>
+    </motion.header>
   )
 }
 
