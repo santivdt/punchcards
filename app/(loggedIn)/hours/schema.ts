@@ -23,4 +23,5 @@ export const updateSchema = z.object({
   hourId: z.string(),
   cardId: z.string(),
   date: z.string(),
+  oldDuration: z.number(),
 })

@@ -64,6 +64,7 @@ const UpdateHourDialog = ({
         <form ref={formRef} action={formAction}>
           <input type='hidden' name='hourId' value={hour.id} />
           <input type='hidden' name='cardId' value={hour.card_id} />
+          <input type='hidden' name='oldDuration' value={hour.duration} />
           <div className='mb-4 flex flex-col'>
             <Label htmlFor='date' className='my-2 mr-2'>
               Date

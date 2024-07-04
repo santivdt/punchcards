@@ -263,6 +263,7 @@ export const updateHour = async (prevData: any, formData: FormData) => {
     hourId: formData.get('hourId'),
     date: formData.get('date'),
     cardId: formData.get('cardId'),
+    oldDuration: Number(formData.get('oldDuration')),
   })
 
   if (!validatedFields.success) {
@@ -283,18 +284,6 @@ export const updateHour = async (prevData: any, formData: FormData) => {
   const supabase = createSupabaseClient()
 
   const user = await requireUser()
-
-  const { data: oldDuration, error: getOldDurationError } = await supabase
-    .from('hours')
-    .select('duration')
-    .eq('id', validatedFields.data.hourId)
-    .single()
-
-  if (getOldDurationError)
-    return {
-      status: 'error',
-      message: 'An error occurred while fetching the old duration',
-    }
 
   const { error } = await supabase
     .from('hours')
@@ -326,8 +315,9 @@ export const updateHour = async (prevData: any, formData: FormData) => {
     }
   }
 
-  if (oldDuration.duration !== validatedFields.data.duration) {
-    const difference = oldDuration.duration - validatedFields.data.duration
+  if (validatedFields.data.oldDuration !== validatedFields.data.duration) {
+    const difference =
+      validatedFields.data.oldDuration - validatedFields.data.duration
 
     const { error: updateCardError } = await supabase
       .from('cards')
