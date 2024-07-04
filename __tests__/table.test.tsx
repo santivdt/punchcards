@@ -14,7 +14,7 @@ describe('table', () => {
         client_id: '5678',
         clients: [{ name: 'Maardij', id: 'fsdfsdfs' }],
         date: '12-01-2020',
-        description: 'jemoeder',
+        description: 'Work on app',
         duration: 12,
         id: 'sgsdgsdgdsgdsg',
         user_id: 'w43463wgweg',
@@ -24,8 +24,8 @@ describe('table', () => {
     render(<DataTable columns={columns} data={data} />)
 
     await waitFor(() => {
-      const jemoeder = screen.getByText('jemoeder')
-      expect(jemoeder).not.toBeUndefined()
+      const workOnApp = screen.getByText('Work on app')
+      expect(workOnApp).not.toBeUndefined()
     })
   })
 })
