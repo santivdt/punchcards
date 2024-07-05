@@ -21,3 +21,22 @@ export const customFormatDuration = (duration: number) => {
   const minutes = Math.round((duration - hours) * 60)
   return `${hours}h ${minutes}m`
 }
+
+export const createReadableId = (amountOfCards: number) => {
+  const currentYear = new Date().getFullYear()
+  const lastTwoDigits = currentYear.toString().slice(-2)
+
+  let newReadableId = undefined
+
+  if (amountOfCards < 10) {
+    newReadableId = `${lastTwoDigits}000${amountOfCards + 1}`
+  } else if (amountOfCards < 100) {
+    newReadableId = `${lastTwoDigits}00${amountOfCards + 1}`
+  } else if (amountOfCards < 1000) {
+    newReadableId = `${lastTwoDigits}0${amountOfCards + 1}`
+  } else {
+    newReadableId = `${lastTwoDigits}${amountOfCards + 1}`
+  }
+
+  return newReadableId
+}

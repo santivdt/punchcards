@@ -5,6 +5,7 @@ import { requireUser } from '@/utils/auth'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
+import { createReadableId } from '@/utils/index'
 
 const dummyDataCards = [
   '21524a64-9bc7-4d9b-8f48-98cbce929071',
@@ -58,6 +59,24 @@ export const createCard = async (prevData: any, formData: FormData) => {
 
   const user = await requireUser()
 
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single()
+
+  if (profileError) {
+    console.log(profileError)
+    return {
+      status: 'error',
+      message: 'An error occurred while getting the profile',
+    }
+  }
+
+  const amountOfCards = profile?.amount_of_cards || 0
+
+  const newReadableId = createReadableId(amountOfCards)
+
   const { error } = await supabase.from('cards').insert({
     user_id: user.id,
     client_id: validatedFields.data.client_id,
@@ -66,13 +85,27 @@ export const createCard = async (prevData: any, formData: FormData) => {
     hours_left: validatedFields.data.hours_left,
     is_active: true,
     price: validatedFields.data.price,
+    readable_id: newReadableId,
   })
 
   if (error) {
-    console.log(error)
     return {
       status: 'error',
-      message: 'An error occurred while creating the client',
+      message: 'An error occurred while creating the card',
+    }
+  }
+
+  const { error: updateAmountOfCardsError } = await supabase
+    .from('profiles')
+    .update({
+      amount_of_cards: amountOfCards + 1,
+    })
+    .eq('id', user.id)
+
+  if (updateAmountOfCardsError) {
+    return {
+      status: 'error',
+      message: 'An error occurred while updating the amount of cards',
     }
   }
 
@@ -80,7 +113,7 @@ export const createCard = async (prevData: any, formData: FormData) => {
 
   return {
     status: 'success',
-    message: 'Client created successfully',
+    message: 'Card created successfully',
   }
 }
 

@@ -23,9 +23,7 @@ const Page = async ({ params: { id } }: { params: PageProps }) => {
 
   return (
     <>
-      <Header
-        title={`Hours for card #${card?.readable_id} - ${card?.clients?.name}`}
-      >
+      <Header title={`Card #${card?.readable_id} - ${card?.clients?.name}`}>
         {card && hours && <GeneratePDFButton card={card} hours={hours} />}
         <InterMediateCreateHour
           activeCards={activeCards}

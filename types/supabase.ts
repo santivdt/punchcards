@@ -20,7 +20,7 @@ export type Database = {
           is_active: boolean
           last_updated: string | null
           price: number
-          readable_id: number
+          readable_id: string | null
           user_id: string
         }
         Insert: {
@@ -33,7 +33,7 @@ export type Database = {
           is_active: boolean
           last_updated?: string | null
           price: number
-          readable_id?: number
+          readable_id?: string | null
           user_id: string
         }
         Update: {
@@ -46,7 +46,7 @@ export type Database = {
           is_active?: boolean
           last_updated?: string | null
           price?: number
-          readable_id?: number
+          readable_id?: string | null
           user_id?: string
         }
         Relationships: [
@@ -229,6 +229,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          amount_of_cards: number
           avatar: string | null
           created_at: string
           first_name: string | null
@@ -236,6 +237,7 @@ export type Database = {
           last_name: string | null
         }
         Insert: {
+          amount_of_cards?: number
           avatar?: string | null
           created_at?: string
           first_name?: string | null
@@ -243,6 +245,7 @@ export type Database = {
           last_name?: string | null
         }
         Update: {
+          amount_of_cards?: number
           avatar?: string | null
           created_at?: string
           first_name?: string | null
