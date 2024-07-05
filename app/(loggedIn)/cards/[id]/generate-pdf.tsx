@@ -38,7 +38,7 @@ const GeneratePDFButton = ({ card, hours }: GeneratePDFButtonProps) => {
       body: cardTable,
     })
 
-    doc.save('example.pdf')
+    doc.save(`Card ${card.readable_id} - ${card.clients?.name}.pdf`)
   }
 
   return (
