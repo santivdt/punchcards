@@ -5,26 +5,19 @@ import { requireUser } from '@/utils/auth'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
+import { createReadableId } from '@/utils/index'
+
+const dummyDataCards = [
+  '21524a64-9bc7-4d9b-8f48-98cbce929071',
+  'a12ebdc7-c6ce-48c4-9a06-de07ac28fa4c',
+  '43fc1329-b37c-46ba-8b2f-4b6f84bf0772',
+]
 
 export const getCardsFromUser = async () => {
   const supabase = createSupabaseClient()
   return supabase
     .from('cards')
-    .select(
-      `
-      created_at,
-      ends_at,
-      hours,
-      hours_left,
-      readable_id,
-      id,
-      is_active,
-      client_id,
-      clients (id,name),
-      price,
-      user_id
-    `
-    )
+    .select(`*, clients (id,name)`)
     .order('created_at', { ascending: false })
 }
 
@@ -66,6 +59,24 @@ export const createCard = async (prevData: any, formData: FormData) => {
 
   const user = await requireUser()
 
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single()
+
+  if (profileError) {
+    console.log(profileError)
+    return {
+      status: 'error',
+      message: 'An error occurred while getting the profile',
+    }
+  }
+
+  const amountOfCards = profile?.amount_of_cards || 0
+
+  const newReadableId = createReadableId(amountOfCards)
+
   const { error } = await supabase.from('cards').insert({
     user_id: user.id,
     client_id: validatedFields.data.client_id,
@@ -74,13 +85,27 @@ export const createCard = async (prevData: any, formData: FormData) => {
     hours_left: validatedFields.data.hours_left,
     is_active: true,
     price: validatedFields.data.price,
+    readable_id: newReadableId,
   })
 
   if (error) {
-    console.log(error)
     return {
       status: 'error',
-      message: 'An error occurred while creating the client',
+      message: 'An error occurred while creating the card',
+    }
+  }
+
+  const { error: updateAmountOfCardsError } = await supabase
+    .from('profiles')
+    .update({
+      amount_of_cards: amountOfCards + 1,
+    })
+    .eq('id', user.id)
+
+  if (updateAmountOfCardsError) {
+    return {
+      status: 'error',
+      message: 'An error occurred while updating the amount of cards',
     }
   }
 
@@ -88,7 +113,7 @@ export const createCard = async (prevData: any, formData: FormData) => {
 
   return {
     status: 'success',
-    message: 'Client created successfully',
+    message: 'Card created successfully',
   }
 }
 
@@ -103,11 +128,6 @@ export const deleteCard = async (prevData: any, formData: FormData) => {
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
-
-  const dummyDataCards = [
-    '43fc1329-b37c-46ba-8b2f-4b6f84bf0772',
-    'a12ebdc7-c6ce-48c4-9a06-de07ac28fa4c',
-  ]
 
   if (dummyDataCards.includes(validatedFields.data.card_id)) {
     return {
@@ -144,7 +164,6 @@ export const deleteCard = async (prevData: any, formData: FormData) => {
 export const updateCard = async (prevData: any, formData: FormData) => {
   const validatedFields = updateSchema.safeParse({
     hours: Number(formData.get('hours')),
-    hours_left: Number(formData.get('hours_left')),
     card_id: formData.get('card_id'),
     price: Number(formData.get('price')),
   })
@@ -156,11 +175,37 @@ export const updateCard = async (prevData: any, formData: FormData) => {
     }
   }
 
-  if (validatedFields.data.hours_left > validatedFields.data.hours) {
+  if (dummyDataCards.includes(validatedFields.data.card_id)) {
     return {
       status: 'error',
       message:
-        'It is not possible to have more hours left than the total hours on the card.',
+        'Cannot update dummy data cards. If you want to test the update function add a new card and update it.',
+    }
+  }
+
+  const { data: currentCard, error: currentCardError } = await getCardFromId(
+    validatedFields.data.card_id
+  )
+
+  if (currentCardError) {
+    return {
+      status: 'error',
+      message: 'An error occurred while getting the current card',
+    }
+  }
+
+  let changeInHours = 0
+
+  if (currentCard.hours) {
+    changeInHours = validatedFields.data.hours - currentCard.hours
+  }
+
+  const newHoursLeft = currentCard.hours_left + changeInHours
+
+  if (newHoursLeft < 0) {
+    return {
+      status: 'error',
+      message: `It is not possible to have less than 0 hours left on the card.`,
     }
   }
 
@@ -170,8 +215,8 @@ export const updateCard = async (prevData: any, formData: FormData) => {
     .from('cards')
     .update({
       hours: validatedFields.data.hours,
-      hours_left: validatedFields.data.hours_left,
       price: validatedFields.data.price,
+      hours_left: newHoursLeft,
     })
     .eq('id', validatedFields.data.card_id)
 
@@ -195,10 +240,7 @@ export const getCardsFromClient = async (clientId: Tables<'clients'>['id']) => {
 
   return supabase
     .from('cards')
-    .select(
-      `created_at, ends_at, hours, hours_left, readable_id, id, is_active, client_id, price, user_id, 
-      clients (id, name)`
-    )
+    .select(`*, clients (id, name)`)
     .order('created_at', { ascending: false })
     .eq('client_id', clientId)
 }
@@ -208,9 +250,7 @@ export const getCardFromId = async (id: string) => {
 
   return supabase
     .from('cards')
-    .select(
-      `readable_id, id, is_active, created_at, price, client_id, ends_at, hours, hours_left, user_id, clients (id, name, created_at, email, user_id)`
-    )
+    .select(`*, clients (id, name, created_at, email, user_id)`)
     .eq('id', id)
     .single()
 }
@@ -219,21 +259,17 @@ export const getActiveCardsFromUser = async () => {
   const supabase = createSupabaseClient()
   return supabase
     .from('cards')
-    .select(
-      `
-      created_at,
-      ends_at,
-      hours,
-      hours_left,
-      readable_id,
-      id,
-      is_active,
-      client_id,
-      clients (*),
-      price,
-      user_id
-    `
-    )
+    .select(`*, clients (*)`)
     .eq('is_active', true)
     .order('created_at', { ascending: false })
+}
+
+export const getRecentCardsFromUser = async () => {
+  const supabase = createSupabaseClient()
+
+  return supabase
+    .from('cards')
+    .select(`*, clients (*)`)
+    .order('last_updated', { ascending: false })
+    .limit(5)
 }

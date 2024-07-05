@@ -1,6 +1,6 @@
 'use client'
 
-import SubmitButton from '@/components/submitbutton'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -14,7 +14,9 @@ import { Tables } from '@/types/supabase'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 
-import FormError from '@/components/form-error'
+import FormError from '@/app/(loggedIn)/components/form-error'
+import { ErrorType } from '@/types/custom-types'
+import { initialState } from '@/utils'
 import { Euro } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { updateCard } from './actions'
@@ -27,8 +29,6 @@ type UpdateCardDialogProps = {
   setDialog: React.Dispatch<React.SetStateAction<'update' | 'delete' | null>>
 }
 
-const initialState = undefined
-
 const UpdateCardDialog = ({
   children,
   card,
@@ -38,14 +38,10 @@ const UpdateCardDialog = ({
 }: UpdateCardDialogProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(updateCard, initialState)
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(
-    undefined
-  )
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
 
   useEffect(() => {
-    setErrorMessage(
-      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
-    )
+    setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') {
       onFinished()
       toast.success('Card updated successfully')
@@ -75,30 +71,11 @@ const UpdateCardDialog = ({
               type='number'
               name='hours'
               id='hours'
-              defaultValue={card.hours?.toString() ?? ''}
+              defaultValue={card.hours?.toString() || ''}
               required
             />
             {state?.errors?.hours && (
               <p className='py-2 text-xs text-red-500'>{state.errors.hours}</p>
-            )}
-          </div>
-          <div className='mb-4'>
-            <Label htmlFor='hours_left' className='mb-2'>
-              Hours left
-            </Label>
-            <Input
-              name='hours_left'
-              id='hours_left'
-              defaultValue={card.hours_left?.toString() ?? ''}
-              type='number'
-              className='w-[240px]'
-              required
-            />
-
-            {state?.errors?.hours_left && (
-              <p className='py-2 text-xs text-red-500'>
-                {state.errors.hours_left}
-              </p>
             )}
           </div>
           <div className='mb-4'>
@@ -113,7 +90,7 @@ const UpdateCardDialog = ({
                 id='price'
                 required
                 className='pl-6'
-                defaultValue={card.price?.toString() ?? ''}
+                defaultValue={card.price?.toString() || ''}
               />
               {state?.errors?.hours && (
                 <p className='py-2 text-xs text-red-500'>

@@ -1,7 +1,7 @@
 'use client'
 
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { createHour } from '@/app/(loggedIn)/hours/actions'
-import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { useFormState } from 'react-dom'
 
-import FormError from '@/components/form-error'
+import FormError from '@/app/(loggedIn)/components/form-error'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -21,7 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { CardWithClient } from '@/types/custom-types'
+import { CardWithClient, ErrorType } from '@/types/custom-types'
+import { initialState } from '@/utils'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -30,21 +31,19 @@ type CreateHourDialogProps = {
   children: React.ReactNode
   activeCards: CardWithClient[] | null
   onFinished: () => void
+  cardId?: string
 }
-
-type ErrorState = string | undefined
-
-const initialState = undefined
 
 const CreateHourDialog = ({
   children,
   activeCards,
   onFinished,
+  cardId,
 }: CreateHourDialogProps) => {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(createHour, initialState)
-  const [errorMessage, setErrorMessage] = useState<ErrorState>(undefined)
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
 
   const currentDate = new Date().toISOString().slice(0, 10)
 
@@ -72,7 +71,7 @@ const CreateHourDialog = ({
           <form ref={formRef} action={formAction}>
             <div className='mb-4'>
               <Label htmlFor='card_id'>Card</Label>
-              <Select name='card_id' required>
+              <Select name='card_id' required defaultValue={cardId}>
                 <SelectTrigger className='w-[240px]'>
                   <SelectValue placeholder='Select card' />
                 </SelectTrigger>
@@ -112,6 +111,7 @@ const CreateHourDialog = ({
                 type='text'
                 placeholder='Built an app'
                 required
+                autoFocus={cardId ? true : false}
               />
               {state?.errors?.description && (
                 <p className='py-2 text-xs text-red-500'>

@@ -1,7 +1,7 @@
 'use client'
 
-import FormError from '@/components/form-error'
-import SubmitButton from '@/components/submitbutton'
+import FormError from '@/app/(loggedIn)/components/form-error'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,7 +12,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { ErrorType } from '@/types/custom-types'
 import { Tables } from '@/types/supabase'
+import { initialState } from '@/utils'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
@@ -25,10 +27,6 @@ type DeleteFormProps = {
   onOpenChange?: React.Dispatch<React.SetStateAction<boolean>> | (() => void)
 }
 
-const initialState = undefined
-
-type ErrorType = string | undefined
-
 const DeleteHourDialog = ({
   open,
   hour,
@@ -36,7 +34,7 @@ const DeleteHourDialog = ({
   onOpenChange = () => {},
 }: DeleteFormProps) => {
   const [state, formAction] = useFormState(deleteHour, initialState)
-  const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
 
   useEffect(() => {
     if (state?.status === 'success') {
@@ -61,12 +59,12 @@ const DeleteHourDialog = ({
           <input
             type='hidden'
             name='duration'
-            defaultValue={hour.duration ?? ''}
+            defaultValue={hour.duration || ''}
           />
           <input
             type='hidden'
             name='cardId'
-            defaultValue={hour.card_id ?? ''}
+            defaultValue={hour.card_id || ''}
           />
           <FormError errorMessage={errorMessage} />
           <div className='flex items-center justify-end gap-2'>

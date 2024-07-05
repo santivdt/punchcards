@@ -18,8 +18,9 @@ export type Database = {
           hours_left: number
           id: string
           is_active: boolean
+          last_updated: string | null
           price: number
-          readable_id: number
+          readable_id: string | null
           user_id: string
         }
         Insert: {
@@ -30,8 +31,9 @@ export type Database = {
           hours_left: number
           id?: string
           is_active: boolean
+          last_updated?: string | null
           price: number
-          readable_id?: number
+          readable_id?: string | null
           user_id: string
         }
         Update: {
@@ -42,8 +44,9 @@ export type Database = {
           hours_left?: number
           id?: string
           is_active?: boolean
+          last_updated?: string | null
           price?: number
-          readable_id?: number
+          readable_id?: string | null
           user_id?: string
         }
         Relationships: [
@@ -125,6 +128,7 @@ export type Database = {
           card_id: string
           client_id: string
           created_at: string
+          date: string
           description: string
           duration: number
           id: string
@@ -134,6 +138,7 @@ export type Database = {
           card_id: string
           client_id: string
           created_at?: string
+          date: string
           description: string
           duration: number
           id?: string
@@ -143,6 +148,7 @@ export type Database = {
           card_id?: string
           client_id?: string
           created_at?: string
+          date?: string
           description?: string
           duration?: number
           id?: string
@@ -189,26 +195,58 @@ export type Database = {
         }
         Relationships: []
       }
+      organisations: {
+        Row: {
+          created_at: string
+          id: string
+          logo: string | null
+          name: string | null
+          owner: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          logo?: string | null
+          name?: string | null
+          owner: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          logo?: string | null
+          name?: string | null
+          owner?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organisations_owner_fkey"
+            columns: ["owner"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
+          amount_of_cards: number
           avatar: string | null
-          company: string | null
           created_at: string
           first_name: string | null
           id: string
           last_name: string | null
         }
         Insert: {
+          amount_of_cards?: number
           avatar?: string | null
-          company?: string | null
           created_at?: string
           first_name?: string | null
           id: string
           last_name?: string | null
         }
         Update: {
+          amount_of_cards?: number
           avatar?: string | null
-          company?: string | null
           created_at?: string
           first_name?: string | null
           id?: string

@@ -8,7 +8,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { DataTablePagination } from '@/components/pagination'
+import { DataTablePagination } from '@/app/(loggedIn)/components/pagination'
 import { Button } from '@/components/ui/button'
 import {
   Table,
@@ -19,7 +19,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Tables } from '@/types/supabase'
-import { useEffect, useRef, useState } from 'react'
+import { initialState } from '@/utils'
+import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { deleteHours } from '../actions'
@@ -30,17 +31,16 @@ interface DataTableProps<TData, TValue> {
   data: TData[] | null
 }
 
-const initialState = undefined
-
 export const DataTable = <
   TData extends {
     card_id: string
     client_id: string
-    created_at: string
+    date: string
     description: string
     duration: number
     id: string
     user_id: string
+    created_at: string
   },
   TValue,
 >({
@@ -49,7 +49,6 @@ export const DataTable = <
 }: DataTableProps<TData, TValue>) => {
   const [rowSelection, setRowSelection] = useState({})
   const [hoursToDelete, setHoursToDelete] = useState<Tables<'hours'>[]>([])
-  const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(deleteHours, initialState)
   const [open, setOpen] = useState(false)
 
@@ -75,8 +74,8 @@ export const DataTable = <
   }, [rowSelection, data])
 
   const table = useReactTable({
-    data: data ?? [],
-    columns: columns ?? [],
+    data: data || [],
+    columns: columns || [],
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onRowSelectionChange: setRowSelection,

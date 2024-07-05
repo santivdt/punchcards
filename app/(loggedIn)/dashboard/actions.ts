@@ -1,6 +1,6 @@
 'use server'
 
-import { Tables } from '@/types/supabase'
+import { TopClient } from '@/types/custom-types'
 import { requireUser } from '@/utils/auth'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 
@@ -10,7 +10,7 @@ export const getActiveCards = async () => {
 
   return supabase
     .from('cards')
-    .select(`id`)
+    .select(`*`)
     .eq('is_active', true)
     .eq('user_id', user.id)
 }
@@ -79,13 +79,6 @@ export const getOpenHours = async () => {
   return { data: totalHoursLeft }
 }
 
-export type TopClient = {
-  id: Tables<'clients'>['id']
-  name: Tables<'clients'>['name']
-  email: Tables<'clients'>['email']
-  totalPrice: number
-}
-
 export const getTopClients = async (): Promise<TopClient[]> => {
   const supabase = createSupabaseClient()
 
@@ -100,9 +93,9 @@ export const getTopClients = async (): Promise<TopClient[]> => {
   const clientTotals: { [key: string]: TopClient } = {}
 
   data.forEach((item) => {
-    const clientId = item.clients?.id ?? ''
-    const clientName = item.clients?.name ?? ''
-    const clientEmail = item.clients?.email ?? ''
+    const clientId = item.clients?.id || ''
+    const clientName = item.clients?.name || ''
+    const clientEmail = item.clients?.email || ''
     const price = item.price
 
     if (!clientTotals[clientId]) {

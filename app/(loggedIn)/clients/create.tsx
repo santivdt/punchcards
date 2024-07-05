@@ -1,8 +1,8 @@
 'use client'
 
 import { checkEmail, createClient } from '@/app/(loggedIn)/clients/actions'
-import FormError from '@/components/form-error'
-import SubmitButton from '@/components/submitbutton'
+import FormError from '@/app/(loggedIn)/components/form-error'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,6 +12,8 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ErrorType } from '@/types/custom-types'
+import { initialState } from '@/utils'
 import { useCallback, useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
@@ -21,21 +23,16 @@ type CreateClientDialogProps = {
   onFinished: () => void
 }
 
-const initialState = undefined
-
 const CreateClientDialog = ({
   children,
   onFinished,
 }: CreateClientDialogProps) => {
   const [open, setOpen] = useState(false)
+  const [emailIsDouble, setEmailIsDouble] = useState(false)
   const [state, formAction] = useFormState(createClient, initialState)
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(
-    undefined
-  )
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
   useEffect(() => {
-    setErrorMessage(
-      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
-    )
+    setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') onFinished()
   }, [onFinished, state?.message, state?.status])
 
@@ -49,9 +46,15 @@ const CreateClientDialog = ({
 
   useEffect(() => {
     if (state?.status === 'success') {
-      toast.success('Client added successfully')
+      if (state.message) {
+        toast.success(state.message)
+      }
+    } else if (state?.status === 'error') {
+      if (state.message) {
+        toast.error(state.message)
+      }
     }
-  }, [state?.status])
+  }, [state?.status, state?.message])
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -68,9 +71,12 @@ const CreateClientDialog = ({
               placeholder='John Doe'
               required
             />
-            {state?.errors?.name && (
-              <p className='py-2 text-xs text-red-500'>{state.errors.name}</p>
-            )}
+            {state?.errors?.name ||
+              (!emailIsDouble && (
+                <p className='py-2 text-xs text-red-500'>
+                  {state?.errors?.name}
+                </p>
+              ))}
           </div>
           <div>
             <Label htmlFor='email'>Email</Label>
@@ -80,13 +86,21 @@ const CreateClientDialog = ({
               type='text'
               placeholder='johndoe@example.com'
               required
-              onBlur={(e) => {
-                checkEmail(e.target.value)
+              onBlur={async (e) => {
+                const emailIsDouble = await checkEmail(e.target.value)
+                if (emailIsDouble?.status === 'error') {
+                  return setEmailIsDouble(true)
+                }
+                return setEmailIsDouble(false)
               }}
             />
-            {state?.errors?.email && (
-              <p className='py-2 text-xs text-red-500'>{state.errors.email}</p>
-            )}
+            {state?.errors?.email ||
+              (emailIsDouble && (
+                <p className='py-2 text-xs text-red-500'>
+                  {state?.errors?.email ||
+                    'A client with this email already exists'}
+                </p>
+              ))}
           </div>
           <FormError errorMessage={errorMessage} />
           <p aria-live='polite' className='sr-only'>

@@ -1,8 +1,8 @@
 'use client'
 
+import FormError from '@/app/(loggedIn)/components/form-error'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { updateHour } from '@/app/(loggedIn)/hours/actions'
-import FormError from '@/components/form-error'
-import SubmitButton from '@/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,7 +12,9 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ErrorType } from '@/types/custom-types'
 import { Tables } from '@/types/supabase'
+import { initialState } from '@/utils'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
@@ -25,8 +27,6 @@ type UpdateHourDialogProps = {
   setDialog: React.Dispatch<React.SetStateAction<'update' | 'delete' | null>>
 }
 
-const initialState = undefined
-
 const UpdateHourDialog = ({
   children,
   hour,
@@ -36,7 +36,7 @@ const UpdateHourDialog = ({
 }: UpdateHourDialogProps) => {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction] = useFormState(updateHour, initialState)
-  const [errorMessage, setErrorMessage] = useState<string | undefined>()
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
 
   useEffect(() => {
     setErrorMessage(state?.status === 'error' ? state?.message : undefined)
@@ -55,7 +55,7 @@ const UpdateHourDialog = ({
     [onFinished, setDialog]
   )
 
-  const setDate = hour.created_at.toString().slice(0, 10)
+  const setDate = hour.date.toString().slice(0, 10)
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -63,6 +63,8 @@ const UpdateHourDialog = ({
       <DialogContent>
         <form ref={formRef} action={formAction}>
           <input type='hidden' name='hourId' value={hour.id} />
+          <input type='hidden' name='cardId' value={hour.card_id} />
+          <input type='hidden' name='oldDuration' value={hour.duration} />
           <div className='mb-4 flex flex-col'>
             <Label htmlFor='date' className='my-2 mr-2'>
               Date
@@ -73,7 +75,7 @@ const UpdateHourDialog = ({
               id='date'
               name='date'
               required
-              defaultValue={setDate ?? ''}
+              defaultValue={setDate || ''}
               className='w-[240px] p-2 border border-slate-800 dark:border-white rounded-md dark:bg-black'
             />
           </div>
@@ -84,7 +86,7 @@ const UpdateHourDialog = ({
               name='description'
               type='text'
               placeholder='Built an app'
-              defaultValue={hour.description ?? ''}
+              defaultValue={hour.description || ''}
               required
             />
             {state?.errors?.description && (
@@ -100,7 +102,7 @@ const UpdateHourDialog = ({
               name='duration'
               type='number'
               placeholder='0.5'
-              defaultValue={hour.duration ?? ''}
+              defaultValue={hour.duration || ''}
               required
               step='0.5'
             />

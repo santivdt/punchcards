@@ -21,14 +21,17 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "baseUrl": "."
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "utils/use-window-size.tsz"
+    "app/(website)/pricing/pricing",
+    "__tests__/table.test.ts",
+    "__tests__/active-cards.test.tss"
   ],
   "exclude": ["node_modules"]
 }

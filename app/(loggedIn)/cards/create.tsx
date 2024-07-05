@@ -1,8 +1,8 @@
 'use client'
 
 import { createCard } from '@/app/(loggedIn)/cards/actions'
-import FormError from '@/components/form-error'
-import SubmitButton from '@/components/submitbutton'
+import FormError from '@/app/(loggedIn)/components/form-error'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -26,7 +26,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { ErrorType } from '@/types/custom-types'
 import { Tables } from '@/types/supabase'
+import { initialState } from '@/utils'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Euro } from 'lucide-react'
 import Link from 'next/link'
@@ -39,10 +41,6 @@ type CreateClientDialogProps = {
   clients: Tables<'clients'>[] | null
   onFinished: () => void
 }
-
-const initialState = undefined
-
-type ErrorType = string | undefined
 
 const CreateCardDialog = ({
   children,
@@ -69,9 +67,7 @@ const CreateCardDialog = ({
   const formattedDate = oneYearFromNow.toISOString().split('T')[0]
 
   useEffect(() => {
-    setErrorMessage(
-      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
-    )
+    setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') {
       onFinished()
       toast.success('Card added successfully')

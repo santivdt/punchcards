@@ -1,7 +1,7 @@
 'use client'
 
-import FormError from '@/components/form-error'
-import SubmitButton from '@/components/submitbutton'
+import FormError from '@/app/(loggedIn)/components/form-error'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -14,7 +14,9 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ErrorType } from '@/types/custom-types'
 import { Tables } from '@/types/supabase'
+import { initialState } from '@/utils'
 import { useCallback, useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
@@ -28,8 +30,6 @@ type UpdateClientDialogProps = {
   setDialog: React.Dispatch<React.SetStateAction<'update' | 'delete' | null>>
 }
 
-const initialState = undefined
-
 const UpdateClientDialog = ({
   open,
   children,
@@ -38,20 +38,17 @@ const UpdateClientDialog = ({
   setDialog,
 }: UpdateClientDialogProps) => {
   const [state, formAction] = useFormState(updateClient, initialState)
-  const [errorMessage, setErrorMessage] = useState<string | undefined>()
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
 
   useEffect(() => {
-    setErrorMessage(
-      state?.status === 'error' ? state?.message || 'Unknown error' : undefined
-    )
-    if (state?.status === 'success') onFinished()
-  }, [onFinished, state?.message, state?.status])
-
-  useEffect(() => {
+    setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') {
-      toast.success('Client updated successfully')
+      if (state?.message) {
+        toast.success(state.message)
+      }
+      onFinished()
     }
-  }, [state?.status])
+  }, [onFinished, state?.message, state?.status])
 
   const handleOpenChange = useCallback(
     (newOpen: boolean) => {
@@ -79,7 +76,7 @@ const UpdateClientDialog = ({
               name='name'
               type='text'
               required
-              defaultValue={client.name ?? ''}
+              defaultValue={client.name || ''}
             />
             {state?.errors?.name && (
               <p className='py-2 text-xs text-red-500'>{state.errors.name}</p>
@@ -92,7 +89,7 @@ const UpdateClientDialog = ({
               name='email'
               type='text'
               required
-              defaultValue={client.email ?? ''}
+              defaultValue={client.email || ''}
             />
             {state?.errors?.email && (
               <p className='py-2 text-xs text-red-500'>{state.errors.email}</p>

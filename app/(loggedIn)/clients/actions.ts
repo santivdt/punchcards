@@ -2,17 +2,42 @@
 
 import { Tables } from '@/types/supabase'
 import { requireUser } from '@/utils/auth'
+import { getErrorMessage } from '@/utils/server-utils'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { createSchema, deleteSchema, updateSchema } from './schema'
 
+const dummyDataClients = [
+  'cc4620b7-9aae-455b-b7f1-79bbd404d5ba',
+  'a6f0d3b0-d9d6-47c3-9dbc-d3a777842cae',
+  '8fc5cbf6-90bc-41a7-9faf-fb93467781fe',
+  '088d040d-698f-479f-87c9-86a26b18de0d',
+  '498a65d6-e01d-416e-bfbf-f09dc94db0aa',
+  '42aea556-5fab-411b-b78d-3bfbc387ee29',
+]
+
 export const getClientsFromUser = async () => {
   const supabase = createSupabaseClient()
-
-  return supabase
+  return await supabase
     .from('clients')
     .select(`name, email, created_at, user_id, id`)
     .order('created_at', { ascending: false })
+}
+
+export const getClientsFromUserNew = async () => {
+  try {
+    // TODO is this really better, and if there is an error where / how would it be displayed?
+    //TODO had to remove the try catch because then my promise all wasnt working anymore
+
+    const supabase = createSupabaseClient()
+
+    return await supabase
+      .from('clients')
+      .select(`name, email, created_at, user_id, id`)
+      .order('created_at', { ascending: false })
+  } catch (error) {
+    getErrorMessage(error)
+  }
 }
 
 export const createClient = async (prevData: any, formData: FormData) => {
@@ -29,6 +54,7 @@ export const createClient = async (prevData: any, formData: FormData) => {
   }
 
   const supabase = createSupabaseClient()
+  const user = await requireUser()
 
   const { data: currentClients } = await supabase
     .from('clients')
@@ -43,8 +69,6 @@ export const createClient = async (prevData: any, formData: FormData) => {
       message: 'Client with this e-mail already exists',
     }
   }
-
-  const user = await requireUser()
 
   const { error } = await supabase.from('clients').insert({
     user_id: user.id,
@@ -68,6 +92,9 @@ export const createClient = async (prevData: any, formData: FormData) => {
 }
 
 export const updateClient = async (prevData: any, formData: FormData) => {
+  //TODO is this the same ?
+  const user = await requireUser()
+
   const validatedFields = updateSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
@@ -81,9 +108,15 @@ export const updateClient = async (prevData: any, formData: FormData) => {
     }
   }
 
-  const supabase = createSupabaseClient()
+  if (dummyDataClients.includes(validatedFields.data.clientId)) {
+    return {
+      status: 'error',
+      message:
+        'Cannot update dummy clients. If you add your own client you can update them.',
+    }
+  }
 
-  const user = await requireUser()
+  const supabase = createSupabaseClient()
 
   const { error } = await supabase
     .from('clients')
@@ -110,6 +143,7 @@ export const updateClient = async (prevData: any, formData: FormData) => {
 }
 
 export const deleteClient = async (prevData: any, formData: FormData) => {
+  const user = await requireUser()
   const validatedFields = deleteSchema.safeParse({
     clientId: formData.get('clientId'),
   })
@@ -121,15 +155,6 @@ export const deleteClient = async (prevData: any, formData: FormData) => {
     }
   }
 
-  const dummyDataClients = [
-    'cc4620b7-9aae-455b-b7f1-79bbd404d5ba',
-    'a6f0d3b0-d9d6-47c3-9dbc-d3a777842cae',
-    '8fc5cbf6-90bc-41a7-9faf-fb93467781fe',
-    '088d040d-698f-479f-87c9-86a26b18de0d',
-    '498a65d6-e01d-416e-bfbf-f09dc94db0aa',
-    '42aea556-5fab-411b-b78d-3bfbc387ee29',
-  ]
-
   if (dummyDataClients.includes(validatedFields.data.clientId)) {
     return {
       status: 'error',
@@ -139,7 +164,6 @@ export const deleteClient = async (prevData: any, formData: FormData) => {
   }
 
   const supabase = createSupabaseClient()
-  const user = await requireUser()
 
   const { error } = await supabase
     .from('clients')
@@ -184,8 +208,8 @@ export const getClientFromId = async (id: string) => {
     .single()
 }
 
-// TODO: doesnt get to the form status
 export const checkEmail = async (email: string) => {
+  requireUser
   const supabase = createSupabaseClient()
 
   const { data: currentClients } = await supabase

@@ -10,8 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Tables } from '@/types/supabase'
-import { formatDate } from '@/utils/format-date'
-import { customFormatDuration } from '@/utils/format-duration'
+import { customFormatDuration, formatDate } from '@/utils/'
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
@@ -48,7 +47,7 @@ export const columns: ColumnDef<Tables<'hours'>>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'created_at',
+    accessorKey: 'date',
     header: 'Date',
     cell: ({ getValue }) => {
       return formatDate(getValue<string>())
@@ -71,9 +70,7 @@ export const columns: ColumnDef<Tables<'hours'>>[] = [
     cell: ({ row }) => {
       const hour = row.original as HourWithClient
       return (
-        <Link href={`/(loggedIn)/clients/${hour.client_id}`}>
-          {hour.clients.name}
-        </Link>
+        <Link href={`/clients/${hour.client_id}`}>{hour.clients.name}</Link>
       )
     },
   },

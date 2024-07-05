@@ -1,5 +1,5 @@
+import DemoButton from '@/app/(website)/components/demo-button'
 import { signIn } from '@/app/(website)/login/actions'
-import DemoButton from '@/components/demo-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'

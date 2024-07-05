@@ -1,21 +1,26 @@
 import Header from '@/components/header'
-import { requireUser } from '@/utils/auth'
 import { getActiveCardsFromUser } from '../cards/actions'
+import { getClientsFromUser } from '../clients/actions'
+import QuickAddHours from '../components/quick-add-hours'
 import { getHoursFromUser } from './actions'
 import InterMediateCreateHour from './intermediate-create-hour'
 import { DataTable } from './table'
 import { columns } from './table/columns'
 
 const HourPage = async () => {
-  requireUser()
-  const { data: hours } = await getHoursFromUser()
-  const { data: activeCards } = await getActiveCardsFromUser()
+  const [{ data: hours }, { data: activeCards }, { data: clients }] =
+    await Promise.all([
+      getHoursFromUser(),
+      getActiveCardsFromUser(),
+      getClientsFromUser(),
+    ])
 
   return (
     <>
       <Header title='Hours'>
         <InterMediateCreateHour activeCards={activeCards} />
       </Header>
+      <QuickAddHours activeCards={activeCards} />
       <DataTable columns={columns} data={hours} />
     </>
   )

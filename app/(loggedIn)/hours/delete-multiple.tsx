@@ -1,7 +1,7 @@
 'use client'
 
-import FormError from '@/components/form-error'
-import SubmitButton from '@/components/submitbutton'
+import FormError from '@/app/(loggedIn)/components/form-error'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,7 +12,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { ErrorType } from '@/types/custom-types'
 import { Tables } from '@/types/supabase'
+import { initialState } from '@/utils'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
@@ -29,10 +31,6 @@ type DeleteFormProps = {
   >
 }
 
-const initialState = undefined
-
-type ErrorType = string | undefined
-
 const DeleteHoursDialog = ({
   open,
   hours,
@@ -42,7 +40,7 @@ const DeleteHoursDialog = ({
   setRowSelection,
 }: DeleteFormProps) => {
   const [state, formAction] = useFormState(deleteHours, initialState)
-  const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
+  const [errorMessage, setErrorMessage] = useState<ErrorType>(null)
 
   useEffect(() => {
     if (state?.status === 'success') {
