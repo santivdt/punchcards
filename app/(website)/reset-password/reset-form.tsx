@@ -1,11 +1,11 @@
 'use client'
 
-import SubmitButton from '@/components/submitbutton'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { getSessionWithTokens, resetPassword } from './action'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 
 const initialiState = undefined
 

@@ -1,13 +1,12 @@
 'use client'
-
-import FormError from '@/components/form-error'
-import SubmitButton from '@/components/submitbutton'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { forgotPassword } from './action'
+import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
+import FormError from '@/app/(loggedIn)/components/form-error'
 
 const initialiState = undefined
 
