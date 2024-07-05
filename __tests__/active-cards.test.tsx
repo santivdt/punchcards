@@ -13,7 +13,7 @@ describe('active-cards', () => {
         client_id: 'hefjjkfdhs',
         ends_at: '2021-09-01T00:00:00.000Z',
         is_active: true,
-        readable_id: 14,
+        readable_id: '2024001',
         price: 10,
         last_updated: '2021-09-01T00:00:00.000Z',
       },
