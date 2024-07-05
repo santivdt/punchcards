@@ -8,7 +8,7 @@ type OnboardingProps = {
 
 const Onboarding = ({ userProfile, organisation }: OnboardingProps) => {
   return (
-    <div className='mt-12 border dark:bg-purple-300 border-purple-700 p-4 w-fit rounded bg-purple-50'>
+    <div className='mb-6 border dark:bg-purple-300 border-purple-700 p-4 w-full rounded bg-purple-50'>
       {(!userProfile?.first_name || !userProfile?.last_name) &&
         !organisation?.name && (
           <p className='dark:text-black'>

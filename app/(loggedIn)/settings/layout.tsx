@@ -11,6 +11,11 @@ const ProfilePage = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className='flex flex-col justify-center mx-auto w-full lg:w-1/2 pt-8'>
+      {!userProfile?.first_name ||
+      !userProfile?.last_name ||
+      !organisation?.name ? (
+        <Onboarding userProfile={userProfile} organisation={organisation} />
+      ) : null}
       <Card className='w-content'>
         <CardHeader>
           <CardTitle>Settings</CardTitle>
@@ -20,12 +25,6 @@ const ProfilePage = async ({ children }: { children: React.ReactNode }) => {
           <div className='mt-12'>{children}</div>
         </CardContent>
       </Card>
-
-      {!userProfile?.first_name ||
-      !userProfile?.last_name ||
-      !organisation?.name ? (
-        <Onboarding userProfile={userProfile} organisation={organisation} />
-      ) : null}
     </div>
   )
 }

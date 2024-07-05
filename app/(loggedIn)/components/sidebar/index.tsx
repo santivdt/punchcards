@@ -54,8 +54,10 @@ const Sidebar = async () => {
           !organisation?.name) && (
           <li>
             <div className='mb-2 px-2 py-1 gap-2 flex rounded-md border border-purple-500 items-center hover:text-black hover:bg-neutral-200 text-neutral-500 hover:dark:bg-neutral-900 dark:hover:text-white dark:text-neutral-400'>
-              <Circle size='14' className='text-purple-500' />
-              Finish onboarding
+              <Link href='/settings/profile' className='flex items-center'>
+                <Circle size='14' className='text-purple-500 mr-2' />
+                Finish onboarding
+              </Link>
             </div>
           </li>
         )}
