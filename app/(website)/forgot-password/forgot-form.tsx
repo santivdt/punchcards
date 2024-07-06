@@ -21,6 +21,7 @@ const ForgotPasswordForm = () => {
       formState &&
       formState.message &&
       formState.status === 'success'
+      //TODO reset form
     ) {
       toast.success(formState.message)
     }

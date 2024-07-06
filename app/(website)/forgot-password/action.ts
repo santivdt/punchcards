@@ -19,8 +19,7 @@ export const forgotPassword = async (prevData: any, formData: FormData) => {
   const { error } = await supabase.auth.resetPasswordForEmail(
     validatedFields.data.email,
     {
-      // redirectTo: `${process.env.NEXT_PUBLIC_URL}/reset-password`,
-      redirectTo: `/reset-password`,
+      redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password`,
     }
   )
 
