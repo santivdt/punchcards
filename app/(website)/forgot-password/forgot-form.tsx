@@ -26,6 +26,7 @@ const ForgotPasswordForm = ({ onFinished }: ForgotPasswordFormProps) => {
       formState.message &&
       formState.status === 'success'
     ) {
+      toast.success(formState.message)
       onFinished()
     }
   }, [onFinished, formState])

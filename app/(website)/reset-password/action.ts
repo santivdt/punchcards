@@ -2,6 +2,7 @@
 
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { resetPasswordSchema } from './schema'
+import { redirect } from 'next/navigation'
 
 export const resetPassword = async (prevData: any, formData: FormData) => {
   const validatedFields = resetPasswordSchema.safeParse({
@@ -28,10 +29,5 @@ export const resetPassword = async (prevData: any, formData: FormData) => {
     }
   }
 
-  console.log('Password reset successfully')
-
-  return {
-    status: 'success',
-    message: 'Password reset successfully',
-  }
+  redirect('/login/?message=Your password has been reset. Please log in.')
 }

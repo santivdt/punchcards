@@ -2,15 +2,21 @@
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useFormState } from 'react-dom'
 import { resetPassword } from './action'
 import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
-
-const initialiState = undefined
+import { initialState } from '@/utils'
+import { createClient } from '@/utils/supabase/client'
 
 const ResetPasswordForm = () => {
-  const [formState, formAction] = useFormState(resetPassword, initialiState)
+  const [formState, formAction] = useFormState(resetPassword, initialState)
+
+  const supabase = createClient()
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((event, session) => {})
+  })
 
   return (
     <>
@@ -23,7 +29,7 @@ const ResetPasswordForm = () => {
           required
           className='my-4'
         />
-        <SubmitButton going='Updating...' normal='Update password' />
+        <SubmitButton going='Updating' normal='Update password' />
       </form>
     </>
   )
