@@ -5,11 +5,11 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { createFeedbackSchema } from './schema'
 
-export const signupWithGoogle = async () => {
+export const SignupWithOAuth = async (provider: 'google' | 'github') => {
   const supabase = createClient()
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
+  const { data } = await supabase.auth.signInWithOAuth({
+    provider: provider,
     options: {
       redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback/googlesignup`,
     },
