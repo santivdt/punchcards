@@ -1,11 +1,9 @@
-import DemoButton from '@/app/(website)/components/demo-button'
 import { signIn } from '@/app/(website)/login/actions'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
-import { SubmitButton } from './submit-button'
-import SignupWithGoogle from '../components/signup-with-oauth'
 import SignupWithOAuthButton from '../components/signup-with-oauth'
+import { SubmitButton } from './submit-button'
 
 const Login = ({ searchParams }: { searchParams: { message: string } }) => {
   const RenderMessage = () => {
@@ -29,8 +27,8 @@ const Login = ({ searchParams }: { searchParams: { message: string } }) => {
   return (
     <div className='flex justify-center items-center flex-col '>
       <div>
-        {/* <h1 className='text-2xl font-bold'>Log in to Punchy</h1> */}
-        {/* {searchParams?.message ? (
+        <h1 className='text-2xl font-bold'>Log in to Punchy</h1>
+        {searchParams?.message ? (
           <>
             <RenderMessage />
           </>
@@ -38,7 +36,7 @@ const Login = ({ searchParams }: { searchParams: { message: string } }) => {
           <>
             <p className='mt-2'>Enter your credentials below to login </p>
           </>
-        )} */}
+        )}
         <form className='flex flex-col justify-center gap-2 w-[300px] mt-4'>
           <div className='grid gap-4'>
             <div className='grid gap-2'>
