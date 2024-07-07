@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { SubmitButton } from '../login/submit-button'
 import { signUp, signupWithGoogle } from './actions'
 import { Button } from '@/components/ui/button'
+import { Sign } from 'crypto'
+import SignupWithGoogle from '../components/signup-with-google'
 
 const Signup = ({ searchParams }: { searchParams: { message: string } }) => {
   return (
@@ -46,6 +48,7 @@ const Signup = ({ searchParams }: { searchParams: { message: string } }) => {
             >
               Sign Up
             </SubmitButton>
+            <SignupWithGoogle>Sign Up with Google </SignupWithGoogle>
           </div>
 
           <div className='mt-4 text-center'>
@@ -53,16 +56,6 @@ const Signup = ({ searchParams }: { searchParams: { message: string } }) => {
             <Link href='/login' className='underline ml-2'>
               Sign in
             </Link>
-          </div>
-        </form>
-        <form className='flex flex-col justify-center gap-2 w-[300px] mt-4'>
-          <div className='grid gap-4'>
-            <SubmitButton
-              formAction={signupWithGoogle}
-              className='px-4 py-2 mb-2 bg-black text-white border rounded-md'
-            >
-              Sign up with Google
-            </SubmitButton>
           </div>
         </form>
       </div>

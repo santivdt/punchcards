@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { SubmitButton } from './submit-button'
+import SignupWithGoogle from '../components/signup-with-google'
 
 const Login = ({ searchParams }: { searchParams: { message: string } }) => {
   const RenderMessage = () => {
@@ -27,8 +28,8 @@ const Login = ({ searchParams }: { searchParams: { message: string } }) => {
   return (
     <div className='flex justify-center items-center flex-col '>
       <div>
-        <h1 className='text-2xl font-bold'>Log in to Punchy</h1>
-        {searchParams?.message ? (
+        {/* <h1 className='text-2xl font-bold'>Log in to Punchy</h1> */}
+        {/* {searchParams?.message ? (
           <>
             <RenderMessage />
           </>
@@ -36,7 +37,7 @@ const Login = ({ searchParams }: { searchParams: { message: string } }) => {
           <>
             <p className='mt-2'>Enter your credentials below to login </p>
           </>
-        )}
+        )} */}
         <form className='flex flex-col justify-center gap-2 w-[300px] mt-4'>
           <div className='grid gap-4'>
             <div className='grid gap-2'>
@@ -63,22 +64,21 @@ const Login = ({ searchParams }: { searchParams: { message: string } }) => {
             </div>
             <SubmitButton
               formAction={signIn}
-              className='px-4 py-2 mb-2 bg-black text-white border rounded-md '
+              className='px-4 py-2 mb-2 bg-black text-white border rounded-md'
               pendingText='Signing In...'
             >
               Sign In
             </SubmitButton>
-
-            <DemoButton />
-          </div>
-
-          <div className='mt-4 text-center'>
-            Don&apos;t have an account?
-            <Link href='/signup' className='underline ml-2'>
-              Sign up
-            </Link>
+            <p className='text-center'>or</p>
           </div>
         </form>
+        <SignupWithGoogle>Sign in with Google </SignupWithGoogle>
+        <div className='mt-4 text-center'>
+          Don&apos;t have an account?
+          <Link href='/signup' className='underline ml-2'>
+            Sign up
+          </Link>
+        </div>
       </div>
     </div>
   )
