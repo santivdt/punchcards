@@ -4,6 +4,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 //TODO find better solution ot handle unprotected pages, https://github.com/vercel/next.js/discussions/44635
 export async function middleware(request: NextRequest) {
   const { supabase, response } = createClient(request)
+  if (request.url.includes('auth')) return response
   const {
     data: { user },
   } = await supabase.auth.getUser()

@@ -1,8 +1,8 @@
 import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
 import { NextResponse } from 'next/server'
 
 export async function GET(request: Request) {
-  console.log('hoi')
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
 
@@ -11,5 +11,5 @@ export async function GET(request: Request) {
     await supabase.auth.exchangeCodeForSession(code)
   }
 
-  return NextResponse.redirect(requestUrl.origin)
+  return redirect('/dashboard')
 }
