@@ -1,6 +1,7 @@
 'use server'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { forgotSchema } from './schema'
+import { redirect } from 'next/navigation'
 
 export const forgotPassword = async (prevData: any, formData: FormData) => {
   const validatedFields = forgotSchema.safeParse({

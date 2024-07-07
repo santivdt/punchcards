@@ -4,29 +4,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
-import { getSessionWithTokens, resetPassword } from './action'
+import { resetPassword } from './action'
 import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
 
 const initialiState = undefined
 
 const ResetPasswordForm = () => {
   const [formState, formAction] = useFormState(resetPassword, initialiState)
-  const [accessToken, setAccessToken] = useState('')
-  const [refreshToken, setRefreshToken] = useState('')
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const hashParams = new URLSearchParams(window.location.hash.substring(1))
-      setAccessToken(hashParams.get('access_token') || '')
-      setRefreshToken(hashParams.get('refresh_token') || '')
-    }
-  }, [])
-
-  useEffect(() => {
-    if (accessToken && refreshToken) {
-      getSessionWithTokens(accessToken, refreshToken)
-    }
-  }, [accessToken, refreshToken])
 
   return (
     <>
@@ -39,7 +23,7 @@ const ResetPasswordForm = () => {
           required
           className='my-4'
         />
-        <SubmitButton going='Updating' normal='Update password' />
+        <SubmitButton going='Updating...' normal='Update password' />
       </form>
     </>
   )

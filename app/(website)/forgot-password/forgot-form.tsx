@@ -10,7 +10,11 @@ import FormError from '@/app/(loggedIn)/components/form-error'
 
 const initialiState = undefined
 
-const ForgotPasswordForm = () => {
+type ForgotPasswordFormProps = {
+  onFinished: () => void
+}
+
+const ForgotPasswordForm = ({ onFinished }: ForgotPasswordFormProps) => {
   const [formState, formAction] = useFormState(forgotPassword, initialiState)
   const [errorMessage, setErrorMessage] = useState<string | undefined>('')
 
@@ -21,17 +25,22 @@ const ForgotPasswordForm = () => {
       formState &&
       formState.message &&
       formState.status === 'success'
-      //TODO reset form
     ) {
-      toast.success(formState.message)
+      onFinished()
     }
-  }, [formState])
+  }, [onFinished, formState])
 
   return (
     <>
       <form action={formAction} className='w-[300px]'>
         <Label htmlFor='password'>E-mail</Label>
-        <Input type='text' id='email' name='email' required className='mb-4' />
+        <Input
+          type='text'
+          id='email'
+          name='email'
+          required
+          className='mb-4 mt-2'
+        />
         <SubmitButton going='Requesting...' normal='Request link' />
         <FormError errorMessage={errorMessage} />
       </form>

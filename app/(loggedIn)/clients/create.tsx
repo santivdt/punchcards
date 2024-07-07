@@ -31,6 +31,7 @@ const CreateClientDialog = ({
   const [emailIsDouble, setEmailIsDouble] = useState(false)
   const [state, formAction] = useFormState(createClient, initialState)
   const [errorMessage, setErrorMessage] = useState<ErrorType>(undefined)
+
   useEffect(() => {
     setErrorMessage(state?.status === 'error' ? state?.message : undefined)
     if (state?.status === 'success') onFinished()
