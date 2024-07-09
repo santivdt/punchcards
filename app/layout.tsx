@@ -2,15 +2,16 @@ import ToastProvider from '@/components/toast-provider'
 import { GeistSans } from 'geist/font/sans'
 import { ThemeProvider } from 'next-themes'
 import { Next13NProgress } from 'nextjs13-progress'
+import { Metadata } from 'next'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : 'http://localhost:3000'
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: 'Punchcards - Santi van den Toorn',
-  description: 'Portfolio project of Santi van den Toorn',
+  description: 'Punch it - Track your time with Punchcards',
 }
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
