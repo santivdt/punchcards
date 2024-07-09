@@ -1,9 +1,7 @@
-import { Coffee } from 'lucide-react'
-
 const Footer = () => {
   return (
-    <footer className='mt-auto w-full py-4 text-center flex items-center justify-center'>
-      Made with <Coffee className='mx-1' size={16} /> in Amsterdam by{' '}
+    <footer className='mt-auto w-full py-4 text-center flex items-center justify-center text-slate-500'>
+      Made in Amsterdam by{' '}
       <a
         href='https://santi.tech/?utm_source=client_footer&utm_campaign=punchy'
         target='_blank'
