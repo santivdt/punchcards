@@ -33,7 +33,7 @@ const Login = ({ searchParams }: { searchParams: { message: string } }) => {
   return (
     <div className='flex justify-center items-center flex-col '>
       <div>
-        <h1 className='text-2xl font-bold'>Log in to Punchy</h1>
+        <h1 className='text-2xl font-bold'>Log in to Punch it!</h1>
         {searchParams?.message ? (
           <>
             <RenderMessage />

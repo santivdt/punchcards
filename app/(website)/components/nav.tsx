@@ -34,7 +34,7 @@ const Nav = () => {
     >
       <nav className='w-full flex justify-between items-center py-4 max-w-7xl mx-auto px-4'>
         <div className='font-bold text-3xl relative'>
-          <Link href='/'>Punchy</Link>
+          <Link href='/'>Punch it!</Link>
           <Badge className='ml-2 text-sm absolute top-0 bg-purple-900 hover:bg-purple-900 hover:cursor-default'>
             Beta
           </Badge>

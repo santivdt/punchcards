@@ -9,7 +9,7 @@ const Signup = ({ searchParams }: { searchParams: { message: string } }) => {
   return (
     <div className='flex justify-center flex-col items-center'>
       <div>
-        <h1 className='text-2xl font-bold'>Sign up to Punchy</h1>
+        <h1 className='text-2xl font-bold'>Sign up to Punch it!</h1>
         {searchParams?.message && (
           <p className='text-center bg-red-200 p-2 mt-4 text-red-700 mb-8 w-[300px]'>
             {searchParams.message}
