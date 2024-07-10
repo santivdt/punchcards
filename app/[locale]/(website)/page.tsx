@@ -1,6 +1,6 @@
 import TranslationsProvider from '@/components/TranslationsProvider'
 import Hero from './components/hero'
-import initTranslations from '@/utils/i18n'
+import initTranslations from '@/i18n'
 
 const i18nNamespaces = ['home', 'website']
 

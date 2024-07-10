@@ -1,7 +1,7 @@
 'use client'
 //TODO make typescript
 import { I18nextProvider } from 'react-i18next'
-import initTranslations from '@/utils/i18n'
+import initTranslations from '@/i18n'
 import { createInstance } from 'i18next'
 
 export default function TranslationsProvider({

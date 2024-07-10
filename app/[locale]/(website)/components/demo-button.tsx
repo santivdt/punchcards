@@ -20,7 +20,7 @@ const DemoButton = () => {
         }
       }}
     >
-      {t('view-demo-button')}
+      {t('home:view-demo-button')}
     </Button>
   )
 }

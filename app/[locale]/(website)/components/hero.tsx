@@ -27,7 +27,13 @@ const Hero = () => {
           </div>
         </div>
         <motion.div className='w-auto flex justify-center items-center'>
-          <Image src='/demo.png' width='800' height='800' alt='Punchcard' />
+          <Image
+            src='/demo.png'
+            width='800'
+            height='800'
+            alt='Punchcard'
+            priority
+          />
         </motion.div>
       </motion.section>
     </>

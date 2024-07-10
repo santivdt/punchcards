@@ -10,6 +10,7 @@ import {
 import { motion } from 'framer-motion'
 import { BadgeEuro, Info, LogIn, Mail, Menu, UserPlus } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
+import LanguageChanger from '@/components/language-changer'
 
 const menuItems = [
   { title: 'About', href: '/about' },
@@ -57,6 +58,7 @@ const Nav = () => {
           <Button asChild>
             <Link href='/signup'>Sign Up</Link>
           </Button>
+          <LanguageChanger />
         </div>
         <div className='lg:hidden'>
           <div className='lg:hidden ml-2]'>

@@ -4,8 +4,20 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { SubmitButton } from './submit-button'
+import initTranslations from '@/i18n'
+import TranslationsProvider from '@/components/TranslationsProvider'
 
-const Login = ({ searchParams }: { searchParams: { message: string } }) => {
+const i18nNamespaces = ['login', 'home']
+
+const Login = async ({
+  searchParams,
+  params,
+}: {
+  searchParams: { message: string }
+  params: { locale: string }
+}) => {
+  const { t, resources } = await initTranslations(params.locale, i18nNamespaces)
+
   const RenderMessage = () => {
     switch (searchParams?.message) {
       case 'Could not authenticate user':
@@ -25,62 +37,68 @@ const Login = ({ searchParams }: { searchParams: { message: string } }) => {
     }
   }
   return (
-    <div className='flex justify-center items-center flex-col '>
-      <div>
-        <h1 className='text-2xl font-bold'>Log in to Punchy</h1>
-        {searchParams?.message ? (
-          <>
-            <RenderMessage />
-          </>
-        ) : (
-          <>
-            <p className='mt-2'>Enter your credentials below to login </p>
-          </>
-        )}
-        <form className='flex flex-col justify-center gap-2 w-[300px] mt-4'>
-          <div className='grid gap-4'>
-            <div className='grid gap-2'>
-              <Label className='text-md' htmlFor='email'>
-                Email
-              </Label>
-              <Input
-                className='px-4 py-2 mb-6 border rounded-md bg-inherit'
-                name='email'
-                placeholder='you@example.com'
-                required
-              />
-            </div>
-            <div className='grid gap-2'>
-              <Label className='text-md' htmlFor='password'>
-                Password
-              </Label>
-              <Input
-                className='px-4 py-2 mb-6 border rounded-md bg-inherit'
-                type='password'
-                name='password'
-                required
-              />
-            </div>
-            <SubmitButton
-              formAction={signIn}
-              className='px-4 py-2 mb-2 bg-black text-white border rounded-md '
-              pendingText='Signing In...'
-            >
-              Sign In
-            </SubmitButton>
+    <TranslationsProvider
+      namespaces={i18nNamespaces}
+      locale={params.locale}
+      resources={resources}
+    >
+      <div className='flex justify-center items-center flex-col '>
+        <div>
+          <h1 className='text-2xl font-bold'>{t('header')}</h1>
+          {searchParams?.message ? (
+            <>
+              <RenderMessage />
+            </>
+          ) : (
+            <>
+              <p className='mt-2'>{t('explanation')} </p>
+            </>
+          )}
+          <form className='flex flex-col justify-center gap-2 w-[300px] mt-4'>
+            <div className='grid gap-4'>
+              <div className='grid gap-2'>
+                <Label className='text-md' htmlFor='email'>
+                  {t('email')}
+                </Label>
+                <Input
+                  className='px-4 py-2 mb-6 border rounded-md bg-inherit'
+                  name='email'
+                  placeholder='you@example.com'
+                  required
+                />
+              </div>
+              <div className='grid gap-2'>
+                <Label className='text-md' htmlFor='password'>
+                  {t('password')}
+                </Label>
+                <Input
+                  className='px-4 py-2 mb-6 border rounded-md bg-inherit'
+                  type='password'
+                  name='password'
+                  required
+                />
+              </div>
+              <SubmitButton
+                formAction={signIn}
+                className='px-4 py-2 mb-2 bg-black text-white border rounded-md '
+                pendingText='Signing In...'
+              >
+                {t('signin')}
+              </SubmitButton>
 
-            <DemoButton />
-          </div>
+              <DemoButton />
+            </div>
 
-          <div className='mt-4 text-center'>
-            Don&apos;t have an account?
-            <Link href='/signup' className='underline ml-2'>
-              Sign up
-            </Link>
-          </div>
-        </form>
+            <div className='mt-4 text-center'>
+              {t('no-account')}
+              <Link href='/signup' className='underline ml-2'>
+                {t('signup')}
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </TranslationsProvider>
   )
 }
 
