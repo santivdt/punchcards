@@ -31,7 +31,9 @@
     ".next/types/**/*.ts",
     "app/(website)/pricing/pricing",
     "__tests__/table.test.ts",
-    "__tests__/active-cards.test.tss"
+    "__tests__/active-cards.test.tss",
+    "utils/i18n.js",
+    "components/TranslationsProvider.js"
   ],
   "exclude": ["node_modules"]
 }

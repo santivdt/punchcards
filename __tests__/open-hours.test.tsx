@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react'
-import OpenHours from '../app/(loggedIn)/dashboard/open-hours'
+import OpenHours from '../app/[locale]/(loggedIn)/dashboard/open-hours'
 
 describe('open-hours', () => {
   it('shows open hours when there are open hours', async () => {

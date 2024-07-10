@@ -1,8 +1,15 @@
 import { createClient } from '@/utils/supabase/middleware'
 import { NextResponse, type NextRequest } from 'next/server'
+import { i18nRouter } from 'next-i18n-router'
+import i18nConfig from './i18nConfig'
 
-//TODO find better solution ot handle unprotected pages, https://github.com/vercel/next.js/discussions/44635
+//TODO find better solution to handle unprotected pages, https://github.com/vercel/next.js/discussions/44635
 export async function middleware(request: NextRequest) {
+  const i18nResponse = i18nRouter(request, i18nConfig)
+  if (i18nResponse) {
+    return i18nResponse
+  }
+
   const { supabase, response } = createClient(request)
   if (request.url.includes('auth')) return response
   const {
@@ -22,6 +29,7 @@ export async function middleware(request: NextRequest) {
   ) {
     return NextResponse.redirect(new URL('/', request.url))
   }
+
   return response
 }
 
