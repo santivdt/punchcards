@@ -8,7 +8,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Nav />
-      <main className='flex flex-col h-[calc(100vh-100px)] max-w-7xl mx-auto px-4 justify-center'>
+      <main className='flex flex-col flex-1 max-w-7xl mx-auto px-4 justify-center'>
         {children}
         <SpeedInsights />
         <Analytics />

@@ -8,7 +8,7 @@ import FeedbackButton from './components/feedback-button'
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className='flex justify-center'>
+    <main className='flex justify-center flex-1'>
       <div className='flex w-full'>
         <Sidebar />
         <div className='flex flex-col w-full'>
