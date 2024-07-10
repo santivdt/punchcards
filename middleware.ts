@@ -3,28 +3,27 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { i18nRouter } from 'next-i18n-router'
 import i18nConfig from './i18nConfig'
 
-//TODO find better solution to handle unprotected pages, https://github.com/vercel/next.js/discussions/44635
+const publicRoutes = [
+  '/',
+  '/about',
+  '/pricing',
+  '/contact',
+  '/login',
+  '/signup',
+  '/forgot-password',
+  '/reset-password',
+]
+
 export async function middleware(request: NextRequest) {
   const { supabase } = createClient(request)
 
-  if (request.url.includes('auth')) {
+  if (request.nextUrl.pathname.startsWith('/auth')) {
     return i18nRouter(request, i18nConfig)
   }
 
   const {
     data: { user },
   } = await supabase.auth.getUser()
-
-  const publicRoutes = [
-    '/',
-    '/about',
-    '/pricing',
-    '/contact',
-    '/login',
-    '/signup',
-    '/forgot-password',
-    '/reset-password',
-  ]
 
   const isPublicRoute = publicRoutes.some(
     (route) =>
