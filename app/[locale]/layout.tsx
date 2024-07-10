@@ -10,8 +10,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Punchcards - Santi van den Toorn',
-  description: 'Punch it - Track your time with Punchcards',
+  title: 'Punch it!',
+  description: 'Track your time with Punchcards',
 }
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {

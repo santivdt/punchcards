@@ -1,11 +1,10 @@
 'use client'
 
 import DemoButton from '@/app/[locale]/(website)/components/demo-button'
-import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { Link } from 'nextjs13-progress'
 import { useTranslation } from 'react-i18next'
+import SignUpButton from './sign-up-button'
 
 const Hero = () => {
   const { t } = useTranslation()
@@ -23,9 +22,7 @@ const Hero = () => {
           </h1>
           <p className='mt-8 text-xl'>{t('intro')}</p>
           <div className='flex flex-col md:flex-row mt-6'>
-            <Button size='xxl' asChild className='rounded-full mr-4 text-lg'>
-              <Link href='/signup'>{t('get-started-button')}</Link>
-            </Button>
+            <SignUpButton />
             <DemoButton />
           </div>
         </div>

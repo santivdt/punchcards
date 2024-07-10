@@ -2,8 +2,10 @@
 
 import { demoSignIn } from '@/app/[locale]/(website)/login/actions'
 import { Button } from '@/components/ui/button'
+import { useTranslation } from 'react-i18next'
 
 const DemoButton = () => {
+  const { t } = useTranslation()
   return (
     <Button
       size='xxl'
@@ -18,7 +20,7 @@ const DemoButton = () => {
         }
       }}
     >
-      View demo{' '}
+      {t('view-demo-button')}
     </Button>
   )
 }

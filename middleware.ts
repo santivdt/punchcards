@@ -5,32 +5,38 @@ import i18nConfig from './i18nConfig'
 
 //TODO find better solution to handle unprotected pages, https://github.com/vercel/next.js/discussions/44635
 export async function middleware(request: NextRequest) {
-  const i18nResponse = i18nRouter(request, i18nConfig)
-  if (i18nResponse) {
-    return i18nResponse
+  const { supabase } = createClient(request)
+
+  if (request.url.includes('auth')) {
+    return i18nRouter(request, i18nConfig)
   }
 
-  const { supabase, response } = createClient(request)
-  if (request.url.includes('auth')) return response
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/signup') &&
-    request.nextUrl.pathname !== '/' &&
-    request.nextUrl.pathname !== '/about' &&
-    request.nextUrl.pathname !== '/pricing' &&
-    request.nextUrl.pathname !== '/contact' &&
-    !request.nextUrl.pathname.startsWith('/forgot-password') &&
-    !request.nextUrl.pathname.startsWith('/reset-password')
-  ) {
+  const publicRoutes = [
+    '/',
+    '/about',
+    '/pricing',
+    '/contact',
+    '/login',
+    '/signup',
+    '/forgot-password',
+    '/reset-password',
+  ]
+
+  const isPublicRoute = publicRoutes.some(
+    (route) =>
+      request.nextUrl.pathname === route ||
+      request.nextUrl.pathname.startsWith(route)
+  )
+
+  if (!user && !isPublicRoute) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  return response
+  return i18nRouter(request, i18nConfig)
 }
 
 export const config = {

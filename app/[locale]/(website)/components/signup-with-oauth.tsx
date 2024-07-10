@@ -1,5 +1,5 @@
 'use client'
-import { SignupWithOAuth } from '@/app/(website)/signup/actions'
+import { SignupWithOAuth } from '@/app/[locale]/(website)/signup/actions'
 
 const SignupWithOAuthButton = ({
   children,

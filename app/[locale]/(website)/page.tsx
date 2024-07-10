@@ -3,7 +3,12 @@ import Hero from './components/hero'
 import initTranslations from '@/utils/i18n'
 
 const i18nNamespaces = ['home', 'website']
-const IndexPage = async ({ locale }: { locale: string }) => {
+
+export default async function IndexPage({
+  params: { locale },
+}: {
+  params: { locale: string }
+}) {
   const { t, resources } = await initTranslations(locale, i18nNamespaces)
   return (
     <TranslationsProvider
@@ -17,5 +22,3 @@ const IndexPage = async ({ locale }: { locale: string }) => {
     </TranslationsProvider>
   )
 }
-
-export default IndexPage

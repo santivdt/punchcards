@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label'
 import { useEffect } from 'react'
 import { useFormState } from 'react-dom'
 import { resetPassword } from './action'
-import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
+import SubmitButton from '@/app/[locale]/(loggedIn)/components/submitbutton'
 import { initialState } from '@/utils'
 import { createClient } from '@/utils/supabase/client'
 

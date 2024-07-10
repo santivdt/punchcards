@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { forgotPassword } from './action'
-import SubmitButton from '@/app/(loggedIn)/components/submitbutton'
-import FormError from '@/app/(loggedIn)/components/form-error'
+import SubmitButton from '@/app/[locale]/(loggedIn)/components/submitbutton'
+import FormError from '@/app/[locale]/(loggedIn)/components/form-error'
 
 const initialiState = undefined
 
