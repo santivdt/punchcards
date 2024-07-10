@@ -1,4 +1,4 @@
-import { signOut } from '@/app/(website)/login/actions'
+import { signOut } from '@/app/[locale]/(website)/login/actions'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Link } from 'nextjs13-progress'
 
-const DropDownMenu = () => {
+const DropDownMenuSidebar = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -58,4 +58,4 @@ const DropDownMenu = () => {
   )
 }
 
-export default DropDownMenu
+export default DropDownMenuSidebar
