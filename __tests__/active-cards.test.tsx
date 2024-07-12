@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react'
-import ActiveCards from '../app/[locale]/(loggedIn)/dashboard/active-cards'
+import ActiveCards from '../app/(loggedIn)/dashboard/active-cards'
 
 describe('active-cards', () => {
   it('shows active cards when there are active cards', async () => {

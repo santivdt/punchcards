@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import React from 'react'
-import { DataTable } from '../app/[locale]/(loggedIn)/hours/table'
-import { columns } from '../app/[locale]/(loggedIn)/hours/table/columns'
+import { DataTable } from '../app/(loggedIn)/hours/table'
+import { columns } from '../app/(loggedIn)/hours/table/columns'
 jest.mock('react-dom', () => ({
   ...jest.requireActual('react-dom'),
   useFormState: () => [{ state: { status: 'success' } }, jest.fn()],

@@ -34,7 +34,7 @@
     "__tests__/active-cards.test.tss",
     "i18n.js",
     "components/TranslationsProvider.js",
-    "app/[locale]/(website)/terms"
+    "app/(website)/terms"
   ],
   "exclude": ["node_modules"]
 }

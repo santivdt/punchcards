@@ -1,7 +1,5 @@
 import { createClient } from '@/utils/supabase/middleware'
 import { NextResponse, type NextRequest } from 'next/server'
-import { i18nRouter } from 'next-i18n-router'
-import i18nConfig from './i18nConfig'
 
 const publicRoutes = [
   '/',
@@ -18,7 +16,7 @@ export async function middleware(request: NextRequest) {
   const { supabase } = createClient(request)
 
   if (request.nextUrl.pathname.startsWith('/auth')) {
-    return i18nRouter(request, i18nConfig)
+    return NextResponse.next()
   }
 
   const {
@@ -35,7 +33,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  return i18nRouter(request, i18nConfig)
+  return NextResponse.next()
 }
 
 export const config = {

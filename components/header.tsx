@@ -1,4 +1,4 @@
-import Breadcrumbs from '@/app/[locale]/(loggedIn)/components/breadcrumb'
+import Breadcrumbs from '@/app/(loggedIn)/components/breadcrumb'
 
 type HeaderProps = {
   title: string
