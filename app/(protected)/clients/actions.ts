@@ -92,7 +92,6 @@ export const createClient = async (prevData: any, formData: FormData) => {
 }
 
 export const updateClient = async (prevData: any, formData: FormData) => {
-  //TODO is this the same ?
   const user = await requireUser()
 
   const validatedFields = updateSchema.safeParse({

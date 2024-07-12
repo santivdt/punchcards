@@ -10,6 +10,7 @@ import {
   updateOrganisationSchema,
   updateProfileSchema,
 } from './schema'
+import { Resend } from 'resend'
 
 export const getProfile = async () => {
   const supabase = createSupabaseClient()
@@ -101,6 +102,28 @@ export const updateProfile = async (prevData: any, formData: FormData) => {
     }
   }
 
+  //update resend profile
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('*')
+    .single()
+
+  if (profileError) {
+    return {
+      status: 'error',
+      message: 'An error occurred while fetching profile',
+    }
+  }
+
+  const { error } = await resend.contacts.update({
+    id: profile.resend_id!,
+    audienceId: process.env.RESEND_AUDIENCE_ID!,
+    lastName: validatedFields.data.last_name,
+    firstName: validatedFields.data.first_name,
+  })
+
   revalidatePath('/profile')
   revalidatePath('/')
 
@@ -115,8 +138,16 @@ export const deleteUser = async (prevData: any, formData: FormData) => {
     id: formData.get('id'),
   })
 
+  const { data: profile, error: profileError } = await getProfile()
+
+  if (profileError) {
+    return {
+      status: 'error',
+      message: 'An error occurred while fetching profile',
+    }
+  }
+
   if (!validatedFields.success) {
-    console.log(validatedFields)
     return {
       status: 'error',
       errors: validatedFields.error.flatten().fieldErrors,
@@ -150,6 +181,15 @@ export const deleteUser = async (prevData: any, formData: FormData) => {
       status: 'error',
       message: 'An error occurred while deleting the user',
     }
+  }
+
+  if (profile.resend_id) {
+    const resend = new Resend(process.env.RESEND_API_KEY)
+
+    resend.contacts.remove({
+      id: profile.resend_id,
+      audienceId: process.env.RESEND_AUDIENCE_ID!,
+    })
   }
 
   return redirect('/')

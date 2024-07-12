@@ -233,24 +233,30 @@ export type Database = {
           avatar: string | null
           created_at: string
           first_name: string | null
+          first_time_login: boolean
           id: string
           last_name: string | null
+          resend_id: string | null
         }
         Insert: {
           amount_of_cards?: number
           avatar?: string | null
           created_at?: string
           first_name?: string | null
+          first_time_login?: boolean
           id: string
           last_name?: string | null
+          resend_id?: string | null
         }
         Update: {
           amount_of_cards?: number
           avatar?: string | null
           created_at?: string
           first_name?: string | null
+          first_time_login?: boolean
           id?: string
           last_name?: string | null
+          resend_id?: string | null
         }
         Relationships: [
           {
@@ -267,11 +273,30 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      authorize: {
+        Args: {
+          requested_permission: Database["public"]["Enums"]["app_permission"]
+        }
+        Returns: boolean
+      }
+      custom_access_token_hook: {
+        Args: {
+          event: Json
+        }
+        Returns: Json
+      }
       delete_user_data: {
         Args: {
           user_uuid: string
         }
         Returns: undefined
+      }
+      get_claim: {
+        Args: {
+          uid: string
+          claim: string
+        }
+        Returns: Json
       }
       update_card_validity: {
         Args: Record<PropertyKey, never>
@@ -283,7 +308,9 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      app_permission: "users.all" | "feedback"
+      app_role: "admin" | "user"
+      user_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never

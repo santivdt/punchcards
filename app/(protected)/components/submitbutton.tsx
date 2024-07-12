@@ -4,18 +4,13 @@ import { Button } from '@/components/ui/button'
 type SubmitButtonProps = {
   normal: string
   going: string
-  disabled?: boolean
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({
-  normal,
-  going,
-  disabled = false,
-}) => {
+const SubmitButton: React.FC<SubmitButtonProps> = ({ normal, going }) => {
   const { pending } = useFormStatus()
 
   return (
-    <Button type='submit' disabled={(disabled && !pending) || pending}>
+    <Button type='submit' disabled={pending}>
       {pending ? going : normal}
     </Button>
   )

@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { Resend } from 'resend'
 
 export const signIn = async (formData: FormData) => {
   const email = formData.get('email') as string
@@ -16,6 +17,40 @@ export const signIn = async (formData: FormData) => {
   if (error) {
     return redirect('/login?message=Could not authenticate user')
   }
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('*')
+    .single()
+
+  if (profileError) {
+    //TODO add this to switch on login page
+    return redirect('/login?message=Could not fetch profile')
+  }
+
+  if (profile.first_time_login) {
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    const { data, error } = await resend.contacts.create({
+      email: email,
+      unsubscribed: false,
+      audienceId: process.env.RESEND_AUDIENCE_ID!,
+    })
+
+    if (error) {
+      return { error: 'Could not add user to Resend' }
+    }
+
+    if (data) {
+      const resendId = data.id
+      const { error: profileUpdateError } = await supabase
+        .from('profiles')
+        .update({ resend_id: resendId })
+    }
+  }
+
+  const { error: updateLoginError } = await supabase
+    .from('profiles')
+    .update({ first_time_login: false })
 
   if (data?.user?.id && data?.user?.email) {
     const { error: errorLog } = await supabase.from('logs').insert({

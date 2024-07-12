@@ -56,7 +56,8 @@ const ContactForm = () => {
         onChange={handleCaptchaSubmission}
         className='mb-4'
       />
-      <SubmitButton going='Sending..' normal='Send' disabled={!isVerified} />
+      TODO this button should be disabled if captcha is not verified
+      <SubmitButton going='Sending..' normal='Send' />
     </form>
   )
 }
