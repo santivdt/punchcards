@@ -33,7 +33,8 @@
     "__tests__/table.test.ts",
     "__tests__/active-cards.test.tss",
     "i18n.js",
-    "components/TranslationsProvider.js"
+    "components/TranslationsProvider.js",
+    "app/[locale]/(website)/terms"
   ],
   "exclude": ["node_modules"]
 }
