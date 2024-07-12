@@ -1,4 +1,4 @@
-import Hero from '@/app/(website)/components/hero'
+import Hero from '@/app/(public)/components/hero'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 jest.setTimeout(10000)

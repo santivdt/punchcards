@@ -29,12 +29,12 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/(website)/pricing/pricing",
+    "app/(public)/pricing/pricing",
     "__tests__/table.test.ts",
     "__tests__/active-cards.test.tss",
     "i18n.js",
     "components/TranslationsProvider.js",
-    "app/(website)/terms"
+    "app/(public)/terms"
   ],
   "exclude": ["node_modules"]
 }
