@@ -46,6 +46,12 @@ const Signup = ({ searchParams }: { searchParams: { message: string } }) => {
             >
               Sign Up
             </SubmitButton>
+            <p className='text-xs'>
+              By signing up you agree to our{' '}
+              <Link href='/terms' className='underline underline-offset-2'>
+                terms and conditions.
+              </Link>
+            </p>
             <p className='text-center'>or</p>
             <SignupWithOAuthButton provider='google'>
               Sign Up with Google
