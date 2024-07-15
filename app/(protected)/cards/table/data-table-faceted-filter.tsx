@@ -18,7 +18,7 @@ import { Separator } from '@/components/ui/separator'
 import { cn } from '@/utils'
 import { CheckIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { Column } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>
@@ -32,10 +32,13 @@ export function DataTableFacetedFilter<TData, TValue>({
   options,
 }: DataTableFacetedFilterProps<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues()
-  const initialFilterValue = column?.getFilterValue() as boolean[]
-  const [selectedValues, setSelectedValues] = useState(
-    new Set(initialFilterValue)
-  )
+  const [selectedValues, setSelectedValues] = useState<Set<boolean>>(new Set())
+  const columnFilterValue = column?.getFilterValue()
+
+  useEffect(() => {
+    const filterValue = column?.getFilterValue() as boolean[] | undefined
+    setSelectedValues(new Set(filterValue))
+  }, [column, columnFilterValue])
 
   const handleSelect = (value: boolean) => {
     const newSelectedValues = new Set(selectedValues)
@@ -47,6 +50,11 @@ export function DataTableFacetedFilter<TData, TValue>({
     setSelectedValues(newSelectedValues)
     const filterValues = Array.from(newSelectedValues)
     column?.setFilterValue(filterValues.length ? filterValues : undefined)
+  }
+
+  const handleClearFilters = () => {
+    setSelectedValues(new Set())
+    column?.setFilterValue(undefined)
   }
 
   return (
