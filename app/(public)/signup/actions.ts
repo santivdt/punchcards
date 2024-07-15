@@ -16,19 +16,34 @@ export const SignupWithOAuth = async (provider: 'google' | 'github') => {
   return redirect(data.url!)
 }
 
-export const signUp = async (formData: FormData) => {
+export const signUp = async (prevData: any, formData: FormData) => {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
 
   const supabase = createClient()
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
     },
   })
+
+  console.log(data, error)
+
+  if (
+    data &&
+    data.user &&
+    data.user.identities &&
+    data.user.identities.length === 0
+  ) {
+    return {
+      status: 'error',
+      message:
+        'This email address is already associated with an existing account.',
+    }
+  }
 
   if (error) {
     return redirect('/signup?message=Could not complete sign-up of user')
