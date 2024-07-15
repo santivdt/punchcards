@@ -9,7 +9,7 @@ export const SignupWithOAuth = async (provider: 'google' | 'github') => {
   const { data } = await supabase.auth.signInWithOAuth({
     provider: provider,
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback/googlesignup`,
+      redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/callback/googlesignup`,
     },
   })
 
