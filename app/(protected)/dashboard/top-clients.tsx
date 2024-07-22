@@ -14,6 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { TopClient } from '@/types/custom-types'
+import { Link } from 'nextjs13-progress'
 
 type TopClientProps = {
   topClients: TopClient[]
@@ -41,8 +42,10 @@ const TopClients = ({ topClients }: TopClientProps) => {
               {topClients.map((topClient) => (
                 <TableRow key={topClient.id}>
                   <TableCell>
-                    <div className='font-medium'>{topClient.name}</div>
-                    <div className='hidden md:inline'>{topClient.email}</div>
+                    <Link href={`/clients/${topClient.id}`}>
+                      <div className='font-medium'>{topClient.name}</div>
+                      <div className='hidden md:inline'>{topClient.email}</div>
+                    </Link>
                   </TableCell>
                   <TableCell className='text-right'>
                     €{topClient.totalPrice}
