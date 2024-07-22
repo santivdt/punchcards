@@ -171,7 +171,7 @@ const CreateCardDialog = ({
                 </div>
                 {customEndDate ? (
                   <>
-                    <Label htmlFor='ends_at' className='my-2 mr-2'>
+                    <Label htmlFor='ends_at' className='mt-4 mb-2 mr-2'>
                       Valid until
                     </Label>
                     <input
@@ -181,6 +181,7 @@ const CreateCardDialog = ({
                       name='ends_at'
                       required
                       defaultValue={formattedDate}
+                      className='w-[240px] p-2 border border-slate-800 dark:border-white rounded-md dark:bg-black'
                     />
                   </>
                 ) : (
