@@ -37,6 +37,14 @@ export const createCard = async (prevData: any, formData: FormData) => {
     }
   }
 
+  const today = new Date()
+
+  if (new Date(validatedFields.data.ends_at) < today) {
+    return {
+      status: 'error',
+      message: 'End date cannot be in the past',
+    }
+  }
   const supabase = createSupabaseClient()
 
   const { data: activeCards, error: activeCardsError } = await supabase
