@@ -10,6 +10,7 @@ import {
 import { motion } from 'framer-motion'
 import { BadgeEuro, Info, LogIn, Mail, Menu, UserPlus } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
+import { User } from '@supabase/supabase-js'
 
 const menuItems = [
   { title: 'About', href: '/about' },
@@ -17,7 +18,7 @@ const menuItems = [
   { title: 'Contact', href: '/contact' },
 ]
 
-const Nav = () => {
+const Nav = ({ user }: { user: User | undefined }) => {
   const mobileMenu = [
     { name: 'About', href: '/about', icon: <Info /> },
     { name: 'Pricing', href: '/pricing', icon: <BadgeEuro /> },
@@ -51,12 +52,20 @@ const Nav = () => {
           ))}
         </div>
         <div className='hidden lg:flex'>
-          <Button variant='secondary' className='mr-2' asChild>
-            <Link href='/login'>Login</Link>
-          </Button>
-          <Button asChild>
-            <Link href='/signup'>Sign Up</Link>
-          </Button>
+          {user ? (
+            <Button asChild>
+              <Link href='/dashboard'>Dashboard</Link>
+            </Button>
+          ) : (
+            <>
+              <Button variant='secondary' className='mr-2' asChild>
+                <Link href='/login'>Login</Link>
+              </Button>
+              <Button asChild>
+                <Link href='/signup'>Sign Up</Link>
+              </Button>
+            </>
+          )}
         </div>
         <div className='lg:hidden'>
           <div className='lg:hidden ml-2]'>
