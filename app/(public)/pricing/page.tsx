@@ -1,43 +1,12 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
-
-type BillingInterval = 'lifetime' | 'year' | 'month'
-type products = {
-  active: boolean | null
-  description: string | null
-  name: string | null
-  price: number
-  interval: BillingInterval
-}
+import Link from 'next/link'
+import { useSearchParams, useRouter } from 'next/navigation'
 
 const Pricing = () => {
-  const [billingInterval, setBillingInterval] =
-    useState<BillingInterval>('month')
-
-  const products: products[] = [
-    {
-      active: true,
-      description: 'The perfect plan for freelancers',
-      name: 'Freelancer',
-      price: 3,
-      interval: 'month',
-    },
-    {
-      active: true,
-      description: 'The perfect plan for freelancers',
-      name: 'Freelancer',
-      price: 30,
-      interval: 'year',
-    },
-  ]
+  const searchParams = useSearchParams()
+  const billingInterval = searchParams.get('billing') || 'month'
 
   return (
     <section className='bg-white dark:bg-black'>
@@ -52,28 +21,30 @@ const Pricing = () => {
             today.
           </p>
           <div className='relative self-center mt-6 bg-zinc-100 dark:bg-zinc-900 rounded-lg p-0.5 flex sm:mt-8 border border-zinc-800'>
-            <Button
-              onClick={() => setBillingInterval('month')}
-              type='button'
-              className={`${
-                billingInterval === 'month'
-                  ? 'relative w-1/2 bg-zinc-300 border-zinc-800 shadow-sm text-zinc-800'
-                  : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-500'
-              } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
-            >
-              Monthly billing
-            </Button>
-            <button
-              onClick={() => setBillingInterval('year')}
-              type='button'
-              className={`${
-                billingInterval === 'year'
-                  ? 'relative w-1/2 bg-zinc-300 border-zinc-800 shadow-sm text-zinc-800'
-                  : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-500'
-              } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
-            >
-              Yearly billing
-            </button>
+            <Link href='/pricing?billing=month'>
+              <button
+                type='button'
+                className={`${
+                  billingInterval === 'month'
+                    ? 'relative w-1/2 bg-white border-zinc-800 shadow-sm text-zinc-800'
+                    : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-500'
+                } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
+              >
+                Monthly billing
+              </button>
+            </Link>
+            <Link href='/pricing?billing=year'>
+              <button
+                type='button'
+                className={`${
+                  billingInterval === 'year'
+                    ? 'relative w-1/2 bg-white border-zinc-800 shadow-sm text-zinc-800'
+                    : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-500'
+                } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
+              >
+                Yearly billing
+              </button>
+            </Link>
           </div>
         </div>
         <div className='mt-12 space-y-0 sm:mt-16 flex flex-wrap justify-center gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0'>
