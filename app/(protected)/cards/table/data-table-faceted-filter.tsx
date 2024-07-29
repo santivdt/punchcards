@@ -52,11 +52,6 @@ export function DataTableFacetedFilter<TData, TValue>({
     column?.setFilterValue(filterValues.length ? filterValues : undefined)
   }
 
-  const handleClearFilters = () => {
-    setSelectedValues(new Set())
-    column?.setFilterValue(undefined)
-  }
-
   return (
     <Popover>
       <PopoverTrigger asChild>
