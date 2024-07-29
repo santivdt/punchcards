@@ -24,7 +24,6 @@ export const signIn = async (formData: FormData) => {
     .single()
 
   if (profileError) {
-    //TODO add this to switch on login page
     return redirect('/login?message=Could not fetch profile')
   }
 

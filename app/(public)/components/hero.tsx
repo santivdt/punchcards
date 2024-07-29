@@ -12,7 +12,7 @@ const Hero = () => {
         initial={{ y: '20px', opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, ease: 'easeInOut' }}
-        className='flex flex-col lg:flex-row gap-20 w-full mx-8 lg:mx-0'
+        className='flex flex-col lg:flex-row gap-20 w-full lg:mx-0 max-w-7xl py-20 px-8'
       >
         <div className='w-full lg:w-3/5'>
           <h1 className='text-bold text-5xl md:text-7xl text-balance'>

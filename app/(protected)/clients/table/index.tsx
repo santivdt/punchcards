@@ -19,7 +19,9 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useState } from 'react'
+import { set } from 'date-fns'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData>[] | null
@@ -31,6 +33,11 @@ export const DataTable = <TData extends TValue, TValue>({
   data,
 }: DataTableProps<TData, TValue>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [globalFilter, setGlobalFilter] = useState<string>('')
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const q = searchParams.get('q') || ''
 
   const table = useReactTable({
     data: data || [],
@@ -41,18 +48,26 @@ export const DataTable = <TData extends TValue, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       columnFilters,
+      globalFilter,
     },
+    onGlobalFilterChange: setGlobalFilter,
   })
-  //TODO make sure filter works on name and email columns
+
+  useEffect(() => {
+    setGlobalFilter(q)
+  }, [globalFilter, q])
+
+  //TODO i think global filter should be handled by the url only not also state
   return (
     <div>
       <div className='flex items-center justify-end pb-4 '>
         <Input
           placeholder='Search...'
-          value={(table.getColumn('name')?.getFilterValue() as string) || ''}
-          onChange={(event) =>
-            table.getColumn('')?.setFilterValue(event.target.value)
-          }
+          value={globalFilter}
+          onChange={(e) => {
+            setGlobalFilter(e.target.value)
+            router.push(`?q=${e.target.value}`, { scroll: false })
+          }}
           className='max-w-sm w-[250px]'
         />
       </div>
