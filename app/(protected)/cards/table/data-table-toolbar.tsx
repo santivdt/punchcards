@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { Table } from '@tanstack/react-table'
 import { statuses } from './helpers'
+import { Input } from '@/components/ui/input'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -18,7 +19,7 @@ export function DataTableToolbar<TData>({
   return (
     <div className='flex items-center justify-between mb-2'>
       <div className='flex flex-1 items-center space-x-2'>
-        {/* TODO this search is not working. Dont know why yet. */}
+        {/* TODO this search is not working. Dont know why yet. Props something with this element being in different file than the table */}
         {/* <Input
           placeholder='Search cards'
           value={

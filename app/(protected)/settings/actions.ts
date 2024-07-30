@@ -286,7 +286,6 @@ export const createOrganisation = async (prevData: any, formData: FormData) => {
   const user = await requireUser()
   const random = crypto.randomUUID()
 
-  //TODO decide wether to change storage name or not
   const { error: uploadError } = await supabase.storage
     .from('profile_pictures')
     .upload(`${user.id}/${random}`, validatedFields.data.logo as Blob)

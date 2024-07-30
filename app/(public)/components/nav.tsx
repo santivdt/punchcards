@@ -35,8 +35,15 @@ const Nav = ({ user }: { user: User | undefined }) => {
     >
       <nav className='w-full flex justify-between items-center py-4 max-w-7xl mx-auto px-4'>
         <div className='font-bold text-3xl relative'>
-          <Link href='/'>Punch it!</Link>
-          <Badge className='ml-2 text-sm absolute top-0 bg-purple-900 hover:bg-purple-900 hover:cursor-default'>
+          <Link
+            href='/'
+            className='bg-gradient-to-r from-purple-500
+            via-pink-500
+            to-yellow-500 bg-clip-text text-transparent'
+          >
+            Punch it!
+          </Link>
+          <Badge className='ml-2 text-sm absolute top-0 text-white dark:text-white bg-purple-800 hover:bg-purple-900 dark:bg-purple-500 dark:hover:bg-purple-500 hover:cursor-default'>
             Beta
           </Badge>
         </div>

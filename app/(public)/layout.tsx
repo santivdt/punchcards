@@ -11,7 +11,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Nav user={user} />
-      <main className='flex flex-col flex-1 max-w-7xl mx-auto px-4 justify-center'>
+      <main className='flex flex-col flex-1 justify-center'>
         {children}
         <SpeedInsights />
         <Analytics />
