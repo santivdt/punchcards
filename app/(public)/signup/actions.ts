@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-
+import { createOrRetrieveCustomer } from '@/utils/supabase/admin'
 export const SignupWithOAuth = async (provider: 'google' | 'github') => {
   const supabase = createClient()
 
@@ -29,7 +29,10 @@ export const signUp = async (prevData: any, formData: FormData) => {
       emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
     },
   })
-
+  if (data?.user?.id) {
+    const bla = await createOrRetrieveCustomer({ email, uuid: data.user.id })
+    console.log(bla)
+  }
   console.log(data, error)
 
   if (
