@@ -316,6 +316,19 @@ const manageSubscriptionStatusChange = async (
   }
 }
 
+const deleteCustomerWhenDeletedInStripe = async (
+  stripe_customer_id: string
+) => {
+  const { error: deletionError } = await supabaseAdmin
+    .from('customers')
+    .delete()
+    .eq('stripe_customer_id', stripe_customer_id)
+  if (deletionError) {
+    throw new Error(`Customer deletion failed: ${deletionError.message}`)
+  }
+  console.log(`Customer deleted: ${stripe_customer_id}`)
+}
+
 export {
   createOrRetrieveCustomer,
   deletePriceRecord,
@@ -323,4 +336,5 @@ export {
   manageSubscriptionStatusChange,
   upsertPriceRecord,
   upsertProductRecord,
+  deleteCustomerWhenDeletedInStripe,
 }
