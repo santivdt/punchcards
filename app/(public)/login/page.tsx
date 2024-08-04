@@ -1,15 +1,22 @@
-import DemoButton from '@/app/(public)/components/demo-button'
 import { signIn } from '@/app/(public)/login/actions'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
+import LastUsed from '../components/last-used'
+import SignupWithOAuthButton from '../components/signup-with-oauth'
 import { SubmitButton } from './submit-button'
+import { SiGithub, SiGoogle } from '@icons-pack/react-simple-icons'
 
 const Login = async ({
   searchParams,
 }: {
   searchParams: { message: string }
 }) => {
+  const cookieJar = cookies()
+  const lastSignedInMethod: string | undefined =
+    cookieJar.get('lastSignedInMethod')?.value
+
   const RenderMessage = () => {
     switch (searchParams?.message) {
       case 'Could not authenticate user':
@@ -31,14 +38,16 @@ const Login = async ({
   return (
     <div className='flex justify-center items-center flex-col '>
       <div>
-        <h1 className='text-2xl font-bold'>Log in to Punch it!</h1>
+        <h1 className='text-2xl font-bold text-center'>Log in to Punch it!</h1>
         {searchParams?.message ? (
           <>
             <RenderMessage />
           </>
         ) : (
           <>
-            <p className='mt-2'>Enter your credentials below to login</p>
+            <p className='mt-2 text-center'>
+              Enter your credentials below to login
+            </p>
           </>
         )}
         <form className='flex flex-col justify-center gap-2 w-[300px] mt-4'>
@@ -67,14 +76,23 @@ const Login = async ({
             </div>
             <SubmitButton
               formAction={signIn}
-              className='px-4 py-2 mb-2 bg-black text-white border rounded-md '
+              className='relative px-4 py-2 mb-2 bg-black text-white border rounded-md '
               pendingText='Signing In...'
             >
               Sign in
+              {lastSignedInMethod === 'email' && <LastUsed />}
             </SubmitButton>
-
-            <DemoButton />
           </div>
+          <div className='py-4 text-center'>or</div>
+          <SignupWithOAuthButton provider='google'>
+            <SiGoogle size={14} /> Sign in with Google
+            {lastSignedInMethod === 'google' && <LastUsed />}
+          </SignupWithOAuthButton>
+          <SignupWithOAuthButton provider='github'>
+            <SiGithub size={14} />
+            Sign in with Github
+            {lastSignedInMethod === 'github' && <LastUsed />}
+          </SignupWithOAuthButton>
 
           <div className='mt-4 text-center'>
             Don&apos;t have an account?{' '}

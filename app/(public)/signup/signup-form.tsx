@@ -1,14 +1,18 @@
 'use client'
 
 import { Input } from '@/components/ui/input'
-import { SubmitButton } from '../login/submit-button'
-import { Link } from 'nextjs13-progress'
-import { useFormState } from 'react-dom'
-import { signUp } from './actions'
 import { Label } from '@/components/ui/label'
 import { useEffect, useState } from 'react'
+import { useFormState } from 'react-dom'
+import LastUsed from '../components/last-used'
+import { SubmitButton } from '../login/submit-button'
+import { signUp } from './actions'
 
-const SignupForm = () => {
+const SignupForm = ({
+  lastSignedInMethod,
+}: {
+  lastSignedInMethod: string | undefined
+}) => {
   const [status, formAction] = useFormState(signUp, null)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
     undefined
@@ -56,22 +60,11 @@ const SignupForm = () => {
             className='px-4 py-2 mb-2 bg-black text-white border rounded-md hover:scale-105'
             pendingText='Signing you up...'
           >
-            Sign Up
+            <div className='relative'>
+              Sign Up
+              {lastSignedInMethod === 'email' && <LastUsed />}
+            </div>
           </SubmitButton>
-          <p className='text-xs'>
-            By signing up you agree to our{' '}
-            <Link href='/terms' className='underline underline-offset-2'>
-              terms and conditions.
-            </Link>
-          </p>
-          <p className='text-center'>or</p>
-        </div>
-
-        <div className='mt-4 text-center'>
-          Already have an account?
-          <Link href='/login' className='underline ml-2'>
-            Sign in
-          </Link>
         </div>
       </form>
     </>

@@ -3,15 +3,24 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { createOrRetrieveCustomer } from '@/utils/supabase/admin'
+import { cookies } from 'next/headers'
+
 export const SignupWithOAuth = async (provider: 'google' | 'github') => {
   const supabase = createClient()
 
-  const { data } = await supabase.auth.signInWithOAuth({
+  const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider,
     options: {
       redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/callback/googlesignup`,
     },
   })
+
+  if (error) {
+    return redirect('/signup?message=Could not complete sign-up of user')
+  }
+
+  const cookieJar = cookies()
+  cookieJar.set('lastSignedInMethod', provider)
 
   return redirect(data.url!)
 }
@@ -29,11 +38,6 @@ export const signUp = async (prevData: any, formData: FormData) => {
       emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
     },
   })
-  if (data?.user?.id) {
-    const bla = await createOrRetrieveCustomer({ email, uuid: data.user.id })
-    console.log(bla)
-  }
-  console.log(data, error)
 
   if (
     data &&
@@ -48,9 +52,18 @@ export const signUp = async (prevData: any, formData: FormData) => {
     }
   }
 
+  if (data?.user?.id) {
+    const bla = await createOrRetrieveCustomer({ email, uuid: data.user.id })
+    console.log(bla)
+  }
+  console.log(data, error)
+
   if (error) {
     return redirect('/signup?message=Could not complete sign-up of user')
   }
+
+  const cookieJar = cookies()
+  cookieJar.set('lastSignedInMethod', 'email')
 
   return redirect(
     '/login?message=Check your email to confirm your email address. You can sign in afterwards'
