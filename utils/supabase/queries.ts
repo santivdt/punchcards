@@ -1,14 +1,19 @@
+'use server'
+
+import { createClient } from './server'
 import { SupabaseClient } from '@supabase/supabase-js'
 import { cache } from 'react'
 
-export const getUser = cache(async (supabase: SupabaseClient) => {
+export const getUser = cache(async () => {
+  const supabase = createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
   return user
 })
 
-export const getSubscription = cache(async (supabase: SupabaseClient) => {
+export const getSubscription = cache(async () => {
+  const supabase = createClient()
   const { data: subscription, error } = await supabase
     .from('subscriptions')
     .select('*, prices(*, products(*))')
@@ -18,7 +23,8 @@ export const getSubscription = cache(async (supabase: SupabaseClient) => {
   return subscription
 })
 
-export const getProducts = cache(async (supabase: SupabaseClient) => {
+export const getProducts = cache(async () => {
+  const supabase = createClient()
   const { data: products, error } = await supabase
     .from('products')
     .select('*, prices(*)')
@@ -30,7 +36,8 @@ export const getProducts = cache(async (supabase: SupabaseClient) => {
   return products
 })
 
-export const getUserDetails = cache(async (supabase: SupabaseClient) => {
+export const getUserDetails = cache(async () => {
+  const supabase = createClient()
   const { data: userDetails } = await supabase
     .from('profiles')
     .select('*')
