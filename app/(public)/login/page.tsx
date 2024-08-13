@@ -25,6 +25,12 @@ const Login = async ({
             {searchParams.message}
           </p>
         )
+      case 'Your password has been reset. Please log in.':
+        return (
+          <p className='text-center bg-green-200 p-2 mt-4 text-green-700 mb-8 w-[300px]'>
+            {searchParams.message}
+          </p>
+        )
       case 'Check your email to confirm your email address. You can sign in afterwards':
         return (
           <p className='text-center bg-green-200 p-2 mt-4 text-green-700 mb-8 w-[300px]'>
@@ -36,7 +42,7 @@ const Login = async ({
     }
   }
   return (
-    <div className='flex justify-center items-center flex-col '>
+    <div className='flex justify-center items-center flex-col'>
       <div>
         <h1 className='text-2xl font-bold text-center'>Log in to Punch it!</h1>
         {searchParams?.message ? (
@@ -68,11 +74,14 @@ const Login = async ({
                 Password
               </Label>
               <Input
-                className='px-4 py-2 mb-6 border rounded-md bg-inherit'
+                className='px-4 pt-2 pb-0 mb-0 border rounded-md bg-inherit'
                 type='password'
                 name='password'
                 required
               />
+              <p className='text-right mb-2 hover:pointer hover:underline underline-offset-4'>
+                <Link href='/forgot-password'>Forgot password?</Link>
+              </p>
             </div>
             <SubmitButton
               formAction={signIn}

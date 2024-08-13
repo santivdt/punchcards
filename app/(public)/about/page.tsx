@@ -3,7 +3,7 @@ import PromoText from '../login/promo-text'
 
 const AboutPage = () => {
   return (
-    <div className='text-pretty w-4/5 lg:w-3/5'>
+    <div className='max-w-3xl px-4 py-8 mx-auto text-pretty'>
       <Header title='About' crumbs={false} />
       <PromoText />
     </div>

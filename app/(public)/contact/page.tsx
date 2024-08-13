@@ -3,10 +3,10 @@ import ContactForm from './contact-form'
 
 const ContactPage = () => {
   return (
-    <>
+    <div className='max-w-3xl mx-auto'>
       <Header title='Contact' crumbs={false} />
       <ContactForm />
-    </>
+    </div>
   )
 }
 

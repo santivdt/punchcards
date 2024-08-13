@@ -3,10 +3,10 @@ import ResetPasswordForm from './reset-form'
 
 const ResetPassword = async () => {
   return (
-    <>
-      <Header title='Reset password' />
+    <div className='max-w-3xl mx-auto'>
+      <Header title='Reset password' crumbs={false} />
       <ResetPasswordForm />
-    </>
+    </div>
   )
 }
 
