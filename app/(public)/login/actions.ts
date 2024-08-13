@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { Resend } from 'resend'
 
@@ -61,6 +62,9 @@ export const signIn = async (formData: FormData) => {
       console.log('error adding log', errorLog)
     }
   }
+
+  const cookieJar = cookies()
+  cookieJar.set('lastSignedInMethod', 'email')
 
   return redirect('/dashboard')
 }
