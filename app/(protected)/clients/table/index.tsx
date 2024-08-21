@@ -33,7 +33,6 @@ export const DataTable = <TData extends TValue, TValue>({
   data,
 }: DataTableProps<TData, TValue>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [globalFilter, setGlobalFilter] = useState<string>('')
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -48,26 +47,28 @@ export const DataTable = <TData extends TValue, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       columnFilters,
-      globalFilter,
+      globalFilter: q,
     },
-    onGlobalFilterChange: setGlobalFilter,
   })
 
-  useEffect(() => {
-    setGlobalFilter(q)
-  }, [globalFilter, q])
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuery = event.target.value
+    const params = new URLSearchParams(searchParams as any)
+    if (newQuery) {
+      params.set('q', newQuery)
+    } else {
+      params.delete('q')
+    }
+    router.replace(`?${params.toString()}`)
+  }
 
-  //TODO i think global filter should be handled by the url only not also state
   return (
     <div>
       <div className='flex items-center justify-end pb-4 '>
         <Input
           placeholder='Search...'
-          value={globalFilter}
-          onChange={(e) => {
-            setGlobalFilter(e.target.value)
-            router.push(`?q=${e.target.value}`, { scroll: false })
-          }}
+          value={q}
+          onChange={handleSearchChange}
           className='max-w-sm w-[250px]'
         />
       </div>
