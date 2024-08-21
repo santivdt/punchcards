@@ -1,7 +1,7 @@
 'use client'
 
 import FormError from '@/app/(protected)/components/form-error'
-import SubmitButton from '@/app/(protected)/components/submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -63,7 +63,7 @@ const DeleteCardDialog = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton normal='Delete' going='Deleting...' />
+            <SubmitButton pendingText='Deleteing..'> Delete </SubmitButton>
           </div>
         </form>
       </DialogContent>

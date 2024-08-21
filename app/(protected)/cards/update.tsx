@@ -1,6 +1,6 @@
 'use client'
 
-import SubmitButton from '@/app/(protected)/components/submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -108,7 +108,9 @@ const UpdateCardDialog = ({
               Cancel
             </Button>
           </DialogClose>
-          <SubmitButton normal='Update card' going='Updating  card...' />
+          <SubmitButton pendingText='Updating card...'>
+            Update card
+          </SubmitButton>
         </form>
       </DialogContent>
     </Dialog>

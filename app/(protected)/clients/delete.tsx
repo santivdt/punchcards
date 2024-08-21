@@ -1,7 +1,7 @@
 'use client'
 
 import FormError from '@/app/(protected)/components/form-error'
-import SubmitButton from '@/app/(protected)/components/submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -19,6 +19,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { deleteClient } from './actions'
+import { Sub } from '@radix-ui/react-dropdown-menu'
 
 type DeleteFormProps = {
   open?: boolean
@@ -70,7 +71,7 @@ const DeleteClientDialog = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton normal='Delete' going='Deleting...' />
+            <SubmitButton pendingText='Deleting...'>Delete</SubmitButton>
           </div>
         </form>
       </DialogContent>

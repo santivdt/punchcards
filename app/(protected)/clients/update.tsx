@@ -1,7 +1,7 @@
 'use client'
 
 import FormError from '@/app/(protected)/components/form-error'
-import SubmitButton from '@/app/(protected)/components/submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -105,7 +105,7 @@ const UpdateClientDialog = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton normal='Update' going='Updating...' />
+            <SubmitButton pendingText='Updating...'>Update</SubmitButton>
           </div>
         </form>
       </DialogContent>

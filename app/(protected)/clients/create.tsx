@@ -2,7 +2,7 @@
 
 import { checkEmail, createClient } from '@/app/(protected)/clients/actions'
 import FormError from '@/app/(protected)/components/form-error'
-import SubmitButton from '@/app/(protected)/components/submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -113,7 +113,9 @@ const CreateClientDialog = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton normal='Add client' going='Adding  client...' />
+            <SubmitButton pendingText='Adding client...'>
+              Add client
+            </SubmitButton>
           </div>
         </form>
       </DialogContent>

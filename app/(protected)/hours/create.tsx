@@ -1,6 +1,6 @@
 'use client'
 
-import SubmitButton from '@/app/(protected)/components/submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 import { createHour } from '@/app/(protected)/hours/actions'
 import { Button } from '@/components/ui/button'
 import {
@@ -143,7 +143,7 @@ const CreateHourDialog = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton normal='Add task' going='Adding  task...' />
+            <SubmitButton pendingText='Adding task...'>Add task</SubmitButton>
           </form>
         ) : (
           <p>

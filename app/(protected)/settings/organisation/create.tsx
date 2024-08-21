@@ -1,6 +1,6 @@
 'use client'
 
-import SubmitButton from '@/app/(protected)/components/submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ErrorType } from '@/types/custom-types'
@@ -68,7 +68,7 @@ const CreateOrgnisationForm = () => {
             <Input id='name' name='name' type='text' />
           </div>
           <div className='flex items-center gap-2 mt-4'>
-            <SubmitButton normal='Update' going='Updating...' />
+            <SubmitButton pendingText='Updating...'>Update</SubmitButton>
           </div>
         </form>
       </>

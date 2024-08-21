@@ -1,7 +1,7 @@
 'use client'
 
 import FormError from '@/app/(protected)/components/form-error'
-import SubmitButton from '@/app/(protected)/components/submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 import { updateHour } from '@/app/(protected)/hours/actions'
 import { Button } from '@/components/ui/button'
 import {
@@ -122,7 +122,9 @@ const UpdateHourDialog = ({
               Cancel
             </Button>
           </DialogClose>
-          <SubmitButton normal='Update task' going='Updating  task...' />
+          <SubmitButton pendingText='Updating task...'>
+            Update task
+          </SubmitButton>
         </form>
       </DialogContent>
     </Dialog>

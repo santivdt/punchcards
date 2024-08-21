@@ -1,6 +1,5 @@
 'use client'
 import { useFormState } from 'react-dom'
-import SubmitButton from '../../(protected)/components/submitbutton'
 import { sendMessage } from './actions'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -9,6 +8,7 @@ import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { verifyCaptcha } from '@/utils/server-utils'
+import { SubmitButton } from '../login/submit-button'
 
 const ContactForm = () => {
   const [state, formAction] = useFormState(sendMessage, null)
@@ -57,7 +57,7 @@ const ContactForm = () => {
         className='mb-4'
       />
       {/* TODO this button should be disabled if captcha is not verified */}
-      <SubmitButton going='Sending..' normal='Send' />
+      <SubmitButton pendingText='Sending..'>Send</SubmitButton>
     </form>
   )
 }

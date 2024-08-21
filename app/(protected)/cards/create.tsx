@@ -2,7 +2,7 @@
 
 import { createCard } from '@/app/(protected)/cards/actions'
 import FormError from '@/app/(protected)/components/form-error'
-import SubmitButton from '@/app/(protected)/components/submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -204,7 +204,7 @@ const CreateCardDialog = ({
                   Cancel
                 </Button>
               </DialogClose>
-              <SubmitButton normal='Add card' going='Adding  card...' />
+              <SubmitButton pendingText='Adding card..'>Add card</SubmitButton>
             </form>
           )}
         </p>

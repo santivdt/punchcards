@@ -14,7 +14,7 @@ import { useEffect, useRef } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { createHour } from '../hours/actions'
-import SubmitButton from './submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 
 const QuickAddHours: React.FC<{ activeCards: CardWithClient[] | null }> = ({
   activeCards,
@@ -67,7 +67,7 @@ const QuickAddHours: React.FC<{ activeCards: CardWithClient[] | null }> = ({
           ))}
         </SelectContent>
       </Select>
-      <SubmitButton going='Adding..' normal='Add' />
+      <SubmitButton pendingText='Adding..'>Add</SubmitButton>
     </form>
   )
 }

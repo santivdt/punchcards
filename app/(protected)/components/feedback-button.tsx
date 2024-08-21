@@ -1,7 +1,7 @@
 'use client'
 
 import FormError from '@/app/(protected)/components/form-error'
-import SubmitButton from '@/app/(protected)/components/submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -58,7 +58,7 @@ const FeedbackButton = () => {
             placeholder='Ideas to improve the app...'
           />
           <FormError errorMessage={errorMessage} />
-          <SubmitButton going='Sending..' normal='Send' />
+          <SubmitButton pendingText='Sending..'>Send</SubmitButton>
         </form>
       </PopoverContent>
     </Popover>

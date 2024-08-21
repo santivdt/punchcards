@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { forgotPassword } from './action'
-import SubmitButton from '@/app/(protected)/components/submitbutton'
+import { SubmitButton } from '@/app/(public)/login/submit-button'
 import FormError from '@/app/(protected)/components/form-error'
 
 const initialiState = undefined
@@ -42,7 +42,7 @@ const ForgotPasswordForm = ({ onFinished }: ForgotPasswordFormProps) => {
           required
           className='mb-4 mt-2'
         />
-        <SubmitButton going='Requesting...' normal='Request link' />
+        <SubmitButton pendingText='Requesting...'>Request link</SubmitButton>
         <FormError errorMessage={errorMessage} />
       </form>
     </>
