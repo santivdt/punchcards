@@ -57,7 +57,7 @@ const Sidebar = async () => {
         )}
       </ul>
       <div className='flex justify-between items-center'>
-        <div className='flex items-center'>
+        <div className='flex items-center overflow-hidden mr-2'>
           {userProfile && userProfile.avatar ? (
             <Image
               src={userProfile?.avatar}
@@ -81,7 +81,9 @@ const Sidebar = async () => {
               ></path>
             </svg>
           )}
-          <span className='ml-2'>{user?.email}</span>
+          <span className='ml-2 overflow-hidden whitespace-nowrap w-fit'>
+            {user?.email}
+          </span>
         </div>
         <DropDownMenuSidebar />
       </div>
