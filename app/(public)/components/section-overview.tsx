@@ -30,7 +30,7 @@ const FeaturesSection = () => {
   return (
     <section className='bg-gradient-to-b from-black via-purple-800 to-purple-300 py-32 w-full flex justify-center'>
       <div className='max-w-7xl w-full flex flex-col items-center px-8'>
-        <h2 className='text-5xl mb-12'>Features</h2>
+        <h2 className='text-5xl mb-12 text-white'>Features</h2>
         <div className='flex w-full justify-between gap-16'>
           <FeatureCard
             title='Track with ease'
