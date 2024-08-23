@@ -1,8 +1,6 @@
 'use server'
 import { createClient as createSupabaseClient } from '@/utils/supabase/server'
 import { forgotSchema } from './schema'
-import { redirect } from 'next/navigation'
-import { headers } from 'next/headers'
 
 export const forgotPassword = async (prevData: any, formData: FormData) => {
   const validatedFields = forgotSchema.safeParse({
@@ -17,16 +15,11 @@ export const forgotPassword = async (prevData: any, formData: FormData) => {
   }
 
   const supabase = createSupabaseClient()
-  const headersList = headers()
-  const host = headersList.get('host') || ''
-  const protocol = headersList.get('x-forwarded-proto') || 'http'
-
-  const baseUrl = `${protocol}://${host}`
 
   const { error } = await supabase.auth.resetPasswordForEmail(
     validatedFields.data.email,
     {
-      redirectTo: `${baseUrl}/reset-password`,
+      redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password`,
     }
   )
 
