@@ -80,7 +80,7 @@ const PricingTable = ({ user, products, subscription }: Props) => {
   }
 
   return (
-    <section className='bg-black'>
+    <section className='bg-white dark:bg-black'>
       <div className='max-w-6xl px-4 py-8 mx-auto sm:py-24 sm:px-6 lg:px-8'>
         <div className='sm:flex sm:flex-col sm:align-center'>
           <h1 className='text-4xl font-extrabold text-black dark:text-white text-center'>
@@ -99,7 +99,7 @@ const PricingTable = ({ user, products, subscription }: Props) => {
                 className={`${
                   billingInterval === 'month'
                     ? 'relative w-1/2 bg-white border-zinc-800 shadow-sm text-zinc-800'
-                    : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-500'
+                    : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-200'
                 } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
               >
                 Monthly billing
@@ -112,7 +112,7 @@ const PricingTable = ({ user, products, subscription }: Props) => {
                 className={`${
                   billingInterval === 'year'
                     ? 'relative w-1/2 bg-white border-zinc-800 shadow-sm text-zinc-800'
-                    : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-500'
+                    : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-200'
                 } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
               >
                 Yearly billing
@@ -143,7 +143,7 @@ const PricingTable = ({ user, products, subscription }: Props) => {
                     {product.name}
                   </h2>
                   {product.name === 'Freelancer' && (
-                    <ul className='mt-4 text-zinc-800 dark:text-zinc-300'>
+                    <ul className='mt-4 text-zinc-200 dark:text-zinc-300'>
                       <li>Easy time tracking</li>
                       <li>Export cards to pdf</li>
                       <li>Unlimited clients</li>
@@ -152,7 +152,7 @@ const PricingTable = ({ user, products, subscription }: Props) => {
                   )}
                   <p className='mt-4 text-zinc-300'>{product.description}</p>
                   <p className='mt-8'>
-                    <span className='text-5xl font-extrabold white'>
+                    <span className='text-5xl font-extrabold text-white'>
                       {priceString}
                     </span>
                     <span className='text-base font-medium text-zinc-100'>
@@ -163,7 +163,7 @@ const PricingTable = ({ user, products, subscription }: Props) => {
                     variant='outline'
                     type='button'
                     onClick={() => handleStripeCheckout(price)}
-                    className='block w-full py-2 mt-8 text-sm font-semibold text-center text-white rounded-md hover:bg-zinc-900'
+                    className='block w-full py-2 mt-8 text-sm font-semibold text-center text-black dark:text-white hover:text-white rounded-md hover:bg-zinc-900'
                   >
                     {subscription ? 'Manage' : 'Subscribe'}
                   </Button>

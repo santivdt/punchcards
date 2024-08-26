@@ -9,13 +9,11 @@ const Pricing = async () => {
   ])
 
   return (
-    <section className='bg-white dark:bg-black'>
-      <PricingTable
-        products={products ?? []}
-        user={user}
-        subscription={subscription}
-      />
-    </section>
+    <PricingTable
+      products={products ?? []}
+      user={user}
+      subscription={subscription}
+    />
   )
 }
 
