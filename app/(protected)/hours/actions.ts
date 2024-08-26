@@ -255,7 +255,6 @@ export const deleteHours = async (prevData: any, formData: FormData) => {
   return { status: 'success', message: 'Hours deleted successfully' }
 }
 
-// TODO i make 1000 database calls in this function, think it could be done better
 export const updateHour = async (prevData: any, formData: FormData) => {
   const validatedFields = updateSchema.safeParse({
     description: formData.get('description'),

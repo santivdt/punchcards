@@ -21,6 +21,14 @@ export const resetPassword = async (prevData: any, formData: FormData) => {
     password: validatedFields.data.password,
   })
 
+  if (error && error.code === 'same_password') {
+    console.log(error.code)
+    return {
+      status: 'error',
+      message: 'You cannot use the same password as before',
+    }
+  }
+
   if (error) {
     console.log(error)
     return {
