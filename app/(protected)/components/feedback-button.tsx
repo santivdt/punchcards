@@ -48,7 +48,10 @@ const FeedbackButton = () => {
           Feedback
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[400px] z-50 mr-8 mt-2 p-4 bg-white dark:bg-black border border-neutral-300 rounded'>
+      <PopoverContent
+        align='end'
+        className='w-[400px] z-50 mb-2 p-4 bg-white dark:bg-black border border-neutral-300 rounded'
+      >
         <form ref={formRef} action={formAction}>
           <Label htmlFor='feedback'>Feedback</Label>
           <Textarea
