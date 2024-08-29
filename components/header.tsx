@@ -4,9 +4,15 @@ type HeaderProps = {
   title: string
   children?: React.ReactNode
   crumbs?: boolean
+  subPageName?: string | null
 }
 
-const Header = ({ title, crumbs = true, children }: HeaderProps) => {
+const Header = ({
+  title,
+  crumbs = true,
+  subPageName,
+  children,
+}: HeaderProps) => {
   return (
     <header className='flex flex-col w-full pb-4  '>
       <div className='flex items-center justify-between pt-4 pb-2 flex-1 '>
@@ -17,7 +23,7 @@ const Header = ({ title, crumbs = true, children }: HeaderProps) => {
         </div>
         {children && <div>{children}</div>}
       </div>
-      {crumbs && <Breadcrumbs />}
+      {crumbs && <Breadcrumbs subPageName={subPageName} />}
     </header>
   )
 }

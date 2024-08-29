@@ -4,6 +4,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table'
@@ -25,6 +26,8 @@ import { useFormState } from 'react-dom'
 import toast from 'react-hot-toast'
 import { deleteHours } from '../actions'
 import DeleteHoursDialog from '../delete-multiple'
+import TableSearch from '../../components/table-search'
+import { useSearchParams } from 'next/navigation'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData>[] | null
@@ -51,6 +54,9 @@ export const DataTable = <
   const [hoursToDelete, setHoursToDelete] = useState<Tables<'hours'>[]>([])
   const [state, formAction] = useFormState(deleteHours, initialState)
   const [open, setOpen] = useState(false)
+
+  const searchParams = useSearchParams()
+  const q = searchParams.get('q') || ''
 
   useEffect(() => {
     if (state?.status === 'success') {
@@ -79,8 +85,10 @@ export const DataTable = <
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onRowSelectionChange: setRowSelection,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       rowSelection,
+      globalFilter: q,
     },
   })
 
@@ -108,7 +116,8 @@ export const DataTable = <
           </Button>
         )}
       </div>
-      <Table>
+      <TableSearch />
+      <Table className='mt-4'>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>

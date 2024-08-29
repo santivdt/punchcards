@@ -19,9 +19,9 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { set } from 'date-fns'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import TableSearch from '../../components/table-search'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData>[] | null
@@ -33,9 +33,8 @@ export const DataTable = <TData extends TValue, TValue>({
   data,
 }: DataTableProps<TData, TValue>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const searchParams = useSearchParams()
-  const router = useRouter()
 
+  const searchParams = useSearchParams()
   const q = searchParams.get('q') || ''
 
   const table = useReactTable({
@@ -51,26 +50,10 @@ export const DataTable = <TData extends TValue, TValue>({
     },
   })
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newQuery = event.target.value
-    const params = new URLSearchParams(searchParams as any)
-    if (newQuery) {
-      params.set('q', newQuery)
-    } else {
-      params.delete('q')
-    }
-    router.replace(`?${params.toString()}`)
-  }
-
   return (
     <div>
       <div className='flex items-center justify-end pb-4 '>
-        <Input
-          placeholder='Search...'
-          value={q}
-          onChange={handleSearchChange}
-          className='max-w-sm w-[250px]'
-        />
+        <TableSearch />
       </div>
       <div>
         <Table>

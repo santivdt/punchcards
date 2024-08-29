@@ -7,6 +7,7 @@ import { Cross2Icon } from '@radix-ui/react-icons'
 import { Table } from '@tanstack/react-table'
 import { statuses } from './helpers'
 import { Input } from '@/components/ui/input'
+import TableSearch from '../../components/table-search'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -22,14 +23,15 @@ export function DataTableToolbar<TData>({
         {/* TODO this search is not working. Dont know why yet. Props something with this element being in different file than the table */}
         {/* <Input
           placeholder='Search cards'
-          value={
-            (table.getColumn('clients.name')?.getFilterValue() as string) || ''
-          }
+          // value={
+          //   (table.getColumn('clients.name')?.getFilterValue() as string) || ''
+          // }
           onChange={(event) =>
             table.getColumn('clients.name')?.setFilterValue(event.target.value)
           }
           className='h-8 w-[150px] lg:w-[250px]'
         /> */}
+        <TableSearch />
         {table.getColumn('is_active') && (
           <DataTableFacetedFilter
             column={table.getColumn('is_active')}

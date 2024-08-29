@@ -26,6 +26,7 @@ import {
 } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
 import { DataTableToolbar } from './data-table-toolbar'
+import { useSearchParams } from 'next/navigation'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData>[] | null
@@ -58,6 +59,9 @@ export const DataTable = <TData extends TValue, TValue>({
     }
   }, [windowSize])
 
+  const searchParams = useSearchParams()
+  const q = searchParams.get('q') || ''
+
   const table = useReactTable({
     data: data || [],
     columns: columns || [],
@@ -77,6 +81,7 @@ export const DataTable = <TData extends TValue, TValue>({
       columnVisibility,
       rowSelection,
       columnFilters,
+      globalFilter: q,
     },
   })
 

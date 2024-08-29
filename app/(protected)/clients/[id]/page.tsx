@@ -9,7 +9,10 @@ const Page = async ({ params: { id } }: { params: PageProps }) => {
   const { data: client } = await getClient(id)
   return (
     <>
-      <Header title={`Detail page of ${client?.name}`} />
+      <Header
+        title={`Detail page of ${client?.name}`}
+        subPageName={client?.name}
+      />
       <div>{client?.email}</div>
       <div className='my-4 space-x-2'>
         <Button variant='outline' asChild>
