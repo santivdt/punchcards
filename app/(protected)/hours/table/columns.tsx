@@ -102,7 +102,7 @@ const Actions = (hour: Tables<'hours'>) => {
         <DropdownMenuContent align='end'>
           {pathname != `/cards/${hour.card_id}` && (
             <DropdownMenuItem>
-              <Link href={`/(protected)/cards/${hour.card_id}`}>View card</Link>
+              <Link href={`/cards/${hour.card_id}`}>View card</Link>
             </DropdownMenuItem>
           )}
 
