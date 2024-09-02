@@ -54,6 +54,7 @@ const QuickAddHours: React.FC<{ activeCards: CardWithClient[] | null }> = ({
         placeholder='1 hr'
         step='0.5'
         className='w-[60px] mr-2'
+        required
       />
       <Select name='card_id' required>
         <SelectTrigger className='w-[240px] mr-2'>

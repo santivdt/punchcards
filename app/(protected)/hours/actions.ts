@@ -30,7 +30,7 @@ export const createHour = async (prevData: any, formData: FormData) => {
   })
 
   if (validatedFields.error) {
-    console.log(validatedFields.error, 'Error')
+    console.log(validatedFields.error.flatten().fieldErrors, 'Error')
   }
 
   if (!validatedFields.success) {
