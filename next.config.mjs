@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 export const nextConfig = {
+  transpilePackages: ['@react-pdf/renderer'],
   images: {
     remotePatterns: [
       {

@@ -2,6 +2,8 @@ import {
   getActiveCardsFromUser,
   getCardFromId,
 } from '@/app/(protected)/cards/actions'
+import dynamic from 'next/dynamic'
+
 import { getHoursFromCard } from '@/app/(protected)/hours/actions'
 import { DataTable } from '@/app/(protected)/hours/table'
 import { columns } from '@/app/(protected)/hours/table/columns'
@@ -9,7 +11,10 @@ import Header from '@/components/header'
 import { Badge } from '@/components/ui/badge'
 import 'jspdf-autotable'
 import InterMediateCreateHour from '../../hours/intermediate-create-hour'
-import GeneratePDFButton from './generate-pdf'
+
+const GeneratePdfNew = dynamic(() => import('./generate-pdf-new'), {
+  ssr: false,
+})
 
 type PageProps = { id: string }
 
@@ -27,7 +32,9 @@ const Page = async ({ params: { id } }: { params: PageProps }) => {
         title={`Card #${card?.readable_id} - ${card?.clients?.name}`}
         subPageName={card?.clients?.name}
       >
-        {card && hours && <GeneratePDFButton card={card} hours={hours} />}
+        {card && hours && card.clients && (
+          <GeneratePdfNew card={card} client={card.clients} hours={hours} />
+        )}
         <InterMediateCreateHour
           activeCards={activeCards}
           type='secondary'
