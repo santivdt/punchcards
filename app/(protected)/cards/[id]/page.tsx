@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import InterMediateCreateHour from '../../hours/intermediate-create-hour'
 import { getOrganisation } from '@/app/(protected)/settings/actions'
 import GeneratePdfNew from './generate-pdf'
+import ViewPdf from './view-pdf'
 
 type PageProps = { id: string }
 
@@ -42,11 +43,7 @@ const CardDetailPage = async ({ params: { id } }: { params: PageProps }) => {
             organisation={organisation}
           />
         )}
-        <InterMediateCreateHour
-          activeCards={activeCards}
-          type='secondary'
-          cardId={id}
-        />
+        <InterMediateCreateHour activeCards={activeCards} cardId={id} />
       </Header>
       <div className='flex justify-end w-full mb-2'>
         {card?.is_active ? (

@@ -2,84 +2,23 @@
 
 import { CardWithClient } from '@/types/custom-types'
 import { Tables } from '@/types/supabase'
-import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer'
+import { Document, Page, Text, View, Svg, Line } from '@react-pdf/renderer'
 
-const styles = StyleSheet.create({
-  page: {
-    fontSize: 12,
-    padding: 30,
-    backgroundColor: '#FFFFFF',
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100%',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 40,
-  },
-  clientName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  clientEmail: {
-    fontSize: 10,
-    color: '#666666',
-  },
-  cardInfo: {
-    textAlign: 'right',
-  },
-  table: {
-    width: '100%',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
-  },
-  tableRow: {
-    flexDirection: 'row',
-  },
-  tableCol: {
-    width: '33.33%',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-  },
-  tableCell: {
-    margin: 5,
-    fontSize: 10,
-  },
-  tableHeader: {
-    backgroundColor: '#E4E4E4',
-    fontWeight: 'bold',
-  },
-  tableRowEven: {
-    backgroundColor: '#F9F9F9',
-  },
-  tableRowOdd: {
-    backgroundColor: '#FFFFFF',
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 30,
-    left: 0,
-    right: 0,
-    textAlign: 'center',
-    fontSize: 10,
-    color: '#666666',
-  },
-  content: {
-    flexGrow: 1,
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  totalRow: {
-    backgroundColor: '#E4E4E4',
-    fontWeight: 'bold',
-  },
-})
+function LineComponent({ style }: { style?: any }) {
+  return (
+    <View style={style}>
+      <Svg height='4' width='100%' style={{ width: '100%' }}>
+        <Line
+          x1='0%'
+          x2='2000'
+          y1='50%'
+          y2='50%'
+          stroke='rgba(191, 191, 191, 1)'
+        />
+      </Svg>
+    </View>
+  )
+}
 
 const Minimal = ({
   card,
@@ -93,65 +32,128 @@ const Minimal = ({
   const totalHours = hours.reduce((total, hour) => total + hour.duration, 0)
   return (
     <Document>
-      <Page size='A4' style={styles.page}>
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.clientName}>{card?.clients?.name}</Text>
-            <Text style={styles.clientEmail}>{card?.clients?.email}</Text>
-          </View>
-          <View style={styles.cardInfo}>
-            <Text>Card number: {card.readable_id}</Text>
-            <Text>Export date: {new Date().toLocaleDateString('en-GB')}</Text>
-          </View>
-        </View>
-        <View style={styles.content}>
-          <View style={styles.table}>
-            <View style={[styles.tableRow, styles.tableHeader]}>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Date</Text>
+      <Page
+        size='A4'
+        style={{
+          fontSize: 11,
+          padding: 30,
+          backgroundColor: '#FFFFFF',
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100%',
+        }}
+      >
+        <View
+          style={{
+            padding: 16,
+            paddingBottom: 128,
+            width: '100%',
+          }}
+        >
+          <View style={{ width: '100%', flexDirection: 'row' }}>
+            <View style={{ width: '100%' }}>
+              <Text>{`${card.clients?.name}\n${card.clients?.email}`}</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <View style={{ alignItems: 'flex-start' }}>
+                <Text>Card Number:</Text>
+                <Text>Export Date:</Text>
               </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Description</Text>
-              </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Duration</Text>
+              <View style={{ alignItems: 'flex-end', marginLeft: 16 }}>
+                <Text>{card.readable_id}</Text>
+                <Text>{new Date().toLocaleDateString('en-GB')}</Text>
               </View>
             </View>
-            {hours.map((hour, index) => (
+          </View>
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            padding: 16,
+            paddingBottom: 0,
+            color: '#666',
+          }}
+        >
+          <Text style={{ width: '100%' }}>Description</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              width: '100%',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <Text>Duration</Text>
+          </View>
+        </View>
+        <LineComponent style={{ padding: 8, width: '100%' }} />
+
+        {hours.map((hour, index) => {
+          const isLast = index === hours.length - 1
+
+          return (
+            <View
+              key={hour.id}
+              style={{
+                flexDirection: 'row',
+                padding: 16,
+                paddingBottom: isLast ? 16 : 0,
+              }}
+            >
+              <Text style={{ width: '100%', paddingRight: 32 }}>
+                {hour.description}
+              </Text>
               <View
-                key={hour.id}
-                style={[
-                  styles.tableRow,
-                  index % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd,
-                ]}
+                style={{
+                  flexDirection: 'row',
+                  width: '100%',
+                  justifyContent: 'flex-end',
+                }}
               >
-                <View style={styles.tableCol}>
-                  <Text style={styles.tableCell}>
-                    {new Date(hour.date).toLocaleDateString('en-GB')}
-                  </Text>
-                </View>
-                <View style={styles.tableCol}>
-                  <Text style={styles.tableCell}>{hour.description}</Text>
-                </View>
-                <View style={styles.tableCol}>
-                  <Text style={styles.tableCell}>{hour.duration}</Text>
-                </View>
+                <Text>{hour.duration} h</Text>
               </View>
-            ))}
-            <View style={[styles.tableRow, styles.totalRow]}>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}></Text>
+            </View>
+          )
+        })}
+
+        <LineComponent style={{ padding: 8, width: '100%' }} />
+
+        <View style={{ padding: 16 }}>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={{ width: '100%' }} />
+            <View style={{ width: '100%' }}>
+              <View style={{ flexDirection: 'row', width: '100%' }}>
+                <Text style={{ width: '100%' }}>Total</Text>
+                <Text style={{ width: '100%', textAlign: 'right' }}>
+                  {totalHours} hours
+                </Text>
               </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Total hours</Text>
-              </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>{totalHours}</Text>
+
+              <View style={{ paddingTop: 16, paddingBottom: 16 }}>
+                <LineComponent />
               </View>
             </View>
           </View>
         </View>
-        <Text style={styles.footer}>{organisation?.name}</Text>
+        <View
+          style={{
+            flexGrow: 1,
+            width: '100%',
+            padding: 6,
+            paddingTop: 128,
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}
+        >
+          <Text>{organisation?.name}</Text>
+        </View>
       </Page>
     </Document>
   )
