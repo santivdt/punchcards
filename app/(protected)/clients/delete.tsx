@@ -66,9 +66,7 @@ const DeleteClientDialog = ({
           <FormError errorMessage={errorMessage} />
           <div className='flex items-center justify-end gap-2'>
             <DialogClose asChild>
-              <Button type='button' variant='outline'>
-                Cancel
-              </Button>
+              <Button variant='outline'>Cancel</Button>
             </DialogClose>
             <SubmitButton normal='Delete' going='Deleting...' />
           </div>

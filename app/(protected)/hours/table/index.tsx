@@ -101,23 +101,28 @@ export const DataTable = <
         open={open}
         setRowSelection={setRowSelection}
       />
-      <div className='min-h-[50px]'>
-        {rowSelection && Object.keys(rowSelection).length > 0 && (
-          <Button
-            variant='outline'
-            className='mb-2'
-            onClick={() => setOpen(true)}
-          >
-            {Object.keys(rowSelection).length > 0 &&
-              Object.keys(rowSelection).length < 2 && <span>Delete entry</span>}
-            {Object.keys(rowSelection).length > 1 && (
-              <span>Bulk delete entries</span>
-            )}
-          </Button>
-        )}
+      <div className='mt-2 flex flex-row justify-between'>
+        <div className='min-h-[50px]'>
+          {rowSelection && Object.keys(rowSelection).length > 0 && (
+            <Button
+              variant='destructive'
+              className='mb-2'
+              onClick={() => setOpen(true)}
+            >
+              {Object.keys(rowSelection).length > 0 &&
+                Object.keys(rowSelection).length < 2 && (
+                  <span>Delete entry</span>
+                )}
+              {Object.keys(rowSelection).length > 1 && (
+                <span>Bulk delete entries</span>
+              )}
+            </Button>
+          )}
+        </div>
+        <TableSearch />
       </div>
-      <TableSearch />
-      <Table className='mt-4'>
+
+      <Table className='mt-2'>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
