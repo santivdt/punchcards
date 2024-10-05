@@ -28,14 +28,14 @@ export const createReadableId = (amountOfCards: number) => {
 
   let newReadableId = undefined
 
-  if (amountOfCards < 10) {
+  if (amountOfCards < 9) {
+    newReadableId = `${lastTwoDigits}0000${amountOfCards + 1}`
+  } else if (amountOfCards < 99) {
     newReadableId = `${lastTwoDigits}000${amountOfCards + 1}`
-  } else if (amountOfCards < 100) {
+  } else if (amountOfCards < 999) {
     newReadableId = `${lastTwoDigits}00${amountOfCards + 1}`
-  } else if (amountOfCards < 1000) {
-    newReadableId = `${lastTwoDigits}0${amountOfCards + 1}`
   } else {
-    newReadableId = `${lastTwoDigits}${amountOfCards + 1}`
+    newReadableId = `${lastTwoDigits}0${amountOfCards + 1}`
   }
 
   return newReadableId
