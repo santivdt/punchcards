@@ -48,16 +48,6 @@ const DropDownMenuSidebar = () => {
             Donate
           </a>
         </DropdownMenuItem>
-
-        <DropdownMenuItem asChild>
-          <a
-            href='https://buy.stripe.com/fZe4ke9Rtbgg3bW5kk'
-            target='_blank'
-            rel='nofollow'
-          >
-            Donate
-          </a>
-        </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <form action={signOut}>
             <button>Logout</button>

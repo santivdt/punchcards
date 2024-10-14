@@ -61,7 +61,7 @@ export const createHour = async (prevData: any, formData: FormData) => {
   if (durationNumber > card.hours_left) {
     return {
       status: 'error',
-      message: `There are not engough hours left in the card to create this task. Hours left: ${card.hours_left}`,
+      message: `There are not enough hours left in the card to create this task. Hours left: ${card.hours_left}`,
     }
   }
 

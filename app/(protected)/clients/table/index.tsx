@@ -19,9 +19,8 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { set } from 'date-fns'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData>[] | null
